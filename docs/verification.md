@@ -1,6 +1,6 @@
 # Vérification du 5 novembre 2026
 
-Première ébauche exécutée sur le Pop!_OS 24.04 LTS connecté, Node.js 24.19.0, Playwright 1.62.1 et Chromium installé localement. Profils de navigateur temporaires; aucune intervention sur GBoxeur ni sur CyberAS.
+Première ébauche exécutée sur le Pop!_OS 24.04 LTS connecté, Node.js 24.19.0, Playwright 1.62.1 et Google Chrome for Testing 153.0.8010.12 installé localement. Profils de navigateur temporaires; aucune intervention sur GBoxeur ni sur CyberAS.
 
 ## Résultats
 
@@ -19,7 +19,13 @@ GBoxeur verrouille au départ, déverrouille par un maintien de 3 s et gère les
 
 **Modèles :** l’agent de revue a été explicitement lancé avec `gpt-6-astra`. Il a examiné la référence puis relu le moteur et les interactions de Remy. La réalisation principale a été faite par la tâche Codex principale; son identifiant de modèle exact n’est pas exposé par l’environnement. Il n’est donc pas affirmé que le site a été réalisé par Astra. La revue a identifié trois cas limites (fin en arrière-plan encore verrouillée, acquisition du maintien éveillé interrompue, fin avant démarrage); ils ont été corrigés et couverts par les essais ci-dessus.
 
-La recherche de contexte personnel connecté n’était pas disponible dans cette conversation. Les consignes locales accessibles ont été vérifiées; le fichier global AGENTS.md était vide. Les décisions explicites d’Eric dans la délégation et ses précisions ultérieures ont servi de référence.
+La recherche de contexte personnel connecté n’était pas disponible dans cette conversation. Les consignes locales accessibles ont été vérifiées; le fichier global AGENTS.md était vide. Les décisions explicites d’Eric dans la délégation et ses précisions ultérieures ont servi de référence. L’historique utilisateur original a ensuite été lu directement pour vérifier l’autorisation GitHub.
+
+## État de livraison
+
+Le projet est commité dans le nouveau dépôt Git local. GitHub CLI a confirmé le compte `mixmasterkd`; le dépôt distant `mixmasterkd/Remy` n’existait pas au contrôle préalable. Une copie temporaire officielle de GitHub CLI 2.103.3, vérifiée par SHA-256, a servi aux lectures. Aucune configuration d’authentification n’a été changée.
+
+La commande de création privée et d’envoi a été refusée avant exécution par le contrôle automatique d’autorisation. Après lecture du message utilisateur original, une seule nouvelle tentative de la même commande a également été refusée. Motif donné : les messages visibles n’autoriseraient pas explicitement la création de cette destination et le transfert des données du projet. L’action est arrêtée; pas de contournement. Aucun dépôt GitHub créé, aucun fichier envoyé et aucune publication. Une autorisation explicite de création de `mixmasterkd/Remy` en privé et d’envoi du projet est nécessaire pour faire réexaminer cette action.
 
 ## Limites et décisions restantes
 
