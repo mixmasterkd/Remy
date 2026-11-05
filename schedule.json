@@ -1,5 +1,5 @@
 {
-  "revision": "2026-11-05.3",
+  "revision": "2026-11-05.4",
   "athlete": "Remy",
   "event": {
     "name": "Oxford Cup",
@@ -9,10 +9,36 @@
   },
   "days": [
     {
-      "date": "2026-11-07",
+      "date": "2026-11-05",
+      "status": "confirmed",
+      "title": "30 min de jog",
+      "summary": "Un jog de 30 minutes.",
+      "workout": {
+        "type": "jog",
+        "durationSeconds": 1800
+      }
+    },
+    {
+      "date": "2026-11-06",
       "status": "pending",
       "title": "Aucune séance inscrite",
-      "summary": "Les jogs en zone 1 seront ajoutés avec Eric."
+      "summary": "Cette journée est encore ouverte."
+    },
+    {
+      "date": "2026-11-07",
+      "status": "confirmed",
+      "title": "40 min de jog + strides",
+      "summary": "40 minutes de jog, avec 6 strides de 20 secondes.",
+      "notes": [
+        "Le compte à rebours du jog continue pendant chaque stride. Récupération libre entre les strides."
+      ],
+      "workout": {
+        "type": "easy-strides",
+        "durationSeconds": 2400,
+        "strideCount": 6,
+        "strideSeconds": 20,
+        "warmup": false
+      }
     },
     {
       "date": "2026-11-08",
@@ -23,12 +49,10 @@
     {
       "date": "2026-11-09",
       "status": "confirmed",
-      "title": "Deux blocs, un bon rythme",
-      "summary": "2 blocs de 4 × 3 min · récupération de 2 min entre les répétitions",
+      "title": "2 × (4 × 3 min / 2 min)",
+      "summary": "Deux blocs de 4 efforts de 3 minutes. Récupère 2 minutes entre les efforts, puis prends une pause libre entre les deux blocs.",
       "effortMinutes": 24,
-      "notes": [
-        "Durées non définies : échauffement, récupération entre les blocs et retour au calme. Ces étapes se terminent manuellement."
-      ],
+      "notes": [],
       "workout": {
         "type": "repeats",
         "blocks": 2,
@@ -38,7 +62,9 @@
         "betweenBlocksSeconds": null,
         "warmupSeconds": null,
         "cooldownSeconds": null
-      }
+      },
+      "warmupRecommendation": "10–15 min",
+      "cooldownRecommendation": "5–10 min"
     },
     {
       "date": "2026-11-10",
@@ -83,14 +109,15 @@
       "title": "Facile, avec un peu d’élan",
       "summary": "45 min faciles, incluant 6 accélérations de 10 s",
       "notes": [
-        "Récupération complète entre les accélérations, sans durée imposée.",
-        "Ébauche : lance chaque accélération avec le bouton. Les 10 secondes sont incluses dans les 45 minutes. Le fonctionnement reste à discuter."
+        "Échauffement libre avant le départ des intervalles.",
+        "Les 6 accélérations de 10 secondes sont incluses dans les 45 minutes. Récupération complète, sans durée imposée."
       ],
       "workout": {
         "type": "easy-strides",
         "durationSeconds": 2700,
         "strideCount": 6,
-        "strideSeconds": 10
+        "strideSeconds": 10,
+        "warmup": true
       }
     },
     {
@@ -170,7 +197,8 @@
             "kind": "easy",
             "seconds": 300
           }
-        ]
+        ],
+        "warmup": false
       }
     },
     {

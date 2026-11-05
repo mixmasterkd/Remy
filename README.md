@@ -1,6 +1,6 @@
 # Remy / course
 
-Un carnet mobile personnel pour Remy, préparé avec Eric : calendrier du **7 au 21 novembre 2026**, fiches de séance, suivi local et chronomètre. Objectif : **Oxford Cup, samedi 21 novembre**, environ **4,8 à 5 km**; horaire exact à confirmer.
+Un carnet mobile personnel pour Remy, préparé avec Eric : calendrier du **5 au 21 novembre 2026**, fiches de séance, suivi local et chronomètre. Objectif : **Oxford Cup, samedi 21 novembre**, environ **4,8 à 5 km**; horaire exact à confirmer.
 
 Site statique en français québécois, sans compte, sans service de suivi sportif et sans dépendance d’exécution. `index.html` et tous les fichiers du site se trouvent à la racine du dépôt. Le projet est sauvegardé dans le dépôt public [mixmasterkd/Remy](https://github.com/mixmasterkd/Remy). GitHub Pages est activé pour le [calendrier de Remy](https://mixmasterkd.github.io/Remy/), avec l’accord explicite d’Eric.
 
@@ -9,11 +9,15 @@ Site statique en français québécois, sans compte, sans service de suivi sport
 L’écran d’accueil contient uniquement le calendrier : chaque journée est une case cliquable. Les journées sans séance restent visuellement vides; leur fiche explique ce qui est connu. La coche distingue les séances faites.
 
 1. Toucher une case du calendrier pour ouvrir sa fiche. La croix ou la touche Échap ramène au calendrier.
-2. Ouvrir le chronomètre, puis toucher **Démarrer**. Il demande le plein écran et le maintien de l’écran éveillé quand le navigateur le permet.
-3. Les commandes se verrouillent au démarrage et à la reprise. Maintenir le bouton de verrouillage **3 secondes** pour déverrouiller ou verrouiller. Un relâchement trop tôt annule le geste.
-4. **Pause** exclut le temps d’arrêt. Pour revenir à la fiche, déverrouiller puis mettre en pause.
-5. Les étapes sans durée comptent le temps écoulé. Après le démarrage, utiliser **Passer à la suite** ou **Terminer la séance**. Elles ne déclenchent pas la suite automatiquement.
-6. **Marquer la séance faite** met une coche dans le calendrier. Le même bouton permet d’annuler. Terminer le chrono ne coche pas automatiquement la séance.
+2. Ouvrir le chronomètre et toucher **Démarrer**. Les commandes se verrouillent; maintenir leur bouton **3 secondes** pour les libérer.
+3. Pour les séances à intervalles, l’échauffement compte vers le haut. Maintenir **Commencer les intervalles** pendant **3 secondes** quand prêt. Ce bouton est distinct du verrouillage et reste accessible quand les commandes sont verrouillées.
+4. Les efforts et les récupérations courtes comptent vers zéro. La pause inconnue entre les blocs du 9 reste libre : maintenir **Commencer le bloc 2** pendant **3 secondes** pour repartir.
+5. Pour les strides, maintenir le bouton secondaire **1 seconde**. Le chrono principal continue; un second affichage décompte le stride. Le compteur augmente au déclenchement et peut dépasser l’objectif de six.
+6. À zéro, un jog poursuit un chrono ascendant de **temps supplémentaire**. Déverrouiller puis toucher **Stop · résumé** pour terminer. Un stride déjà lancé peut finir pendant ce temps; aucun nouveau stride ne part après le temps prévu du jog.
+7. **Pause** fige les deux chronos; **Reprendre** les relance et verrouille les commandes. Le résumé distingue le temps de chaque phase, les strides lancés, complétés et interrompus.
+8. **Marquer la séance faite** coche le calendrier. Terminer le chrono ne coche pas automatiquement la séance.
+
+Couleurs du chrono : jog et pause entre blocs **bleu ciel**, échauffement/retour au calme/temps supplémentaire **gris**, efforts et strides **vert**, récupérations courtes **rouge**. Deux variations légères de luminosité signalent la fin d’un stride; elles sont désactivées si la réduction des animations est demandée sur l’appareil.
 
 Le suivi et les chronos sont enregistrés séparément pour chaque date dans `localStorage`. Ils appartiennent au navigateur, au profil et à l’adresse du site utilisés. Pas de synchronisation entre le téléphone d’Eric et celui de Remy, ni entre Chrome et un autre navigateur. Effacer les données peut effacer le suivi. Utiliser une seule fenêtre du chrono à la fois.
 
@@ -29,16 +33,18 @@ Le plein écran et le maintien de l’écran éveillé restent à vérifier sur 
 
 | Date | Séance | Ce qui reste à préciser |
 |---|---|---|
-| Lun. 9 | 2 blocs de 4 × 3 min; 2 min entre répétitions; **24 min d’effort** | Échauffement, récupération entre blocs, retour au calme |
+| Jeu. 5 | **30 min de jog** | — |
+| Sam. 7 | **40 min de jog**, avec 6 strides de **20 s** | Récupération libre |
+| Lun. 9 | 2 blocs de 4 × 3 min; 2 min entre répétitions; **24 min d’effort** | Échauffement recommandé 10–15 min, retour au calme recommandé 5–10 min; pause entre blocs libre |
 | Mer. 11 | 10 × 2 min; 1 min entre répétitions; **20 min d’effort** | Échauffement et retour au calme |
-| Sam. 14 | **45 min faciles**, incluant 6 accélérations de 10 s; récupération complète | Ergonomie du bouton d’accélération à discuter |
+| Sam. 14 | **45 min faciles**, incluant 6 accélérations de 10 s; récupération complète | Échauffement libre avant le départ manuel |
 | Dim. 15 | Repos | — |
 | Ven. 20 | 5 min Z1, 5 min Z3, 5 × (20 s Z4–Z5 + 40 s faciles), 5 min Z1 : **20 min** | Date confirmée par Eric après clarification |
 | Sam. 21 | Oxford Cup; chrono libre | Horaire exact; environ 4,8–5 km |
 
 Les autres journées restent ouvertes, sans séance inventée. Une séance le 16, un petit jog avec accélérations le 18 et du repos le 19 ont été évoqués sans confirmation. Les jogs en zone 1 seront ajoutés par Eric.
 
-Pour le 14, le bouton lance exactement 10 secondes, six fois au maximum. Le chrono principal continue : ces secondes sont **incluses** dans les 45 minutes. Aucune récupération n’est minutée et aucune accélération ne part seule. Une nouvelle accélération est refusée s’il reste moins de 10 secondes. Ce comportement est une ébauche à discuter.
+Les accélérations du 14 durent toujours **10 secondes**, et celles du 7 **20 secondes**. Elles sont incluses dans le compte à rebours du jog. L’objectif reste six, avec des déclenchements supplémentaires permis. Aucun stride n’est lancé automatiquement. L’activation confirmée du 20 conserve exactement ses étapes et ses 20 minutes.
 
 ## Lancer et vérifier
 
@@ -57,6 +63,7 @@ Pour les essais automatisés Chromium, dans un second terminal pendant que le se
 npm ci
 npx playwright install chromium
 npm run test:browser
+npm run test:mobile
 ```
 
 Un Chromium existant peut être choisi avec `CHROMIUM_PATH=/chemin/vers/chrome npm run test:browser`. Les captures vont dans `test-results/` (non versionné). Les tests utilisent des profils temporaires; ils ne touchent pas au suivi réel du navigateur de Remy.
@@ -77,7 +84,7 @@ git add schedule.json sw.js
 git commit -m "Précise la séance du 10 novembre"
 ```
 
-`prepare:offline` met à jour la version du cache d’après le contenu des fichiers. `check` refuse un cache périmé. Une nouvelle version attend la fermeture des anciennes fenêtres : pas de remplacement du programme au milieu d’un chrono. Après mise en ligne d’une modification, ouvrir le site connecté, fermer toutes ses fenêtres, puis le rouvrir pour activer la version en attente. Une séance modifiée ne reprend pas un ancien chrono incompatible.
+`prepare:offline` met à jour la version du cache d’après le contenu des fichiers. `check` refuse un cache périmé. Une nouvelle version attend la fermeture des anciennes fenêtres : pas de remplacement du programme au milieu d’un chrono. Après mise en ligne d’une modification, ouvrir le site connecté, fermer toutes ses fenêtres, puis le rouvrir pour activer la version en attente. Une séance modifiée ne reprend pas un ancien chrono incompatible. La nouvelle logique de résumé utilise une signature de version; un ancien chrono incompatible affiche un message et repart du début. Les coches de séances faites sont conservées.
 
 ## Structure
 

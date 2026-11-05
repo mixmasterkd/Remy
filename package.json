@@ -10,7 +10,8 @@
     "test:browser": "node tests/browser.mjs",
     "check": "node scripts/check.mjs && node scripts/cache.mjs --check",
     "prepare:offline": "node scripts/cache.mjs",
-    "build": "node scripts/build.mjs"
+    "build": "node scripts/build.mjs",
+    "test:mobile": "node tests/mobile.mjs"
   },
   "engines": {
     "node": ">=22"

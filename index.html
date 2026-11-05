@@ -15,7 +15,7 @@
   <main id="home">
     <section id="calendar" class="calendar" aria-labelledby="calendar-heading">
       <header class="calendar-header">
-        <div class="month"><span class="year">2026</span><h1 id="calendar-heading">Novembre<span class="month-dot">.</span></h1></div>
+        <div class="month"><h1 id="calendar-heading">Novembre <span class="year">2026</span></h1></div>
         <div class="calendar-person"><span class="owner">Remy</span><span id="completion-count" aria-live="polite">0 / 5 ✓</span></div>
       </header>
       <div class="calendar-weekdays" aria-hidden="true"><span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span><span>Dim</span></div>
@@ -29,9 +29,12 @@
   </dialog>
   <section id="timer-screen" class="timer-screen" hidden aria-labelledby="phase-label" data-kind="easy">
     <header class="timer-header"><button id="close-timer" class="quiet" type="button">← Séance</button><span id="timer-date"></span><button id="fullscreen" class="quiet" type="button">Plein écran ⛶</button></header>
-    <div class="timer-center"><span id="session-title" class="eyebrow"></span><p id="phase-detail" class="phase-detail"></p><h1 id="phase-label"></h1><span id="phase-zone" class="zone"></span><div id="time" class="time" role="timer" aria-live="off">00:00</div><p id="time-caption"></p><div class="progress"><div id="phase-progress"></div></div><p id="up-next" class="up-next"></p><p id="session-total" class="session-total"></p></div>
-    <div class="timer-actions"><button id="play-pause" class="primary" type="button">Démarrer</button><button id="next-phase" class="secondary" type="button" hidden>Étape suivante</button><button id="stride" class="secondary" type="button" hidden>Accélération · 10 s</button><button id="mark-timer-done" class="secondary" type="button" hidden>Marquer la séance faite</button><button id="reset" class="quiet" type="button">Recommencer</button></div>
-    <div class="timer-bottom"><button id="lock" class="lock-button" type="button" aria-pressed="false"><span id="lock-label">Maintiens 3 s pour verrouiller</span><span id="lock-progress"></span></button><p id="device-status"></p><p id="timer-message" role="status" aria-live="polite"></p></div>
+    <div class="timer-center"><span id="session-title" class="eyebrow"></span><p id="phase-detail" class="phase-detail"></p><h1 id="phase-label"></h1><span id="phase-zone" class="zone"></span><div id="time" class="time" role="timer" aria-live="off">00:00</div><p id="time-caption"></p><div id="stride-clock" class="stride-clock" hidden><span>Stride en cours</span><strong id="stride-time">00:20</strong></div><div class="progress"><div id="phase-progress"></div></div><p id="up-next" class="up-next"></p><p id="session-total" class="session-total"></p></div>
+    <div class="safe-actions"><button id="next-phase" class="hold-button phase-start" type="button" hidden><span id="next-label">Commencer les intervalles</span><small>Maintenir 3 secondes</small></button><div id="stride-area" class="stride-area" hidden><div><p id="stride-counter">Strides effectués 0/6</p><small id="stride-caption">Compteur de déclenchements</small></div><button id="stride" class="hold-button stride-button" type="button"><span id="stride-label">Stride · 20 s</span><small>Maintenir 1 seconde</small></button></div></div>
+    <div id="session-summary" class="session-summary" hidden><dl id="summary-rows"></dl></div>
+    <div class="timer-actions"><button id="play-pause" class="primary" type="button">Démarrer</button><button id="stop" class="secondary" type="button" hidden>Stop · résumé</button><button id="mark-timer-done" class="secondary" type="button" hidden>Marquer la séance faite</button><button id="reset" class="quiet" type="button">Recommencer</button></div>
+    <div class="timer-bottom"><button id="lock" class="lock-button hold-button" type="button" aria-pressed="false"><span id="lock-label">Maintiens 3 s pour verrouiller</span></button><p id="device-status"></p><p id="timer-message" role="status" aria-live="polite"></p></div>
+    <div id="stride-flash" class="stride-flash" aria-hidden="true"></div>
     <div id="phase-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
   </section>
   <noscript><p class="noscript">Active JavaScript pour consulter les séances et utiliser le chronomètre.</p></noscript>

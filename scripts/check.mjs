@@ -9,5 +9,5 @@ for(const day of data.days){
  assert(!(day.rest&&day.workout));assert(!(day.status==='pending'&&day.workout),'Une journée à préciser ne doit pas lancer de séance');
  if(day.workout){const phases=buildPhases(day.workout);assert(phases.length);for(const p of phases){assert(p.label&&p.kind);assert(p.seconds==null||(Number.isFinite(p.seconds)&&p.seconds>0));}if(day.effortMinutes)assert.equal(phases.filter(p=>p.kind==='effort').reduce((n,p)=>n+p.seconds,0),day.effortMinutes*60);}
 }
-assert.equal(data.days.length,15);assert.equal(data.days[0].date,'2026-11-07');assert.equal(data.days.at(-1).date,'2026-11-21');
+assert.equal(data.days.length,17);assert.equal(data.days[0].date,'2026-11-05');assert.equal(data.days.at(-1).date,'2026-11-21');
 console.log(`Calendrier valide : ${data.days.length} jours, ${data.days.filter(d=>d.workout).length} séances chronométrables.`);

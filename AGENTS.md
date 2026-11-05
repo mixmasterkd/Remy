@@ -7,5 +7,6 @@ Projet statique indépendant pour Remy. Lire README.md et docs/seances.md avant 
 - Français québécois, langage simple : jog facile, récupération, répétitions, accélérations.
 - Activation confirmée vendredi 20 novembre 2026; course samedi 21. La clarification du 5 novembre remplace l’ambiguïté antérieure.
 - Garder les données locales au navigateur et le fonctionnement hors ligne. Pas de compte ni de synchronisation implicite.
-- Après toute modification des fichiers du site à la racine, lancer npm run prepare:offline, npm test et npm run check. Pour un changement du chrono ou de navigation, lancer les essais navigateur avec le serveur local.
+- Ajustements Galaxy autorisés : calendrier du 5 au 21, grandes cases carrées; chrono gris/bleu ciel/vert/rouge selon phase. Recommandations du 9 : échauffement 10–15 min et retour au calme 5–10 min, sans transition automatique. Ne pas confondre les strides de 20 s du 7 avec ceux de 10 s du 14.
+- Après toute modification des fichiers du site à la racine, lancer npm run prepare:offline, npm test et npm run check. Pour un changement du chrono ou de navigation, lancer les essais navigateur et tactiles avec le serveur local.
 - Eric a autorisé explicitement le 5 novembre 2026 le passage de mixmasterkd/Remy en public, historique compris, et GitHub Pages sur main / (root). Ne pas modifier la visibilité ou l’hébergement d’autres dépôts. Aucune modification de GBoxeur ou de CyberAS n’appartient à ce projet.
