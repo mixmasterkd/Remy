@@ -6,10 +6,12 @@ Site statique en français québécois, sans compte, sans service de suivi sport
 
 ## Utilisation
 
-1. Toucher une case du calendrier pour ouvrir sa fiche.
+L’écran d’accueil contient uniquement le calendrier : chaque journée est une case cliquable. Les journées sans séance restent visuellement vides; leur fiche explique ce qui est connu. La coche distingue les séances faites.
+
+1. Toucher une case du calendrier pour ouvrir sa fiche. La croix ou la touche Échap ramène au calendrier.
 2. Ouvrir le chronomètre, puis toucher **Démarrer**. Il demande le plein écran et le maintien de l’écran éveillé quand le navigateur le permet.
 3. Les commandes se verrouillent au démarrage et à la reprise. Maintenir le bouton de verrouillage **3 secondes** pour déverrouiller ou verrouiller. Un relâchement trop tôt annule le geste.
-4. **Pause** exclut le temps d’arrêt. Pour revenir au calendrier, déverrouiller puis mettre en pause.
+4. **Pause** exclut le temps d’arrêt. Pour revenir à la fiche, déverrouiller puis mettre en pause.
 5. Les étapes sans durée comptent le temps écoulé. Après le démarrage, utiliser **Passer à la suite** ou **Terminer la séance**. Elles ne déclenchent pas la suite automatiquement.
 6. **Marquer la séance faite** met une coche dans le calendrier. Le même bouton permet d’annuler. Terminer le chrono ne coche pas automatiquement la séance.
 
@@ -19,7 +21,7 @@ Le suivi et les chronos sont enregistrés séparément pour chaque date dans `lo
 
 Cible : téléphone Android de Remy, probablement Galaxy S24; Eric fera un essai sur son Galaxy S25. Une fois une adresse HTTPS choisie, ouvrir le site dans Chrome, puis le menu **⋮ → Ajouter à l’écran d’accueil / Installer l’application**, selon le libellé proposé. Une icône et un manifeste sont fournis, avec des icônes PNG 192 et 512 px.
 
-Attendre **Prêt hors ligne** avant de partir. Le site utilise un service worker en contexte sécurisé (HTTPS ou localhost). Il fonctionne ensuite sans réseau, y compris après rechargement tant que le navigateur conserve son cache. Un lien HTTP local ouvert depuis un autre appareil ne suffit pas pour vérifier l’installation et le cache sécurisé.
+Ouvrir une fiche et attendre **Prêt hors ligne** avant de partir. Le site utilise un service worker en contexte sécurisé (HTTPS ou localhost). Il fonctionne ensuite sans réseau, y compris après rechargement tant que le navigateur conserve son cache. Un lien HTTP local ouvert depuis un autre appareil ne suffit pas pour vérifier l’installation et le cache sécurisé.
 
 Le plein écran et le maintien de l’écran éveillé restent à vérifier sur les appareils réels. Le navigateur ou Android peuvent les refuser ou les interrompre. Le verrouillage des commandes n’est pas un verrouillage du téléphone. Les sons, les vibrations et l’exécution en arrière-plan ne sont pas garantis; cette version émet seulement un court son de changement de phase quand l’audio est disponible. Garder la page visible. Au retour, les horodatages recalculent l’étape et le temps écoulé; les sons manqués ne sont pas rejoués.
 
@@ -34,7 +36,7 @@ Le plein écran et le maintien de l’écran éveillé restent à vérifier sur 
 | Ven. 20 | 5 min Z1, 5 min Z3, 5 × (20 s Z4–Z5 + 40 s faciles), 5 min Z1 : **20 min** | Date confirmée par Eric après clarification |
 | Sam. 21 | Oxford Cup; chrono libre | Horaire exact; environ 4,8–5 km |
 
-Les autres journées restent **à préciser**. Une séance le 16, un petit jog avec accélérations le 18 et du repos le 19 ont été évoqués sans confirmation. Les jogs en zone 1 seront ajoutés par Eric.
+Les autres journées restent ouvertes, sans séance inventée. Une séance le 16, un petit jog avec accélérations le 18 et du repos le 19 ont été évoqués sans confirmation. Les jogs en zone 1 seront ajoutés par Eric.
 
 Pour le 14, le bouton lance exactement 10 secondes, six fois au maximum. Le chrono principal continue : ces secondes sont **incluses** dans les 45 minutes. Aucune récupération n’est minutée et aucune accélération ne part seule. Une nouvelle accélération est refusée s’il reste moins de 10 secondes. Ce comportement est une ébauche à discuter.
 
@@ -46,6 +48,7 @@ Node.js 22 ou plus récent. Aucune installation nécessaire pour le serveur loca
 npm start                 # http://127.0.0.1:4173
 npm test                  # moteur et calendrier
 npm run check             # validation des données et du cache
+npm run build             # fichiers autonomes dans dist/
 ```
 
 Pour les essais automatisés Chromium, dans un second terminal pendant que le serveur tourne :
@@ -57,6 +60,10 @@ npm run test:browser
 ```
 
 Un Chromium existant peut être choisi avec `CHROMIUM_PATH=/chemin/vers/chrome npm run test:browser`. Les captures vont dans `test-results/` (non versionné). Les tests utilisent des profils temporaires; ils ne touchent pas au suivi réel du navigateur de Remy.
+
+## Préparer GitHub Pages
+
+Le site est prêt pour le sous-chemin `/Remy/`; l’adresse prévue est `https://mixmasterkd.github.io/Remy/`. Rien n’est publié. Le [guide GitHub Pages](docs/github-pages.md) explique le mode **GitHub Actions**, la source `dist/` et le modèle de publication manuelle laissé inactif dans `docs/`. Le mode de publication depuis une branche ne peut pas servir directement `public/`.
 
 ## Modifier les séances par commit
 
@@ -74,7 +81,7 @@ git commit -m "Précise la séance du 10 novembre"
 
 ## Structure
 
-- `public/schedule.json` : séances et états confirmés / à préciser.
+- `public/schedule.json` : séances confirmées et journées ouvertes.
 - `public/engine.js` : moteur pur, temps en millisecondes, phases compilées.
 - `public/app.js` : calendrier, suivi local, commandes, audio et API du téléphone.
 - `public/style.css` : identité visuelle indépendante, calendrier et vues du chrono.

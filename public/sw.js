@@ -1,5 +1,5 @@
 // Generated content version: npm run prepare:offline. One atomic cache per release.
-const VERSION = 'remy-88ab3b3ce84c7194';
+const VERSION = 'remy-344b9300a841479a';
 const FILES = ['./','./index.html','./style.css','./app.js','./engine.js','./schedule.json','./icon.svg','./icon-192.png','./icon-512.png','./manifest.webmanifest'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(VERSION).then(cache=>cache.addAll(FILES)));});
 // No skipWaiting: an active workout keeps its current, coherent release.

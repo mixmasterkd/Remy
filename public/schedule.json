@@ -1,5 +1,5 @@
 {
-  "revision": "2026-11-05.2",
+  "revision": "2026-11-05.3",
   "athlete": "Remy",
   "event": {
     "name": "Oxford Cup",
@@ -11,14 +11,14 @@
     {
       "date": "2026-11-07",
       "status": "pending",
-      "title": "À préciser",
-      "summary": "Le calendrier commence ici. Jog en zone 1 à ajouter avec Eric."
+      "title": "Aucune séance inscrite",
+      "summary": "Les jogs en zone 1 seront ajoutés avec Eric."
     },
     {
       "date": "2026-11-08",
       "status": "pending",
-      "title": "À préciser",
-      "summary": "Séance ou repos à confirmer."
+      "title": "Aucune séance inscrite",
+      "summary": "Cette journée est encore ouverte."
     },
     {
       "date": "2026-11-09",
@@ -27,8 +27,7 @@
       "summary": "2 blocs de 4 × 3 min · récupération de 2 min entre les répétitions",
       "effortMinutes": 24,
       "notes": [
-        "Échauffement, récupération entre les blocs et retour au calme à préciser.",
-        "La minuterie laisse ces étapes ouvertes : tu passes à la suite quand c’est le moment."
+        "Durées non définies : échauffement, récupération entre les blocs et retour au calme. Ces étapes se terminent manuellement."
       ],
       "workout": {
         "type": "repeats",
@@ -44,8 +43,8 @@
     {
       "date": "2026-11-10",
       "status": "pending",
-      "title": "À préciser",
-      "summary": "Jog en zone 1 à ajouter avec Eric."
+      "title": "Aucune séance inscrite",
+      "summary": "Les jogs en zone 1 seront ajoutés avec Eric."
     },
     {
       "date": "2026-11-11",
@@ -54,8 +53,7 @@
       "summary": "10 × 2 min · récupération de 1 min entre les répétitions",
       "effortMinutes": 20,
       "notes": [
-        "Échauffement et retour au calme à préciser.",
-        "Aucune récupération supplémentaire imposée après la dernière répétition."
+        "Durées non définies : échauffement et retour au calme. Ces étapes se terminent manuellement."
       ],
       "workout": {
         "type": "repeats",
@@ -70,14 +68,14 @@
     {
       "date": "2026-11-12",
       "status": "pending",
-      "title": "À préciser",
-      "summary": "Séance ou repos à confirmer."
+      "title": "Aucune séance inscrite",
+      "summary": "Cette journée est encore ouverte."
     },
     {
       "date": "2026-11-13",
       "status": "pending",
-      "title": "À préciser",
-      "summary": "Séance ou repos à confirmer."
+      "title": "Aucune séance inscrite",
+      "summary": "Cette journée est encore ouverte."
     },
     {
       "date": "2026-11-14",
@@ -105,26 +103,26 @@
     {
       "date": "2026-11-16",
       "status": "pending",
-      "title": "À discuter avec Eric",
-      "summary": "Une séance est possible lundi. Contenu et durée à confirmer."
+      "title": "Aucune séance inscrite",
+      "summary": "Une séance est envisagée lundi. Son contenu et sa durée ne sont pas confirmés."
     },
     {
       "date": "2026-11-17",
       "status": "pending",
-      "title": "À préciser",
-      "summary": "Séance ou repos à confirmer."
+      "title": "Aucune séance inscrite",
+      "summary": "Cette journée est encore ouverte."
     },
     {
       "date": "2026-11-18",
       "status": "pending",
-      "title": "À discuter avec Eric",
-      "summary": "Petit jog et accélérations possibles. Rien de confirmé pour l’instant."
+      "title": "Aucune séance inscrite",
+      "summary": "Un petit jog avec des accélérations est envisagé, sans confirmation pour le moment."
     },
     {
       "date": "2026-11-19",
       "status": "pending",
-      "title": "Repos évoqué",
-      "summary": "À confirmer avec Eric; ce jour n’est pas encore fixé."
+      "title": "Aucune séance inscrite",
+      "summary": "Du repos a été envisagé, sans confirmation pour le moment."
     },
     {
       "date": "2026-11-20",

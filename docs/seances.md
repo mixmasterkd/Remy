@@ -2,7 +2,7 @@
 
 Modifier uniquement l’objet du jour concerné dans `public/schedule.json`. Conserver les dates ISO (`2026-11-10`) et leur ordre. Les jours sont traités comme des dates locales, sans conversion UTC qui pourrait décaler le calendrier.
 
-- `status: "pending"` : à préciser; ne pas ajouter `workout` tant que la séance n’est pas définie.
+- `status: "pending"` : journée ouverte (case sans libellé de séance, explication dans la fiche); ne pas ajouter `workout` tant que la séance n’est pas définie.
 - `status: "confirmed"` : séance ou repos confirmé.
 - `status: "provisional"` : hypothèse affichée comme telle; ne l’utiliser que si Eric demande un programme provisoire.
 - `rest: true` : repos; pas de chrono.

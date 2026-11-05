@@ -3,8 +3,7 @@ const $ = id => document.getElementById(id);
 const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date = key => new Date(`${key}T12:00:00`);
 const dayFormat = new Intl.DateTimeFormat('fr-CA', { weekday:'long',day:'numeric',month:'long' });
-const shortDay = new Intl.DateTimeFormat('fr-CA', {weekday:'short'});
-const statusNames = {confirmed:'Confirmé',provisional:'Provisoire',pending:'À préciser'};
+const statusNames = {confirmed:'Confirmé',provisional:'Provisoire',pending:''};
 const STORE = 'remy.timer.v1';
 const DONE_STORE = 'remy.completed.v1';
 let completed = {};
@@ -26,26 +25,30 @@ function markDone(day) {
   completed[day.date]=!completed[day.date];
   try { localStorage.setItem(DONE_STORE,JSON.stringify(completed)); } catch { storageAvailable=false; }
   renderDays(); renderDetail();
+  if($('day-dialog').open) $('mark-done')?.focus();
   if(screenOpen) renderTimer();
 }
 function renderDays() {
   let html = '<span class="calendar-blank" aria-hidden="true"></span>'.repeat(5);
   for (const day of data.days) {
     const done=!!completed[day.date];
-    const label = day.workout?.type==='race'?'Course':day.rest?'Repos':day.effortMinutes?`${day.effortMinutes} min`:day.workout?.type==='easy-strides'?'45 min':day.workout?.type==='steps'?'20 min':'À préciser';
-    html += `<button type="button" class="day-button ${day.status} ${day.workout?.type === 'race' ? 'race' : ''} ${done?'completed':''}" data-day="${day.date}" aria-pressed="${selected.date === day.date}" aria-label="${escape(dayFormat.format(date(day.date)) + ' : ' + day.title + ', ' + statusNames[day.status] + (day.workout ? done ? ', séance faite' : ', séance à faire' : ''))}"><span class="date-block"><strong>${date(day.date).getDate()}</strong></span><span class="day-short">${escape(label)}</span><span class="day-marker" aria-hidden="true">${done?'✓':day.rest?'—':day.status==='pending'?'·':'●'}</span></button>`;
+    const type=day.workout?.type;
+    const label = type==='race'?'Oxford Cup':day.rest?'Repos':day.effortMinutes?`${day.effortMinutes} min`:type==='easy-strides'?'45 min':type==='steps'?`${buildPhases(day.workout).reduce((n,p)=>n+(p.seconds||0),0)/60} min`:'';
+    const short=type==='race'?'Course':label.replace(' min','′');
+    html += `<button type="button" class="day-button ${day.status} ${type === 'race' ? 'race' : ''} ${day.workout?'has-workout':''} ${day.rest?'rest':''} ${done?'completed':''}" data-day="${day.date}" aria-haspopup="dialog" aria-label="${escape(dayFormat.format(date(day.date)) + ' : ' + day.title + (day.workout ? done ? ', séance faite' : ', séance à faire' : ''))}"><span class="day-number">${String(date(day.date).getDate()).padStart(2,'0')}</span><span class="day-short"><span class="long-label">${escape(label)}</span><span class="compact-label">${escape(short)}</span></span>${done?'<span class="day-marker" aria-hidden="true">✓</span>':''}${type==='race'?'<span class="race-flag" aria-hidden="true">⚑</span>':''}</button>`;
   }
   $('days').innerHTML = html;
   const count=data.days.filter(d=>d.workout&&completed[d.date]).length;
-  $('completion-count').textContent=`${count} / ${data.days.filter(d=>d.workout).length} séances faites`;
+  $('completion-count').textContent=`${count} / ${data.days.filter(d=>d.workout).length} ✓`;
+  $('completion-count').setAttribute('aria-label',`${count} séances faites sur ${data.days.filter(d=>d.workout).length}`);
 }
 function outline(day) {
   const w = day.workout;
   if (!w) return '';
   let rows;
-  if (w.type === 'repeats') rows = [['Échauffement',w.warmupSeconds == null ? 'À préciser' : formatTime(w.warmupSeconds*1000)], [`${w.blocks > 1 ? w.blocks + ' blocs de ' : ''}${w.reps} × ${w.effortSeconds/60} min`,`${day.effortMinutes} min d’effort`], ['Entre les répétitions',`${w.recoverySeconds/60} min`], ...(w.blocks > 1 ? [['Entre les blocs',w.betweenBlocksSeconds == null ? 'À préciser' : formatTime(w.betweenBlocksSeconds*1000)]] : []), ['Retour au calme',w.cooldownSeconds == null ? 'À préciser' : formatTime(w.cooldownSeconds*1000)]];
+  if (w.type === 'repeats') rows = [['Échauffement',w.warmupSeconds == null ? 'Manuel' : formatTime(w.warmupSeconds*1000)], [`${w.blocks > 1 ? w.blocks + ' blocs de ' : ''}${w.reps} × ${w.effortSeconds/60} min`,`${day.effortMinutes} min d’effort`], ['Entre les répétitions',`${w.recoverySeconds/60} min`], ...(w.blocks > 1 ? [['Entre les blocs',w.betweenBlocksSeconds == null ? 'Manuel' : formatTime(w.betweenBlocksSeconds*1000)]] : []), ['Retour au calme',w.cooldownSeconds == null ? 'Manuel' : formatTime(w.cooldownSeconds*1000)]];
   else if (w.type === 'easy-strides') rows = [['Course facile',`${w.durationSeconds/60} min au total`],['Accélérations',`${w.strideCount} × ${w.strideSeconds} s`],['Récupération','Complète, libre']];
-  else if (w.type === 'steps') rows = w.steps.map(s=>s.repeat?[`${s.repeat} accélérations`,s.steps.map(p=>formatTime(p.seconds*1000)).join(' / ')]:[`${s.label}${s.zone?' · '+s.zone:''}`,formatTime(s.seconds*1000)]);
+  else if (w.type === 'steps') rows = w.steps.map(s=>s.repeat?[`${s.repeat} accélérations`,s.steps.map(p=>p.seconds==null?'Manuel':formatTime(p.seconds*1000)).join(' / ')]:[`${s.label}${s.zone?' · '+s.zone:''}`,s.seconds==null?'Manuel':formatTime(s.seconds*1000)]);
   else rows = [['Distance','4,8 à 5 km'],['Départ','Horaire à confirmer']];
   return `<ol class="session-outline">${rows.map(([a,b])=>`<li><span>${escape(a)}</span><strong>${escape(b)}</strong></li>`).join('')}</ol>`;
 }
@@ -53,20 +56,33 @@ function renderDetail() {
   const d = selected;
   const saved = readSaved();
   const canResume = saved?.date === d.date && saved?.signature === signature(d) && validSnapshot(saved.state,buildPhases(d.workout)) && !saved.state.done;
-  $('day-detail').innerHTML = `<div class="detail-top"><span>${escape(dayFormat.format(date(d.date)))}</span><span class="badge ${d.status}">${statusNames[d.status]}</span></div><h2 id="detail-title">${escape(d.title)}</h2><p class="summary">${escape(d.summary)}</p>${d.effortMinutes ? `<div class="metric"><strong>${d.effortMinutes}</strong><span>minutes d’effort<br>hors récupération</span></div>` : ''}${outline(d)}${(d.notes||[]).map(n=>`<p class="detail-note">${escape(n)}</p>`).join('')}${d.workout ? `<button type="button" id="open-timer" class="primary">${canResume ? 'Retrouver ma séance' : 'Ouvrir le chronomètre'} <span aria-hidden="true">↗</span></button><p class="button-caption">${d.status === 'provisional' ? 'Ébauche de l’activation · date à confirmer' : 'Ton téléphone suffit. Départ quand tu es prêt.'}</p>` : `<div class="empty-detail">${d.rest ? 'Pas de chronomètre aujourd’hui.<br>Place à la récupération.' : 'On laisse cette journée ouverte.<br>Eric précisera la séance et sa durée.'}</div>`}`;
+  $('day-detail').innerHTML = `<div class="detail-top"><span>${escape(dayFormat.format(date(d.date)))}</span>${statusNames[d.status]?`<span class="badge ${d.status}">${statusNames[d.status]}</span>`:''}</div><h2 id="detail-title">${escape(d.title)}</h2><p class="summary">${escape(d.summary)}</p>${outline(d)}${(d.notes||[]).map(n=>`<p class="detail-note">${escape(n)}</p>`).join('')}${d.workout ? `<button type="button" id="open-timer" class="primary">${canResume ? 'Retrouver ma séance' : 'Ouvrir le chronomètre'} <span aria-hidden="true">↗</span></button>` : ''}`;
   $('open-timer')?.addEventListener('click',()=>{location.hash=`chrono=${d.date}`;});
   if(d.workout) {
     const button=document.createElement('button');button.type='button';button.className=`mark-done ${completed[d.date]?'is-done':''}`;button.id='mark-done';button.setAttribute('aria-pressed',String(!!completed[d.date]));button.textContent=completed[d.date]?'✓ Séance faite · annuler':'○ Marquer la séance faite';button.addEventListener('click',()=>markDone(d));$('day-detail').append(button);
-    const note=document.createElement('p');note.className='button-caption';note.textContent=storageAvailable?'Suivi sur ce navigateur seulement.':'Sauvegarde indisponible : ce suivi ne sera pas conservé.';$('day-detail').append(note);
+    const note=document.createElement('p');note.className='button-caption';note.textContent=storageAvailable?'Suivi local à ce navigateur, sans synchronisation. Effacer ses données efface le suivi.':'Sauvegarde indisponible : ce suivi ne sera pas conservé.';$('day-detail').append(note);
   }
 }
-function selectDay(key, scroll = false) {
+function selectDay(key) {
   selected = data.days.find(d=>d.date===key) || data.days[0];
   renderDays(); renderDetail();
-  if(scroll && matchMedia('(max-width:600px)').matches) $('day-detail').scrollIntoView({behavior:'instant',block:'start'});
+}
+function openDay(day) {
+  selectDay(day.date);
+  if(!$('day-dialog').open) $('day-dialog').showModal();
+  document.body.classList.add('detail-open');
+}
+function closeDay() {
+  if($('day-dialog').open) $('day-dialog').close();
+  document.body.classList.remove('detail-open');
+}
+function returnToCalendar() {
+  closeDay(); history.replaceState(null,'','#calendar');
+  document.querySelector(`[data-day="${selected.date}"]`)?.focus();
 }
 function openTimer(day) {
   if (!day?.workout) return;
+  closeDay();
   if (activeDay?.date !== day.date || !timer) {
     const saved = readSaved(day.date);
     const phases = buildPhases(day.workout);
@@ -97,8 +113,10 @@ function route() {
   if (screenOpen && (m?.[1] !== 'chrono' || target?.date !== activeDay.date)) {
     if (!closeTimer()) { history.replaceState(null,'',`#chrono=${activeDay.date}`); return; }
   }
-  if(target) selectDay(target.date);
-  if(m?.[1] === 'chrono' && target?.workout) openTimer(target);
+  if(target) {
+    if(m[1] === 'chrono' && target.workout) {selectDay(target.date);openTimer(target);}
+    else openDay(target);
+  } else closeDay();
 }
 async function fullscreen() {
   if (document.fullscreenElement === $('timer-screen')) return;
@@ -143,10 +161,10 @@ function renderTimer() {
   $('phase-label').textContent=label; $('phase-zone').textContent=strideActive?'':p.zone||'';
   $('phase-detail').textContent=s.done?'Bien joué, Remy.':strideActive?`Accélération ${s.strides} / ${activeDay.workout.strideCount}`:p.detail||'';
   $('time').textContent=s.done?formatTime(s.totalMs):formatTime(remaining==null?s.phaseMs:remaining,remaining!=null);
-  $('time-caption').textContent=s.done?'Temps actif de la séance':remaining==null ? (p.kind==='race'?'Temps de course · arrêt manuel':'Temps écoulé · durée à préciser') : (strideActive?'Secondes incluses dans les 45 min':'Temps restant dans cette étape');
+  $('time-caption').textContent=s.done?'Temps actif de la séance':remaining==null ? (p.kind==='race'?'Temps de course · arrêt manuel':'Temps écoulé · étape manuelle') : (strideActive?'Secondes incluses dans les 45 min':'Temps restant dans cette étape');
   $('phase-progress').style.width=s.done?'100%':p.seconds==null?'0%':`${Math.min(100,s.phaseMs/(p.seconds*10))}%`;
   const next=timer.phases[s.index+1];
-  $('up-next').textContent=s.done?(activeDay.workout.type==='easy-strides'?`${s.strides} / ${activeDay.workout.strideCount} accélérations lancées. Aucune ajoutée automatiquement.`:'La séance est terminée.'):strideActive?'Ensuite : facile, récupération complète.':next?`Ensuite : ${next.label}${next.seconds==null?' · durée à préciser':' · '+formatTime(next.seconds*1000)}`:activeDay.workout.type==='easy-strides'?`${s.strides} / ${activeDay.workout.strideCount} accélérations · lance-les quand tu es prêt.`:'Dernière étape';
+  $('up-next').textContent=s.done?(activeDay.workout.type==='easy-strides'?`${s.strides} / ${activeDay.workout.strideCount} accélérations lancées. Aucune ajoutée automatiquement.`:'La séance est terminée.'):strideActive?'Ensuite : facile, récupération complète.':next?`Ensuite : ${next.label}${next.seconds==null?' · étape manuelle':' · '+formatTime(next.seconds*1000)}`:activeDay.workout.type==='easy-strides'?`${s.strides} / ${activeDay.workout.strideCount} accélérations · lance-les quand tu es prêt.`:'Dernière étape';
   $('session-total').textContent=`Temps actif total · ${formatTime(s.totalMs)}${!s.running&&!s.done?' · en pause':''}`;
   $('play-pause').textContent=s.running?'Pause':s.started?'Reprendre':'Démarrer'; $('play-pause').disabled=s.done||locked;
   $('next-phase').hidden=s.done||p.seconds!=null;
@@ -182,7 +200,10 @@ $('mark-timer-done').addEventListener('click',()=>{if(!locked&&timer?.state.done
 $('reset').addEventListener('click',()=>{if(locked||!timer)return;if(!confirm('Recommencer cette séance à zéro?'))return;timer=new Timer(buildPhases(activeDay.workout));lastPhase='';save();syncWake();renderTimer();});
 $('close-timer').addEventListener('click',()=>{if(closeTimer())location.hash=`jour=${activeDay.date}`;});
 $('fullscreen').addEventListener('click',()=>{if(!locked)fullscreen();});
-$('days').addEventListener('click',e=>{const button=e.target.closest('[data-day]');if(button){selectDay(button.dataset.day,true);history.replaceState(null,'',`#jour=${button.dataset.day}`);}});
+$('days').addEventListener('click',e=>{const button=e.target.closest('[data-day]');if(button){const day=data.days.find(d=>d.date===button.dataset.day);history.pushState(null,'',`#jour=${day.date}`);openDay(day);}});
+$('close-day').addEventListener('click',returnToCalendar);
+$('day-dialog').addEventListener('cancel',e=>{e.preventDefault();returnToCalendar();});
+$('day-dialog').addEventListener('click',e=>{if(e.target===$('day-dialog')){const r=$('day-dialog').getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)returnToCalendar();}});
 window.addEventListener('hashchange',()=>data&&route());
 window.addEventListener('blur',cancelHold);
 document.addEventListener('visibilitychange',()=>{cancelHold();if(timer){timer.tick();save();renderTimer();}syncWake();});

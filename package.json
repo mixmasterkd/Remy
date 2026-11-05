@@ -9,7 +9,8 @@
     "test": "node --test --test-isolation=none tests/*.test.mjs",
     "test:browser": "node tests/browser.mjs",
     "check": "node scripts/check.mjs && node scripts/cache.mjs --check",
-    "prepare:offline": "node scripts/cache.mjs"
+    "prepare:offline": "node scripts/cache.mjs",
+    "build": "node scripts/build.mjs"
   },
   "engines": {
     "node": ">=22"
