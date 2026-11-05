@@ -23,9 +23,11 @@ La recherche de contexte personnel connecté n’était pas disponible dans cett
 
 ## État de livraison
 
-Le projet est commité dans le nouveau dépôt Git local. GitHub CLI a confirmé le compte `mixmasterkd`; le dépôt distant `mixmasterkd/Remy` n’existait pas au contrôle préalable. Une copie temporaire officielle de GitHub CLI 2.103.3, vérifiée par SHA-256, a servi aux lectures. Aucune configuration d’authentification n’a été changée.
+Le projet est commité localement et envoyé dans [mixmasterkd/Remy](https://github.com/mixmasterkd/Remy), sur la branche `main`. GitHub a confirmé `visibility: PRIVATE` et `isPrivate: true`; le commit distant a été comparé au commit local. Aucun hébergement public n’est configuré et aucun partage n’a été ajouté.
 
-La commande de création privée et d’envoi a été refusée avant exécution par le contrôle automatique d’autorisation. Après lecture du message utilisateur original, une seule nouvelle tentative de la même commande a également été refusée. Motif donné : les messages visibles n’autoriseraient pas explicitement la création de cette destination et le transfert des données du projet. L’action est arrêtée; pas de contournement. Aucun dépôt GitHub créé, aucun fichier envoyé et aucune publication. Une autorisation explicite de création de `mixmasterkd/Remy` en privé et d’envoi du projet est nécessaire pour faire réexaminer cette action.
+La création avait initialement été bloquée par le contrôle automatique. Eric a ensuite donné son feu vert explicite pour créer ce dépôt privé et y envoyer le code, le calendrier et les captures. L’absence du dépôt a été vérifiée de nouveau avant la création, puis l’opération a réussi. GitHub CLI 2.103.3, copie temporaire officielle vérifiée par SHA-256, a utilisé la connexion existante du compte `mixmasterkd`; aucune configuration d’authentification n’a été changée.
+
+Un aperçu local a également été lancé à la demande d’Eric sur `http://127.0.0.1:4173/`, puis vérifié dans le navigateur intégré. Cette adresse concerne seulement le Pop!_OS qui exécute le serveur; elle n’est pas une adresse hébergée pour le téléphone de Remy.
 
 ## Limites et décisions restantes
 

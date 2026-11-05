@@ -2,7 +2,7 @@
 
 Un carnet mobile personnel pour Remy, préparé avec Eric : calendrier du **7 au 21 novembre 2026**, fiches de séance, suivi local et chronomètre. Objectif : **Oxford Cup, samedi 21 novembre**, environ **4,8 à 5 km**; horaire exact à confirmer.
 
-Site statique en français québécois, sans compte, sans service de suivi sportif et sans dépendance d’exécution. Le contenu de `public/` est autonome. Le projet est commité localement. La création du dépôt privé GitHub `mixmasterkd/Remy` et son envoi sont bloqués par le contrôle automatique d’autorisation; aucun dépôt distant ni hébergement public n’est configuré.
+Site statique en français québécois, sans compte, sans service de suivi sportif et sans dépendance d’exécution. Le contenu de `public/` est autonome. Le projet est commité et sauvegardé dans le dépôt GitHub privé [mixmasterkd/Remy](https://github.com/mixmasterkd/Remy). Aucun hébergement public n’est configuré.
 
 ## Utilisation
 
