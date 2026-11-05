@@ -1,0 +1,30 @@
+# Vérification du 5 novembre 2026
+
+Première ébauche exécutée sur le Pop!_OS 24.04 LTS connecté, Node.js 24.19.0, Playwright 1.62.1 et Chromium installé localement. Profils de navigateur temporaires; aucune intervention sur GBoxeur ni sur CyberAS.
+
+## Résultats
+
+- **20 tests du moteur réussis** (`npm test`). Dates continues du 7 au 21; activation confirmée le 20; 24 min d’effort lundi, 20 min mercredi, 20 min d’activation; absence de récupération supplémentaire inventée; étapes ouvertes; rattrapage de plusieurs phases; pause/reprise; reprise d’un état sauvegardé; fin exacte; accélérations incluses dans les 45 min; compte maximal de six; refus d’une accélération trop tardive; absence d’accélération automatique; départ obligatoire avant progression manuelle; doubles demandes de départ; saut négatif d’horloge; formatage; rejet d’un état invalide.
+- **22 scénarios navigateur réussis** (`npm run test:browser`). Calendrier de 15 cases; jours inconnus sans chrono; marquage fait, rechargement et annulation; verrouillage au démarrage; annulation à 2 999 ms, sur interruption du pointeur et perte de focus; déverrouillage après 3 s sans activation accidentelle; maintien au clavier; progression effort/récupération; pause/reprise; protection de la navigation interne; accélération manuelle de 10 s; vue paysage; fin de l’activation à 20:00; rechargement hors ligne avec suivi et indicateur de cache; refus du plein écran et du maintien éveillé; fin en revenant de l’arrière-plan; restauration du chrono en cours; stockage bloqué; course entre acquisition/libération du maintien éveillé et changement de visibilité; aucune erreur JavaScript non interceptée.
+- **Responsive vérifié** sans débordement horizontal à 320×740, 360×800, 390×844, 412×915, 768×1024 et 1440×1000. Minuterie vérifiée également en paysage 915×412. Ce sont des fenêtres Chromium simulées, pas des essais sur les Galaxy physiques.
+- **Données et cache cohérents** (`npm run check`) : 15 dates, 5 séances chronométrables, version du cache calculée d’après les fichiers. `git diff --check` sans erreur.
+
+Captures de la version vérifiée : [mobile](apercu-mobile.png), [chrono](apercu-chrono.png), [bureau](apercu-bureau.png). La coche de l’activation sur la capture de bureau provient uniquement du profil de test.
+
+## Référence GBoxeur et revue Astra
+
+Référence lue uniquement pour le comportement du chrono dans `mixmasterkd/gestionboxeur`, commit `cef8a67016bf94d9aa710cac12519613b4d31abf` : `js/timer-session.js`, `js/session-timer.js`, `js/session-timer-engine.js` et `js/timer-interval-controls.js`. Le dépôt de référence était propre et l’est resté.
+
+GBoxeur verrouille au départ, déverrouille par un maintien de 3 s et gère les interruptions du geste. Remy reprend ces principes dans une réalisation indépendante, avec une identité visuelle originale. Remy utilise aussi un maintien de 3 s pour verrouiller manuellement. Les phases inconnues restent manuelles. Le chrono de Remy continue selon les horodatages pendant l’absence de la page, contrairement à une pause forcée à sa fermeture.
+
+**Modèles :** l’agent de revue a été explicitement lancé avec `gpt-6-astra`. Il a examiné la référence puis relu le moteur et les interactions de Remy. La réalisation principale a été faite par la tâche Codex principale; son identifiant de modèle exact n’est pas exposé par l’environnement. Il n’est donc pas affirmé que le site a été réalisé par Astra. La revue a identifié trois cas limites (fin en arrière-plan encore verrouillée, acquisition du maintien éveillé interrompue, fin avant démarrage); ils ont été corrigés et couverts par les essais ci-dessus.
+
+La recherche de contexte personnel connecté n’était pas disponible dans cette conversation. Les consignes locales accessibles ont été vérifiées; le fichier global AGENTS.md était vide. Les décisions explicites d’Eric dans la délégation et ses précisions ultérieures ont servi de référence.
+
+## Limites et décisions restantes
+
+- Essai réel à faire avec Eric sur Galaxy S25 et avec Remy sur son Android : installation depuis Chrome, visibilité en extérieur, sons, comportement Android en veille, plein écran et maintien éveillé. Aucun test matériel n’est prétendu.
+- En arrière-plan ou écran verrouillé, l’OS peut suspendre le code et l’audio. Les horodatages permettent de retrouver le temps, mais ne garantissent pas les alertes à l’instant voulu. Les tests simulent les retards et les transitions de visibilité; ils ne reproduisent pas toutes les politiques d’économie d’énergie Android.
+- L’état local n’est pas synchronisé. Un cache supprimé, un stockage effacé, une autre adresse ou un autre navigateur peuvent faire perdre l’accès hors ligne ou le suivi.
+- L’hébergement et l’adresse à utiliser sur le téléphone restent à choisir. Pas de publication publique, pas de partage ni d’installation sur CyberAS. Un dépôt privé GitHub n’est pas une URL d’application pour Remy.
+- Jogs en Z1, contenu des jours encore ouverts, échauffements/retours au calme manquants, récupération entre blocs du 9, horaire exact de course et ergonomie du bouton d’accélération restent à discuter. L’activation du **vendredi 20 est confirmée**.

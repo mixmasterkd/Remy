@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#173e35">
+  <meta name="description" content="Le carnet de course de Remy. Calendrier et chronomètre pour l’Oxford Cup du 21 novembre 2026.">
+  <title>Remy — En route vers Oxford</title>
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#calendar">Aller au calendrier</a>
+  <main id="home">
+    <header class="site-header"><a class="wordmark" href="#">remy<span> / </span>course</a><span class="edition">NOVEMBRE 2026</span></header>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy"><span class="eyebrow"><i></i> TON PROCHAIN DÉPART</span><h1 id="hero-title">À ton rythme.<br><em>Jusqu’à Oxford.</em></h1><p>Remy, voici ton carnet pour les deux prochaines semaines. Une journée, une séance, un pas de plus.</p><a class="hero-link" href="#calendar">Voir ton calendrier <span aria-hidden="true">↘</span></a></div>
+      <div class="course-art" aria-hidden="true"><svg viewBox="0 0 440 360" fill="none"><g stroke="currentColor" stroke-width="1.2"><path d="M-60 180C10 8 285-60 363 62s-155 188-86 270 193 39 240-45"/><path d="M-48 200C40 30 270-36 343 76s-141 170-78 247 170 38 221-28"/><path d="M-36 220C57 45 250-13 323 90s-125 154-72 224 152 38 207-12"/><path d="M-24 240C72 60 230 10 303 104s-112 135-65 201 130 33 190 0"/><path d="M-12 260C88 75 211 31 283 118s-96 118-58 178 111 30 172 11"/><path d="M0 280C104 90 193 54 263 132s-81 102-52 155 94 29 155 24"/><path d="M12 300C120 105 174 76 243 146s-67 83-46 132 73 25 138 29"/></g><path d="M80 275C100 155 217 73 271 142s-81 110-44 156" stroke="#e6ac82" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 10"/><circle cx="80" cy="275" r="9" fill="#e6ac82"/><circle cx="227" cy="298" r="8" fill="#f6f3e9"/></svg><span class="art-tag">LE PLAISIR D’AVANCER.</span></div>
+      <div class="race-strip"><div><span class="eyebrow">LA LIGNE D’ARRIVÉE</span><strong>Oxford Cup</strong></div><div><strong>21 <span>novembre</span></strong><span>Samedi · 2026</span></div><div><strong>4,8–5 <span>km</span></strong><span>Cross-country</span></div><span class="race-time">Horaire à confirmer</span></div>
+    </section>
+    <section id="calendar" class="calendar-section" aria-labelledby="calendar-heading"><div class="section-heading"><div><span class="eyebrow">DU 7 AU 21 NOVEMBRE</span><h2 id="calendar-heading">Tes prochains pas</h2></div><span id="offline-status" class="connection">Préparation hors ligne…</span></div>
+      <div class="calendar-layout"><div class="calendar-board"><div class="month-heading"><strong>Novembre <span>2026</span></strong><span id="completion-count">0 séance faite</span></div><div class="calendar-weekdays" aria-hidden="true"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div><div id="days" class="days"><p>Chargement du calendrier…</p></div><div class="calendar-legend"><span><i class="planned-dot"></i> Séance</span><span><i class="done-dot"></i> Faite</span><span><i class="pending-dot"></i> À préciser</span></div><p class="calendar-hint">Touche une date pour ouvrir ta fiche.</p></div><aside id="day-detail" class="day-detail" aria-labelledby="detail-title"></aside></div>
+    </section>
+    <section class="notes-section"><span class="note-symbol" aria-hidden="true">↗</span><div><h2>Un plan qui se précise avec toi.</h2><p>Eric ajoutera les jogs en zone 1. Les journées encore ouvertes restent à discuter. L’activation est confirmée vendredi 20, puis place à l’Oxford Cup samedi 21.</p></div></section>
+    <details class="help"><summary>Installer sur Android et garder tes repères</summary><p>Dans Chrome sur ton Galaxy : ouvre le menu ⋮, puis « Ajouter à l’écran d’accueil » ou « Installer l’application », selon ce que Chrome propose. Attends le repère « Prêt hors ligne » avant de partir.</p><p>Les séances faites et le chrono sont enregistrés dans ce navigateur, sur ce téléphone. Il n’y a pas de compte ni de synchronisation. Effacer les données du navigateur peut effacer ton suivi. Pour ton premier essai, garde Chrome visible.</p><p>La minuterie fonctionne sans réseau après la préparation hors ligne. Garde cette page visible : le téléphone peut interrompre les sons et les mises à jour en arrière-plan ou quand l’écran est verrouillé. À ton retour, le temps est recalculé.</p><p>Le plein écran et le maintien de l’écran éveillé dépendent du navigateur et peuvent être refusés. Le verrouillage des commandes protège les boutons de cette page; il ne verrouille pas le téléphone. Une modification manuelle de l’heure peut affecter le chrono.</p><p>Les étapes sans durée restent ouvertes. Tu les termines toi-même; aucun départ automatique n’est prévu à une heure donnée.</p></details>
+    <footer><a class="wordmark" href="#">remy<span> / </span>course</a><span>Préparé avec Eric. Couru par toi.</span><span>Ébauche · 2026</span></footer>
+  </main>
+  <section id="timer-screen" class="timer-screen" hidden aria-labelledby="phase-label" data-kind="easy">
+    <header class="timer-header"><button id="close-timer" class="quiet" type="button">← Calendrier</button><span id="timer-date"></span><button id="fullscreen" class="quiet" type="button">Plein écran ⛶</button></header>
+    <div class="timer-center"><span id="session-title" class="eyebrow"></span><p id="phase-detail" class="phase-detail"></p><h1 id="phase-label"></h1><span id="phase-zone" class="zone"></span><div id="time" class="time" role="timer" aria-live="off">00:00</div><p id="time-caption"></p><div class="progress"><div id="phase-progress"></div></div><p id="up-next" class="up-next"></p><p id="session-total" class="session-total"></p></div>
+    <div class="timer-actions"><button id="play-pause" class="primary" type="button">Démarrer</button><button id="next-phase" class="secondary" type="button" hidden>Étape suivante</button><button id="stride" class="secondary" type="button" hidden>Accélération · 10 s</button><button id="mark-timer-done" class="secondary" type="button" hidden>Marquer la séance faite</button><button id="reset" class="quiet" type="button">Recommencer</button></div>
+    <div class="timer-bottom"><button id="lock" class="lock-button" type="button" aria-pressed="false"><span id="lock-label">Maintiens 3 s pour verrouiller</span><span id="lock-progress"></span></button><p id="device-status"></p><p id="timer-message" role="status" aria-live="polite"></p></div>
+    <div id="phase-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+  </section>
+  <noscript><p class="noscript">Active JavaScript pour consulter les séances et utiliser le chronomètre.</p></noscript>
+</body>
+</html>

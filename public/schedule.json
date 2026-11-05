@@ -1,0 +1,191 @@
+{
+  "revision": "2026-11-05.2",
+  "athlete": "Remy",
+  "event": {
+    "name": "Oxford Cup",
+    "date": "2026-11-21",
+    "distance": "4,8 à 5 km",
+    "time": "Horaire à confirmer"
+  },
+  "days": [
+    {
+      "date": "2026-11-07",
+      "status": "pending",
+      "title": "À préciser",
+      "summary": "Le calendrier commence ici. Jog en zone 1 à ajouter avec Eric."
+    },
+    {
+      "date": "2026-11-08",
+      "status": "pending",
+      "title": "À préciser",
+      "summary": "Séance ou repos à confirmer."
+    },
+    {
+      "date": "2026-11-09",
+      "status": "confirmed",
+      "title": "Deux blocs, un bon rythme",
+      "summary": "2 blocs de 4 × 3 min · récupération de 2 min entre les répétitions",
+      "effortMinutes": 24,
+      "notes": [
+        "Échauffement, récupération entre les blocs et retour au calme à préciser.",
+        "La minuterie laisse ces étapes ouvertes : tu passes à la suite quand c’est le moment."
+      ],
+      "workout": {
+        "type": "repeats",
+        "blocks": 2,
+        "reps": 4,
+        "effortSeconds": 180,
+        "recoverySeconds": 120,
+        "betweenBlocksSeconds": null,
+        "warmupSeconds": null,
+        "cooldownSeconds": null
+      }
+    },
+    {
+      "date": "2026-11-10",
+      "status": "pending",
+      "title": "À préciser",
+      "summary": "Jog en zone 1 à ajouter avec Eric."
+    },
+    {
+      "date": "2026-11-11",
+      "status": "confirmed",
+      "title": "Deux minutes à la fois",
+      "summary": "10 × 2 min · récupération de 1 min entre les répétitions",
+      "effortMinutes": 20,
+      "notes": [
+        "Échauffement et retour au calme à préciser.",
+        "Aucune récupération supplémentaire imposée après la dernière répétition."
+      ],
+      "workout": {
+        "type": "repeats",
+        "blocks": 1,
+        "reps": 10,
+        "effortSeconds": 120,
+        "recoverySeconds": 60,
+        "warmupSeconds": null,
+        "cooldownSeconds": null
+      }
+    },
+    {
+      "date": "2026-11-12",
+      "status": "pending",
+      "title": "À préciser",
+      "summary": "Séance ou repos à confirmer."
+    },
+    {
+      "date": "2026-11-13",
+      "status": "pending",
+      "title": "À préciser",
+      "summary": "Séance ou repos à confirmer."
+    },
+    {
+      "date": "2026-11-14",
+      "status": "confirmed",
+      "title": "Facile, avec un peu d’élan",
+      "summary": "45 min faciles, incluant 6 accélérations de 10 s",
+      "notes": [
+        "Récupération complète entre les accélérations, sans durée imposée.",
+        "Ébauche : lance chaque accélération avec le bouton. Les 10 secondes sont incluses dans les 45 minutes. Le fonctionnement reste à discuter."
+      ],
+      "workout": {
+        "type": "easy-strides",
+        "durationSeconds": 2700,
+        "strideCount": 6,
+        "strideSeconds": 10
+      }
+    },
+    {
+      "date": "2026-11-15",
+      "status": "confirmed",
+      "title": "Repos",
+      "summary": "Une journée pour récupérer.",
+      "rest": true
+    },
+    {
+      "date": "2026-11-16",
+      "status": "pending",
+      "title": "À discuter avec Eric",
+      "summary": "Une séance est possible lundi. Contenu et durée à confirmer."
+    },
+    {
+      "date": "2026-11-17",
+      "status": "pending",
+      "title": "À préciser",
+      "summary": "Séance ou repos à confirmer."
+    },
+    {
+      "date": "2026-11-18",
+      "status": "pending",
+      "title": "À discuter avec Eric",
+      "summary": "Petit jog et accélérations possibles. Rien de confirmé pour l’instant."
+    },
+    {
+      "date": "2026-11-19",
+      "status": "pending",
+      "title": "Repos évoqué",
+      "summary": "À confirmer avec Eric; ce jour n’est pas encore fixé."
+    },
+    {
+      "date": "2026-11-20",
+      "status": "confirmed",
+      "title": "Une dernière mise en route",
+      "summary": "5 min Z1 · 5 min Z3 · 5 × (20 s Z4–Z5 / 40 s faciles) · 5 min Z1",
+      "notes": [
+        "Activation confirmée le vendredi 20 novembre, la veille de la course.",
+        "20 minutes au total. Les 40 secondes faciles suivent chacune des 5 accélérations."
+      ],
+      "workout": {
+        "type": "steps",
+        "steps": [
+          {
+            "label": "Départ facile",
+            "zone": "Z1",
+            "kind": "easy",
+            "seconds": 300
+          },
+          {
+            "label": "Rythme soutenu",
+            "zone": "Z3",
+            "kind": "effort",
+            "seconds": 300
+          },
+          {
+            "repeat": 5,
+            "steps": [
+              {
+                "label": "Accélération",
+                "zone": "Z4–Z5",
+                "kind": "stride",
+                "seconds": 20
+              },
+              {
+                "label": "Récupération facile",
+                "kind": "recovery",
+                "seconds": 40
+              }
+            ]
+          },
+          {
+            "label": "Retour facile",
+            "zone": "Z1",
+            "kind": "easy",
+            "seconds": 300
+          }
+        ]
+      }
+    },
+    {
+      "date": "2026-11-21",
+      "status": "confirmed",
+      "title": "Oxford Cup",
+      "summary": "Cross-country · environ 4,8 à 5 km · horaire à confirmer",
+      "notes": [
+        "Chronomètre libre pour la course. Aucun temps cible ni échauffement inventé."
+      ],
+      "workout": {
+        "type": "race"
+      }
+    }
+  ]
+}
