@@ -2,7 +2,7 @@
 
 Un carnet mobile personnel pour Remy, préparé avec Eric : calendrier du **7 au 21 novembre 2026**, fiches de séance, suivi local et chronomètre. Objectif : **Oxford Cup, samedi 21 novembre**, environ **4,8 à 5 km**; horaire exact à confirmer.
 
-Site statique en français québécois, sans compte, sans service de suivi sportif et sans dépendance d’exécution. `index.html` et tous les fichiers du site se trouvent à la racine du dépôt. Le projet est commité et sauvegardé dans le dépôt GitHub privé [mixmasterkd/Remy](https://github.com/mixmasterkd/Remy). Aucun hébergement public n’est configuré.
+Site statique en français québécois, sans compte, sans service de suivi sportif et sans dépendance d’exécution. `index.html` et tous les fichiers du site se trouvent à la racine du dépôt. Le projet est sauvegardé dans le dépôt public [mixmasterkd/Remy](https://github.com/mixmasterkd/Remy). GitHub Pages est activé pour le [calendrier de Remy](https://mixmasterkd.github.io/Remy/), avec l’accord explicite d’Eric.
 
 ## Utilisation
 
@@ -61,9 +61,9 @@ npm run test:browser
 
 Un Chromium existant peut être choisi avec `CHROMIUM_PATH=/chemin/vers/chrome npm run test:browser`. Les captures vont dans `test-results/` (non versionné). Les tests utilisent des profils temporaires; ils ne touchent pas au suivi réel du navigateur de Remy.
 
-## Préparer GitHub Pages
+## GitHub Pages
 
-Le site est prêt pour le sous-chemin `/Remy/`; l’adresse prévue est `https://mixmasterkd.github.io/Remy/`. Rien n’est publié. Le [guide GitHub Pages](docs/github-pages.md) explique le mode **Deploy from a branch → main → / (root)**. Le dépôt contient directement `index.html` et ses ressources, sans étape de compilation obligatoire. Le plan actuel refuse Pages tant que ce dépôt reste privé; sa visibilité n’est pas changée.
+Adresse du site : **https://mixmasterkd.github.io/Remy/**. Le [guide GitHub Pages](docs/github-pages.md) explique le mode **Deploy from a branch → main → / (root)**. Le dépôt contient directement `index.html` et ses ressources, sans étape de compilation obligatoire. Le dépôt a été rendu public avec l’accord d’Eric. Chaque commit poussé sur `main` déclenche une mise à jour du site.
 
 ## Modifier les séances par commit
 

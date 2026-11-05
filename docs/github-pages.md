@@ -1,10 +1,10 @@
 # GitHub Pages depuis la racine
 
-Adresse prévue : `https://mixmasterkd.github.io/Remy/`. `index.html` et toutes ses ressources sont directement à la racine du dépôt. Le site est statique et ne demande aucune compilation pour la publication depuis une branche.
+Adresse du site : `https://mixmasterkd.github.io/Remy/`. `index.html` et toutes ses ressources sont directement à la racine du dépôt. Le site est statique et ne demande aucune compilation pour la publication depuis une branche.
 
-## Mode prévu : main / (root)
+## Mode actif : main / (root)
 
-Lorsque la disponibilité de Pages sera débloquée :
+Configuration appliquée :
 
 1. Dans **Settings → Pages → Build and deployment → Source**, choisir **Deploy from a branch**.
 2. Sélectionner **main**, puis **/ (root)** et enregistrer.
@@ -14,13 +14,13 @@ Dans ce mode, chaque commit poussé sur `main` déclenche une mise à jour du si
 
 Les chemins du HTML, du manifeste, du calendrier et du service worker sont relatifs. Le manifeste utilise `start_url: "./"`, `scope: "./"` et `id: "./"`. La navigation par `#jour=...` et `#chrono=...` fonctionne dans `/Remy/` sans réécriture serveur.
 
-## Blocage de publication vérifié
+## Visibilité autorisée et blocage résolu
 
 Le 5 novembre 2026, GitHub a refusé l’activation de Pages pour ce dépôt privé avec HTTP 422 :
 
 > Your current plan does not support GitHub Pages for this repository.
 
-Le dépôt demeure privé, sans Pages, et l’adresse prévue retourne HTTP 404. Déplacer `index.html` à la racine ne change pas la disponibilité du service. Pour poursuivre, Eric doit autoriser le passage du dépôt entier en public, avec son historique, ou choisir un plan GitHub compatible avec Pages pour un dépôt privé. Aucun changement de visibilité, de plan ou d’accès n’est fait ici.
+Eric a ensuite explicitement autorisé le passage de `mixmasterkd/Remy` en public, avec son code, son calendrier, ses captures et son historique. Après vérification du contenu, ce seul dépôt a été rendu public et Pages activé sur `main / (root)`. HTTPS est imposé. Aucun autre dépôt, plan ou accès n’a été modifié. Le dépôt et son historique sont maintenant consultables publiquement; les exclusions de `_config.yml` concernent seulement le site Pages.
 
 ## Aperçu local
 

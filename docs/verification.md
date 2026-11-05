@@ -17,7 +17,7 @@ La refonte conserve `engine.js` et les objets `workout` du calendrier sans modif
 
 `index.html` et les neuf autres ressources sont déplacés à la racine sans modification de leur contenu. Les outils de vérification, de cache, de génération d’icônes et les imports des tests suivent cette organisation. Le serveur local sert seulement les fichiers du site; l’export `dist/` conserve cette même sélection. Le mode Pages prévu est maintenant `Deploy from a branch → main → / (root)` avec exclusions dans `_config.yml`.
 
-Les 20 tests moteur et 25 scénarios navigateur sont relancés sous `/Remy/` depuis les fichiers à la racine. Le contrôle des données, du cache et l’export statique sont également vérifiés. La construction Jekyll distante reste non exécutée : GitHub refuse Pages pour ce dépôt privé avec HTTP 422 (`Your current plan does not support GitHub Pages for this repository.`). Le dépôt reste privé; l’adresse publique retourne HTTP 404.
+Les 20 tests moteur et 25 scénarios navigateur sont relancés sous `/Remy/` depuis les fichiers à la racine. Le contrôle des données, du cache et l’export statique sont également vérifiés. À cette étape, GitHub avait refusé Pages pour le dépôt privé avec HTTP 422 (`Your current plan does not support GitHub Pages for this repository.`). Ce blocage est résolu par l’autorisation publique décrite ci-dessous.
 
 ## Référence GBoxeur et revue Astra
 
@@ -31,9 +31,11 @@ La recherche de contexte personnel connecté n’était pas disponible dans cett
 
 ## État de livraison
 
-Le projet est commité localement et envoyé dans [mixmasterkd/Remy](https://github.com/mixmasterkd/Remy), sur la branche `main`. GitHub a confirmé `visibility: PRIVATE` et `isPrivate: true`; le commit distant a été comparé au commit local. Aucun hébergement public n’est configuré et aucun partage n’a été ajouté.
+Le projet est commité localement et envoyé dans [mixmasterkd/Remy](https://github.com/mixmasterkd/Remy), sur la branche `main`. Initialement privé, le dépôt est désormais public avec l’autorisation explicite d’Eric, donnée après explication que le code, le calendrier, les captures et l’historique seraient accessibles à tous. GitHub a confirmé `visibility: public`, `private: false`, puis Pages sur `main / (root)` à `https://mixmasterkd.github.io/Remy/`, avec HTTPS imposé.
 
 La création avait initialement été bloquée par le contrôle automatique. Eric a ensuite donné son feu vert explicite pour créer ce dépôt privé et y envoyer le code, le calendrier et les captures. L’absence du dépôt a été vérifiée de nouveau avant la création, puis l’opération a réussi. GitHub CLI 2.103.3, copie temporaire officielle vérifiée par SHA-256, a utilisé la connexion existante du compte `mixmasterkd`; aucune configuration d’authentification n’a été changée.
+
+Avant le changement de visibilité, les cinq commits et leurs fichiers ont été vérifiés : 57 versions de fichiers texte et 11 versions binaires, limitées au site, aux icônes, aux captures, aux tests et à la documentation. Aucun motif de clé privée, de jeton GitHub/AWS ou d’affectation de secret n’a été détecté. Cette recherche ciblée ne constitue pas une garantie exhaustive. Aucune configuration d’authentification, aucun autre dépôt et aucun serveur CyberAS n’ont été modifiés.
 
 Un aperçu local a également été lancé à la demande d’Eric sur `http://127.0.0.1:4173/Remy/`, puis vérifié dans le navigateur intégré. Cette adresse concerne seulement le Pop!_OS qui exécute le serveur; elle n’est pas une adresse hébergée pour le téléphone de Remy.
 
@@ -42,5 +44,5 @@ Un aperçu local a également été lancé à la demande d’Eric sur `http://12
 - Essai réel à faire avec Eric sur Galaxy S25 et avec Remy sur son Android : installation depuis Chrome, visibilité en extérieur, sons, comportement Android en veille, plein écran et maintien éveillé. Aucun test matériel n’est prétendu.
 - En arrière-plan ou écran verrouillé, l’OS peut suspendre le code et l’audio. Les horodatages permettent de retrouver le temps, mais ne garantissent pas les alertes à l’instant voulu. Les tests simulent les retards et les transitions de visibilité; ils ne reproduisent pas toutes les politiques d’économie d’énergie Android.
 - L’état local n’est pas synchronisé. Un cache supprimé, un stockage effacé, une autre adresse ou un autre navigateur peuvent faire perdre l’accès hors ligne ou le suivi.
-- L’adresse envisagée est `https://mixmasterkd.github.io/Remy/`; son activation et le plan GitHub compatible avec un dépôt privé restent à décider. Voir [la procédure manuelle](github-pages.md). Pas de publication publique, pas de partage ni d’installation sur CyberAS. Un dépôt privé GitHub n’est pas une URL d’application pour Remy.
+- L’adresse du calendrier est `https://mixmasterkd.github.io/Remy/`. Voir [la configuration Pages](github-pages.md). Le suivi local de l’aperçu ne se transfère pas automatiquement vers cette nouvelle adresse. Aucune installation sur CyberAS.
 - Jogs en Z1, contenu des jours encore ouverts, échauffements/retours au calme manquants, récupération entre blocs du 9, horaire exact de course et ergonomie du bouton d’accélération restent à discuter. L’activation du **vendredi 20 est confirmée**.

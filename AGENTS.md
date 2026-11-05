@@ -8,4 +8,4 @@ Projet statique indépendant pour Remy. Lire README.md et docs/seances.md avant 
 - Activation confirmée vendredi 20 novembre 2026; course samedi 21. La clarification du 5 novembre remplace l’ambiguïté antérieure.
 - Garder les données locales au navigateur et le fonctionnement hors ligne. Pas de compte ni de synchronisation implicite.
 - Après toute modification des fichiers du site à la racine, lancer npm run prepare:offline, npm test et npm run check. Pour un changement du chrono ou de navigation, lancer les essais navigateur avec le serveur local.
-- La visibilité et l’hébergement restent du ressort d’Eric. Le dépôt a été demandé privé. Aucune modification de GBoxeur ou de CyberAS n’appartient à ce projet.
+- Eric a autorisé explicitement le 5 novembre 2026 le passage de mixmasterkd/Remy en public, historique compris, et GitHub Pages sur main / (root). Ne pas modifier la visibilité ou l’hébergement d’autres dépôts. Aucune modification de GBoxeur ou de CyberAS n’appartient à ce projet.
