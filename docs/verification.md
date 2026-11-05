@@ -13,13 +13,25 @@ Captures : [calendrier](apercu-mobile.png), [fiche du 9](apercu-fiche.png), [chr
 
 ## Comportements précisés
 
-Le 5 lance un jog de 30 minutes; le 7 un jog de 40 minutes avec objectif de six strides de 20 secondes. Le 14 conserve 45 minutes et six accélérations de 10 secondes, précédées de l’échauffement libre demandé. Les séances futures avec répétitions reçoivent aussi un échauffement libre; l’activation du 20 conserve explicitement sa séquence existante.
+Le 5 lance un jog de 30 minutes; le 7 un jog de 40 minutes avec objectif de six strides de 20 secondes. Le 14 conserve 45 minutes et six strides de 20 secondes, précédées de l’échauffement libre demandé. Les séances futures avec répétitions reçoivent aussi un échauffement libre; l’activation du 20 conserve explicitement sa séquence existante.
 
 Le maintien de 3 secondes démarre les intervalles ou le bloc suivant sans déverrouiller les autres commandes. Le maintien de 1 seconde lance un stride même quand les commandes sont verrouillées. Pause et Stop demandent le déverrouillage habituel. Le compteur « strides effectués » compte les déclenchements; le résumé sépare les strides lancés, complétés et interrompus.
 
 À zéro, le jog devient gris et continue vers le haut jusqu’à Stop. Un stride déjà lancé conserve son second chrono jusqu’à sa fin; le fond reste gris en temps supplémentaire. Aucun nouveau stride ne peut être lancé après le compte à rebours du jog. Les deux variations de luminosité durent deux secondes au total, sans clignotement rapide, et respectent la préférence de réduction des animations.
 
 Les instantanés d’anciens chronos devenus incompatibles sont écartés avec un message explicite. Le suivi des séances faites conserve sa clé de stockage et n’est pas réinitialisé.
+
+## Correction des strides et migration du cache
+
+Correction confirmée par Eric : le 7 reste à 40 minutes, le 14 à 45 minutes; les deux ont six strides de 20 secondes. Le moteur, les fiches et les graphiques lisent ces mêmes données. Aucune autre prescription n’est modifiée.
+
+Le défaut de cache a été reproduit : avec le commit `6ab5284` actif et `8755ed8` en attente, recharger ne suffit pas; l’ancien calendrier de 15 cases reste affiché. Le service worker servait les anciens fichiers en priorité et attendait la fermeture de toutes les fenêtres pour activer la nouvelle version. Références du mécanisme : [activation immédiate contrôlée](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerGlobalScope/skipWaiting), [vérification des mises à jour](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/update).
+
+La nouvelle version télécharge un ensemble complet avec des requêtes propres à sa version, s’active sans attendre la fermeture de toutes les fenêtres, puis actualise le calendrier. Les pages modernes reportent le rechargement pendant un chrono. Les anciennes pages ne répondant pas au nouveau protocole sont actualisées seulement si elles ne montrent pas de chrono. Le lien `mise-a-jour.html` permet aussi de quitter une ancienne installation sans effacer les données locales. La version est indiquée dans les fiches.
+
+**12 scénarios de migration réussis** simulent les deux anciens états, une mise à jour future avec chrono actif, une connexion coupée et un fichier manquant. Les coches et les chronos compatibles mis en pause sont conservés; une mise à jour incomplète laisse la version hors ligne précédente disponible. Les caches d’autres chemins et localStorage ne sont pas supprimés.
+
+La nouvelle apparence est vérifiée après migration en fenêtres **360×800** et **412×915** : trois colonnes, cases carrées, noms des jours, mini-graphiques des 9 et 11, mois discret. Captures : [avant migration](migration-avant.png), [après, 360 px](migration-360.png), [après, 412 px](migration-412.png). Il s’agit de simulations Chromium, pas d’une observation du Galaxy d’Eric.
 
 ## Référence GBoxeur et revue Astra
 

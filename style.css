@@ -86,6 +86,7 @@
   .mark-done { width: 100%; margin-top: 10px; border: 1px solid #c7cbdf; border-radius: 5px; background: transparent; color: #39417d; font-size: .8rem; padding: 14px; }
   .mark-done.is-done { background: #e5e7f4; border-color: #8b92b9; }
   .button-caption { margin-top: 17px; font-size: .64rem; color: #767b8e; line-height: 1.65; }
+  .update-link { display:inline-block; font-size:.68rem; color:#545d9b; padding:12px 0 4px; }
   .connection { margin-top: 15px; padding-top: 12px; border-top: 1px solid #e4e4eb; font-size: .62rem; color: #747a92; }
   @media(max-width:600px) {
     .day-dialog { margin: auto 0 0; width: 100%; max-width: 100%; max-height: calc(100dvh - 18px); padding: 38px 25px max(24px,env(safe-area-inset-bottom)); border-radius: 18px 18px 0 0; border-bottom: 0; }

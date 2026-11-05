@@ -1,5 +1,5 @@
 {
-  "revision": "2026-11-05.4",
+  "revision": "2026-11-05.5",
   "athlete": "Remy",
   "event": {
     "name": "Oxford Cup",
@@ -107,16 +107,16 @@
       "date": "2026-11-14",
       "status": "confirmed",
       "title": "Facile, avec un peu d’élan",
-      "summary": "45 min faciles, incluant 6 accélérations de 10 s",
+      "summary": "45 min faciles, incluant 6 strides de 20 s",
       "notes": [
         "Échauffement libre avant le départ des intervalles.",
-        "Les 6 accélérations de 10 secondes sont incluses dans les 45 minutes. Récupération complète, sans durée imposée."
+        "Les 6 strides de 20 secondes sont incluses dans les 45 minutes. Récupération complète, sans durée imposée."
       ],
       "workout": {
         "type": "easy-strides",
         "durationSeconds": 2700,
         "strideCount": 6,
-        "strideSeconds": 10,
+        "strideSeconds": 20,
         "warmup": true
       }
     },

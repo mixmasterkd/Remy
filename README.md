@@ -37,14 +37,14 @@ Le plein écran et le maintien de l’écran éveillé restent à vérifier sur 
 | Sam. 7 | **40 min de jog**, avec 6 strides de **20 s** | Récupération libre |
 | Lun. 9 | 2 blocs de 4 × 3 min; 2 min entre répétitions; **24 min d’effort** | Échauffement recommandé 10–15 min, retour au calme recommandé 5–10 min; pause entre blocs libre |
 | Mer. 11 | 10 × 2 min; 1 min entre répétitions; **20 min d’effort** | Échauffement et retour au calme |
-| Sam. 14 | **45 min faciles**, incluant 6 accélérations de 10 s; récupération complète | Échauffement libre avant le départ manuel |
+| Sam. 14 | **45 min faciles**, incluant 6 strides de 20 s; récupération complète | Échauffement libre avant le départ manuel |
 | Dim. 15 | Repos | — |
 | Ven. 20 | 5 min Z1, 5 min Z3, 5 × (20 s Z4–Z5 + 40 s faciles), 5 min Z1 : **20 min** | Date confirmée par Eric après clarification |
 | Sam. 21 | Oxford Cup; chrono libre | Horaire exact; environ 4,8–5 km |
 
 Les autres journées restent ouvertes, sans séance inventée. Une séance le 16, un petit jog avec accélérations le 18 et du repos le 19 ont été évoqués sans confirmation. Les jogs en zone 1 seront ajoutés par Eric.
 
-Les accélérations du 14 durent toujours **10 secondes**, et celles du 7 **20 secondes**. Elles sont incluses dans le compte à rebours du jog. L’objectif reste six, avec des déclenchements supplémentaires permis. Aucun stride n’est lancé automatiquement. L’activation confirmée du 20 conserve exactement ses étapes et ses 20 minutes.
+Les strides des samedis **7 et 14 durent 20 secondes**. Le jog du 7 dure **40 minutes**, celui du 14 **45 minutes**. Elles sont incluses dans le compte à rebours du jog. L’objectif reste six, avec des déclenchements supplémentaires permis. Aucun stride n’est lancé automatiquement. L’activation confirmée du 20 conserve exactement ses étapes et ses 20 minutes.
 
 ## Lancer et vérifier
 
@@ -64,6 +64,7 @@ npm ci
 npx playwright install chromium
 npm run test:browser
 npm run test:mobile
+npm run test:update
 ```
 
 Un Chromium existant peut être choisi avec `CHROMIUM_PATH=/chemin/vers/chrome npm run test:browser`. Les captures vont dans `test-results/` (non versionné). Les tests utilisent des profils temporaires; ils ne touchent pas au suivi réel du navigateur de Remy.
@@ -80,11 +81,15 @@ Tout le calendrier est dans [`schedule.json`](schedule.json). Voir le [guide de 
 npm run prepare:offline
 npm test
 npm run check
-git add schedule.json sw.js
+git add schedule.json sw.js index.html mise-a-jour.html
 git commit -m "Précise la séance du 10 novembre"
 ```
 
-`prepare:offline` met à jour la version du cache d’après le contenu des fichiers. `check` refuse un cache périmé. Une nouvelle version attend la fermeture des anciennes fenêtres : pas de remplacement du programme au milieu d’un chrono. Après mise en ligne d’une modification, ouvrir le site connecté, fermer toutes ses fenêtres, puis le rouvrir pour activer la version en attente. Une séance modifiée ne reprend pas un ancien chrono incompatible. La nouvelle logique de résumé utilise une signature de version; un ancien chrono incompatible affiche un message et repart du début. Les coches de séances faites sont conservées.
+`prepare:offline` génère une identité cohérente pour le HTML et le cache, d’après les fichiers et le service worker. `check` refuse une version périmée. La mise à jour télécharge tous les fichiers avant de s’activer et contourne les anciennes réponses du cache HTTP.
+
+Le calendrier s’actualise automatiquement lorsque la nouvelle version est prête. Un chrono affiché reste sur sa version jusqu’au retour à la fiche. Les prochaines vérifications se font à l’ouverture, au retour sur la page, au retour du réseau et chaque minute lorsque la page est visible. Les coches ne sont jamais effacées par une mise à jour.
+
+Si une ancienne installation reste affichée, ouvrir **[Actualiser Remy](https://mixmasterkd.github.io/Remy/mise-a-jour.html)** avec une connexion. Ce lien conserve les données et retourne au calendrier. Ne pas effacer les données de Chrome pour mettre à jour le site. Une ancienne page de chrono qui ne connaît pas encore ce mécanisme doit d’abord être arrêtée ou mise en pause, puis rechargée. Une séance dont la prescription a changé ne reprend pas un ancien chrono incompatible; un message l’explique. Une mise à jour nécessite une connexion et ne peut pas être imposée à un téléphone resté hors ligne.
 
 ## Structure
 

@@ -1,0 +1,53 @@
+import {chromium} from 'playwright';
+import assert from 'node:assert/strict';
+import {createServer} from 'node:http';
+import {readFile,mkdir} from 'node:fs/promises';
+await mkdir('test-results',{recursive:true});
+import {execFileSync} from 'node:child_process';
+import {siteFiles} from '../scripts/site-files.mjs';
+const current=new Map(await Promise.all(siteFiles.map(async n=>[n,await readFile(new URL('../'+n,import.meta.url))])));
+function historical(ref){const files=new Map();for(const n of siteFiles){try{files.set(n,execFileSync('git',['show',`${ref}:${n}`],{stdio:['ignore','pipe','pipe']}));}catch{}}return files;}
+const old=historical('6ab5284'),previous=historical('8755ed8');
+const build=files=>files.get('sw.js').toString().match(/const VERSION = '([^']+)'/)[1];
+const version=build(current),nextVersion='remy-test-next-release';
+function nextRelease(){const files=new Map(current);for(const n of ['sw.js','index.html','mise-a-jour.html'])files.set(n,Buffer.from(files.get(n).toString().replaceAll(version,nextVersion)));const data=JSON.parse(files.get('schedule.json'));data.revision+='-test';files.set('schedule.json',Buffer.from(JSON.stringify(data)));return files;}
+const future=nextRelease();let served=old,broken=false;const requests=[];
+const types={html:'text/html',js:'text/javascript',css:'text/css',json:'application/json',webmanifest:'application/manifest+json',svg:'image/svg+xml',png:'image/png'};
+const server=createServer((req,res)=>{
+ const url=new URL(req.url,'http://localhost');requests.push(url.pathname+url.search);
+ const name=url.pathname==='/Remy/'?'index.html':url.pathname.slice('/Remy/'.length);
+ const body=url.pathname.startsWith('/Remy/')&&served.get(name);
+ if(!body||(broken&&name==='engine.js')){res.writeHead(broken?503:404);res.end();return;}
+ res.writeHead(200,{'Content-Type':types[name.split('.').at(-1)]||'application/octet-stream','Cache-Control':'max-age=600'});res.end(body);
+});
+await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
+const base=`http://127.0.0.1:${server.address().port}/Remy/`;
+const browser=await chromium.launch({headless:true,...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{})});
+const contexts=[];let checks=0;const pass=s=>{checks++;console.log('✓ '+s);};
+async function open(files,hash=''){
+ served=files;broken=false;const c=await browser.newContext({viewport:{width:412,height:915},isMobile:true,hasTouch:true});contexts.push(c);const p=await c.newPage();await p.goto(base+hash);await p.locator('[data-day]').first().waitFor();await p.evaluate(()=>navigator.serviceWorker.ready);await p.waitForFunction(()=>!!navigator.serviceWorker.controller);return p;
+}
+async function mark(p,day){await p.locator(`[data-day="2026-11-${day}"]`).click();await p.locator('#mark-done').click();await p.locator('#close-day').click();}
+async function update(p,files){served=files;await p.evaluate(async()=>{const r=await navigator.serviceWorker.getRegistration();await r.update();});}
+async function loaded(p,wanted=version){await p.waitForFunction(v=>document.querySelector('meta[name="remy-build"]')?.content===v,wanted,{timeout:15000});await p.locator('[data-day]').first().waitFor();}
+async function checkDone(p,day){assert.match(await p.locator(`[data-day="2026-11-${day}"]`).getAttribute('class'),/completed/);}
+async function hold(p,id){const b=await p.locator(id).boundingBox();await p.mouse.move(b.x+b.width/2,b.y+b.height/2);await p.mouse.down();await p.clock.runFor(3100);await p.mouse.up();}
+try {
+ const p=await open(old);await mark(p,'09');assert.equal(await p.locator('[data-day]').count(),15);await p.screenshot({path:'test-results/migration-before.png',fullPage:true});
+ await update(p,previous);await p.waitForFunction(async()=>!!(await navigator.serviceWorker.getRegistration()).waiting);await p.reload();await p.locator('[data-day]').first().waitFor();assert.equal(await p.locator('[data-day]').count(),15);await checkDone(p,'09');pass('reproduces old cache bug: new worker waits while old 15-day calendar survives reload');
+ await update(p,current);await loaded(p);assert.equal(await p.locator('[data-day]').count(),17);await checkDone(p,'09');await p.screenshot({path:'test-results/migration-galaxy412.png',fullPage:true});await p.setViewportSize({width:360,height:800});const cell=await p.locator('[data-day="2026-11-09"]').boundingBox();assert(Math.abs(cell.width-cell.height)<1);await p.screenshot({path:'test-results/migration-galaxy360.png',fullPage:true});await p.setViewportSize({width:412,height:915});pass('migration replaces both old active and waiting workers automatically, retaining completion marks');
+ for(const [day,minutes] of [['07','40'],['14','45']]){await p.locator(`[data-day="2026-11-${day}"]`).click();assert.match(await p.locator('#day-detail').innerText(),new RegExp(minutes+' min'));assert.match(await p.locator('#day-detail').innerText(),/6 × 20 s/);assert.equal(await p.locator('#day-detail svg rect[height="23"][width="4"]').count(),6);await p.locator('#close-day').click();}
+ assert.match(await p.locator('#offline-status').innerText(),/2026-11-05.5/);pass('migrated sheets and graphs show 40 minutes on 7, 45 on 14, both with six 20-second strides');
+ await p.context().setOffline(true);await p.reload();await loaded(p);await checkDone(p,'09');await p.context().setOffline(false);pass('new version and completion marks survive offline reload after migration');
+ const prev=await open(previous);await mark(prev,'07');await update(prev,current);await loaded(prev);await checkDone(prev,'07');pass('direct migration from the latest released version also preserves completion marks');
+ const active=await open(previous,'#chrono=2026-11-09');await active.clock.install();await active.clock.pauseAt(new Date(Date.now()+1000));await active.locator('#play-pause').click();await active.clock.runFor(5000);let navigations=0;active.on('framenavigated',f=>{if(f===active.mainFrame())navigations++;});
+ await update(active,current);await active.waitForFunction(async v=>(await caches.keys()).some(k=>k===`${v}@/Remy/`),version);await new Promise(r=>setTimeout(r,1600));assert.equal(navigations,0);assert.equal(await active.locator('meta[name="remy-build"]').count(),0);assert.equal(await active.locator('#lock').getAttribute('aria-pressed'),'true');pass('legacy running timer is not reloaded or interrupted by activation');
+ await hold(active,'#lock');await active.locator('#play-pause').click();const paused=await active.locator('#time').innerText();await active.locator('#close-timer').click();await active.reload();await loaded(active);await active.locator('#open-timer').click();await active.locator('#timer-screen').waitFor();assert.equal(await active.locator('#time').innerText(),paused);pass('compatible paused timer is restored after leaving the legacy timer and refreshing');
+ const live=await open(current);await mark(live,'05');await live.clock.install();await live.clock.pauseAt(new Date(Date.now()+1000));await live.locator('[data-day="2026-11-07"]').click();await live.locator('#open-timer').click();await live.locator('#play-pause').click();await live.clock.runFor(5000);
+ await update(live,future);await live.locator('#timer-message').getByText(/Mise à jour prête/).waitFor();assert.equal(await live.locator('meta[name="remy-build"]').getAttribute('content'),version);await hold(live,'#lock');await live.locator('#play-pause').click();const savedTime=await live.locator('#time').innerText();await live.locator('#close-timer').click();await loaded(live,nextVersion);await checkDone(live,'05');await live.locator('#open-timer').click();await live.locator('#timer-screen').waitFor();assert.equal(await live.locator('#time').innerText(),savedTime);pass('future updates defer during a timer, then apply automatically on return without losing paused time or marks');
+ const repair=await open(old);await mark(repair,'11');served=current;await repair.goto(base+'mise-a-jour.html');await repair.waitForURL(base);await loaded(repair);await checkDone(repair,'11');pass('dedicated refresh link repairs an old installation without clearing browser data');
+ const failure=await open(current);await mark(failure,'09');served=future;broken=true;await failure.evaluate(async()=>{const r=await navigator.serviceWorker.getRegistration();await r.update();});await failure.waitForFunction(async()=>!(await navigator.serviceWorker.getRegistration()).installing);assert.equal(await failure.locator('meta[name="remy-build"]').getAttribute('content'),version);assert.equal(await failure.evaluate(async v=>(await caches.keys()).includes(`${v}@/Remy/`),nextVersion),false);await failure.context().setOffline(true);await failure.reload();await loaded(failure);await checkDone(failure,'09');broken=false;pass('failed resource download does not activate a partial release; old complete version remains usable offline');
+ const visible=await open(current);await mark(visible,'09');served=future;await visible.evaluate(()=>window.dispatchEvent(new Event('online')));await loaded(visible,nextVersion);await checkDone(visible,'09');pass('returning online checks for updates and refreshes an idle calendar automatically');
+ assert(requests.some(u=>u.includes('remy-build=')));pass('release assets bypass stale HTTP cache with versioned network requests');
+ console.log(`\n${checks} update/migration scenarios passed.`);
+} finally {await Promise.all(contexts.map(c=>c.close()));await browser.close();await new Promise(r=>server.close(r));}

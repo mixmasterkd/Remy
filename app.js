@@ -12,6 +12,31 @@ let data, selected, timer, activeDay, locked = false, screenOpen = false, wake =
 let audio, hold = null, savedAt = 0, lastPhase = '', storageAvailable = true;
 let wakeNote = 'Écran éveillé non garanti', restoreNotice = '';
 let wakeEpoch = 0;
+const APP_BUILD=document.querySelector('meta[name="remy-build"]')?.content;
+let registration, pendingVersion='', reloading=false, updateCheck;
+function applyPendingUpdate(){
+  if(!pendingVersion||pendingVersion===APP_BUILD||!data||screenOpen||document.hidden||reloading)return;
+  reloading=true;timer?.tick();save();location.reload();
+}
+function receiveVersion(event){
+  if(event.data?.type!=='REMY_VERSION')return;
+  event.ports?.[0]?.postMessage({handled:true});
+  if(event.source&&event.source!==navigator.serviceWorker.controller)return;
+  if(event.data.version===APP_BUILD){pendingVersion='';return;}
+  if(event.data.version!==APP_BUILD){pendingVersion=event.data.version;if(screenOpen)message('Mise à jour prête. Elle s’appliquera au retour à la fiche.');else queueMicrotask(applyPendingUpdate);}
+}
+function askWorkerVersion(){navigator.serviceWorker.controller?.postMessage({type:'REMY_HELLO'});}
+async function checkForUpdates(){
+  if(!registration||document.hidden||!navigator.onLine)return;
+  if(!updateCheck)updateCheck=registration.update().catch(()=>{}).finally(()=>{updateCheck=null;askWorkerVersion();});
+  await updateCheck;
+}
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.addEventListener('message',receiveVersion);
+  navigator.serviceWorker.addEventListener('controllerchange',askWorkerVersion);
+}
+window.addEventListener('online',checkForUpdates);
+setInterval(checkForUpdates,60000);
 function readSaved(key = selected?.date) { try { return JSON.parse(localStorage.getItem(`${STORE}.${key}`)); } catch { return null; } }
 function save() {
   if (!timer) return;
@@ -37,7 +62,7 @@ function workoutGraph(day,detail=false) {
       for(let r=0;r<w.reps;r++) {bars.push({height:24,width:w.effortSeconds/20});if(r<w.reps-1)bars.push({height:6,width:w.recoverySeconds/20});}
     }
   } else if(w.type==='easy-strides') {
-    for(let i=0;i<w.strideCount;i++){bars.push({height:7,width:12},{height:23,width:4});}
+    for(let i=0;i<w.strideCount;i++){bars.push({height:7,width:12},{height:23,width:w.strideSeconds/5});}
   } else if(w.type==='jog') bars=[{height:10,width:100}];
   else bars=buildPhases(w).map(p=>({height:['effort','stride'].includes(p.kind)?24:7,width:Math.max(3,(p.seconds||0)/20)}));
   let x=0;const shapes=bars.map(v=>{const rect=`<rect x="${x}" y="${28-v.height}" width="${v.width}" height="${v.height}" rx="1"${v.gap?' class="graph-gap"':''}/>`;x+=v.width+2;return rect;}).join('');
@@ -96,7 +121,7 @@ function closeDay() {
 }
 function returnToCalendar() {
   closeDay(); history.replaceState(null,'','#calendar');
-  document.querySelector(`[data-day="${selected.date}"]`)?.focus();
+  document.querySelector(`[data-day="${selected.date}"]`)?.focus();applyPendingUpdate();
 }
 function openTimer(day) {
   if (!day?.workout) return;
@@ -134,6 +159,7 @@ function route() {
     if(m[1] === 'chrono' && target.workout) {selectDay(target.date);openTimer(target);}
     else openDay(target);
   } else closeDay();
+  applyPendingUpdate();
 }
 async function fullscreen() {
   if (document.fullscreenElement === $('timer-screen')) return;
@@ -248,21 +274,24 @@ $('day-dialog').addEventListener('cancel',e=>{e.preventDefault();returnToCalenda
 $('day-dialog').addEventListener('click',e=>{if(e.target===$('day-dialog')){const r=$('day-dialog').getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)returnToCalendar();}});
 window.addEventListener('hashchange',()=>data&&route());
 window.addEventListener('blur',cancelHold);
-document.addEventListener('visibilitychange',()=>{cancelHold();if(timer){timer.tick();save();renderTimer();}syncWake();});
+document.addEventListener('visibilitychange',()=>{cancelHold();if(timer){timer.tick();save();renderTimer();}syncWake();if(!document.hidden){checkForUpdates();applyPendingUpdate();}});
 window.addEventListener('pagehide',()=>{cancelHold();timer?.tick();save();});
-window.addEventListener('pageshow',()=>{timer?.tick();renderTimer();syncWake();});
+window.addEventListener('pageshow',()=>{timer?.tick();renderTimer();syncWake();checkForUpdates();applyPendingUpdate();});
 document.addEventListener('keydown',e=>{if(screenOpen&&e.key==='Escape'&&(locked||timer?.state.running)){e.preventDefault();message('Déverrouille et mets en pause pour revenir au calendrier.');}});
 setInterval(()=>{renderTimer();paintHold();},100);
 async function offlineSetup(){
   if(!('serviceWorker' in navigator)||!window.isSecureContext){$('offline-status').textContent='Hors ligne non disponible ici';return;}
+  const readyText=()=>`Prêt hors ligne · version ${data.revision}`;
   let ready=false;
   try{
     const previous=await navigator.serviceWorker.getRegistration();
-    if(previous?.active){ready=true;$('offline-status').textContent='Prêt hors ligne';}
-    await navigator.serviceWorker.register('./sw.js');await navigator.serviceWorker.ready;
-    $('offline-status').textContent='Prêt hors ligne';
+    if(previous?.active){ready=true;$('offline-status').textContent=readyText();}
+    registration=await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});
+    await navigator.serviceWorker.ready;
+    $('offline-status').textContent=readyText();askWorkerVersion();checkForUpdates();
   } catch{if(!ready)$('offline-status').textContent='Hors ligne non préparé';}
 }
+
 try {
   const response=await fetch('./schedule.json');if(!response.ok)throw Error();data=await response.json();
   const today=new Date(); const todayKey=`${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;

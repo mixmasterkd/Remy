@@ -35,6 +35,6 @@ Les séances `easy-strides` et les séances `steps` contenant des répétitions 
 2. Mettre à jour `revision` avec un identifiant lisible.
 3. Exécuter `npm run prepare:offline`, `npm test`, puis `npm run check`.
 4. Ouvrir la fiche et vérifier les libellés; si le comportement change, lancer aussi `npm run test:browser` et `npm run test:mobile`.
-5. Commiter les données et `sw.js` ensemble.
+5. Commiter les données, `sw.js`, `index.html` et `mise-a-jour.html` ensemble : leur identité de version est générée conjointement.
 
 Les tests initiaux décrivent les séances confirmées le 5 novembre 2026. Les ajuster lorsque les consignes confirmées changent. Les identifiants de cache se mettent à jour automatiquement avec `prepare:offline`.
