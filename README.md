@@ -2,7 +2,7 @@
 
 Un carnet mobile personnel pour Remy, préparé avec Eric : calendrier du **7 au 21 novembre 2026**, fiches de séance, suivi local et chronomètre. Objectif : **Oxford Cup, samedi 21 novembre**, environ **4,8 à 5 km**; horaire exact à confirmer.
 
-Site statique en français québécois, sans compte, sans service de suivi sportif et sans dépendance d’exécution. Le contenu de `public/` est autonome. Le projet est commité et sauvegardé dans le dépôt GitHub privé [mixmasterkd/Remy](https://github.com/mixmasterkd/Remy). Aucun hébergement public n’est configuré.
+Site statique en français québécois, sans compte, sans service de suivi sportif et sans dépendance d’exécution. `index.html` et tous les fichiers du site se trouvent à la racine du dépôt. Le projet est commité et sauvegardé dans le dépôt GitHub privé [mixmasterkd/Remy](https://github.com/mixmasterkd/Remy). Aucun hébergement public n’est configuré.
 
 ## Utilisation
 
@@ -63,17 +63,17 @@ Un Chromium existant peut être choisi avec `CHROMIUM_PATH=/chemin/vers/chrome n
 
 ## Préparer GitHub Pages
 
-Le site est prêt pour le sous-chemin `/Remy/`; l’adresse prévue est `https://mixmasterkd.github.io/Remy/`. Rien n’est publié. Le [guide GitHub Pages](docs/github-pages.md) explique le mode **GitHub Actions**, la source `dist/` et le modèle de publication manuelle laissé inactif dans `docs/`. Le mode de publication depuis une branche ne peut pas servir directement `public/`.
+Le site est prêt pour le sous-chemin `/Remy/`; l’adresse prévue est `https://mixmasterkd.github.io/Remy/`. Rien n’est publié. Le [guide GitHub Pages](docs/github-pages.md) explique le mode **Deploy from a branch → main → / (root)**. Le dépôt contient directement `index.html` et ses ressources, sans étape de compilation obligatoire. Le plan actuel refuse Pages tant que ce dépôt reste privé; sa visibilité n’est pas changée.
 
 ## Modifier les séances par commit
 
-Tout le calendrier est dans [`public/schedule.json`](public/schedule.json). Voir le [guide de modification](docs/seances.md). Après toute modification dans `public/` :
+Tout le calendrier est dans [`schedule.json`](schedule.json). Voir le [guide de modification](docs/seances.md). Après toute modification des fichiers du site :
 
 ```sh
 npm run prepare:offline
 npm test
 npm run check
-git add public
+git add schedule.json sw.js
 git commit -m "Précise la séance du 10 novembre"
 ```
 
@@ -81,11 +81,11 @@ git commit -m "Précise la séance du 10 novembre"
 
 ## Structure
 
-- `public/schedule.json` : séances confirmées et journées ouvertes.
-- `public/engine.js` : moteur pur, temps en millisecondes, phases compilées.
-- `public/app.js` : calendrier, suivi local, commandes, audio et API du téléphone.
-- `public/style.css` : identité visuelle indépendante, calendrier et vues du chrono.
-- `public/sw.js` : cache atomique de la version courante.
+- `schedule.json` : séances confirmées et journées ouvertes.
+- `engine.js` : moteur pur, temps en millisecondes, phases compilées.
+- `app.js` : calendrier, suivi local, commandes, audio et API du téléphone.
+- `style.css` : identité visuelle indépendante, calendrier et vues du chrono.
+- `sw.js` : cache atomique de la version courante.
 - `tests/` : tests de séquence et parcours Chromium.
 - `docs/verification.md` : vérifications réalisées et limites.
 

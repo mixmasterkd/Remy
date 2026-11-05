@@ -1,0 +1,14 @@
+# GitHub Pages: main / (root). Keep the site at the repository root,
+# while excluding development files from the published website.
+# Do not add .nojekyll here: Pages uses these exclusions during its build.
+exclude:
+  - AGENTS.md
+  - README.md
+  - docs
+  - scripts
+  - tests
+  - test-results
+  - node_modules
+  - dist
+  - package.json
+  - package-lock.json

@@ -1,7 +1,7 @@
 import {readFile} from 'node:fs/promises';
 import assert from 'node:assert/strict';
-import {buildPhases} from '../public/engine.js';
-const data=JSON.parse(await readFile(new URL('../public/schedule.json',import.meta.url),'utf8'));
+import {buildPhases} from '../engine.js';
+const data=JSON.parse(await readFile(new URL('../schedule.json',import.meta.url),'utf8'));
 const seen=new Set();
 for(const day of data.days){
  assert.match(day.date,/^\d{4}-\d{2}-\d{2}$/);assert(!seen.has(day.date),'Date en double');seen.add(day.date);

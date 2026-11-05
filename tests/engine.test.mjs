@@ -1,8 +1,8 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {Timer,buildPhases,formatTime,validSnapshot} from '../public/engine.js';
-const data=JSON.parse(await readFile(new URL('../public/schedule.json',import.meta.url),'utf8'));
+import {Timer,buildPhases,formatTime,validSnapshot} from '../engine.js';
+const data=JSON.parse(await readFile(new URL('../schedule.json',import.meta.url),'utf8'));
 const day=n=>data.days.find(d=>d.date===`2026-11-${n}`);
 test('calendar covers every date from Saturday 7 to race Saturday 21',()=>{
  assert.equal(data.days.length,15);assert.equal(new Date(`${day('07').date}T12:00:00Z`).getUTCDay(),6);

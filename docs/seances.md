@@ -1,6 +1,6 @@
 # Ajouter ou préciser une séance
 
-Modifier uniquement l’objet du jour concerné dans `public/schedule.json`. Conserver les dates ISO (`2026-11-10`) et leur ordre. Les jours sont traités comme des dates locales, sans conversion UTC qui pourrait décaler le calendrier.
+Modifier uniquement l’objet du jour concerné dans `schedule.json`. Conserver les dates ISO (`2026-11-10`) et leur ordre. Les jours sont traités comme des dates locales, sans conversion UTC qui pourrait décaler le calendrier.
 
 - `status: "pending"` : journée ouverte (case sans libellé de séance, explication dans la fiche); ne pas ajouter `workout` tant que la séance n’est pas définie.
 - `status: "confirmed"` : séance ou repos confirmé.
@@ -42,6 +42,6 @@ La séance du 14 utilise `easy-strides` : `durationSeconds`, `strideCount`, `str
 2. Mettre à jour `revision` avec un identifiant lisible.
 3. Exécuter `npm run prepare:offline`, `npm test`, puis `npm run check`.
 4. Ouvrir la fiche et vérifier les libellés; si le comportement change, lancer aussi les essais navigateur.
-5. Commiter les données et `public/sw.js` ensemble.
+5. Commiter les données et `sw.js` ensemble.
 
 Les tests initiaux décrivent les séances confirmées le 5 novembre 2026. Les ajuster lorsque les consignes confirmées changent. Les identifiants de cache se mettent à jour automatiquement avec `prepare:offline`.

@@ -11,7 +11,13 @@
 
 Captures de la refonte vérifiée : [mobile](apercu-mobile.png), [fiche](apercu-fiche.png), [chrono](apercu-chrono.png), [bureau](apercu-bureau.png). La coche de l’activation sur la capture de bureau provient uniquement du profil de test.
 
-La refonte conserve `public/engine.js` et les objets `workout` du calendrier sans modification. Les couleurs de l’interface passent au bleu encre et à la terre cuite. Les durées inconnues restent des étapes manuelles, sans ajout de séance. Le site construit dans `dist/` a été testé à `http://127.0.0.1:4185/Remy/`. `npm run build` et les contrôles du cache réussissent; le modèle Pages reste inactif dans `docs/`.
+La refonte conserve `engine.js` et les objets `workout` du calendrier sans modification. Les couleurs de l’interface passent au bleu encre et à la terre cuite. Les durées inconnues restent des étapes manuelles, sans ajout de séance. Le site construit dans `dist/` a été testé à `http://127.0.0.1:4185/Remy/`. `npm run build` et les contrôles du cache réussissent; le modèle Pages reste inactif dans `docs/`.
+
+## Organisation à la racine
+
+`index.html` et les neuf autres ressources sont déplacés à la racine sans modification de leur contenu. Les outils de vérification, de cache, de génération d’icônes et les imports des tests suivent cette organisation. Le serveur local sert seulement les fichiers du site; l’export `dist/` conserve cette même sélection. Le mode Pages prévu est maintenant `Deploy from a branch → main → / (root)` avec exclusions dans `_config.yml`.
+
+Les 20 tests moteur et 25 scénarios navigateur sont relancés sous `/Remy/` depuis les fichiers à la racine. Le contrôle des données, du cache et l’export statique sont également vérifiés. La construction Jekyll distante reste non exécutée : GitHub refuse Pages pour ce dépôt privé avec HTTP 422 (`Your current plan does not support GitHub Pages for this repository.`). Le dépôt reste privé; l’adresse publique retourne HTTP 404.
 
 ## Référence GBoxeur et revue Astra
 
