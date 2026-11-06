@@ -1,5 +1,5 @@
 {
-  "revision": "2026-11-06.3",
+  "revision": "2026-11-06.4",
   "athlete": "Remy",
   "event": {
     "name": "Oxford Cup",
@@ -106,9 +106,17 @@
     },
     {
       "date": "2026-11-12",
-      "status": "pending",
-      "title": "Aucune séance inscrite",
-      "summary": "Cette journée est encore ouverte."
+      "status": "confirmed",
+      "title": "20 à 30 min très légères",
+      "summary": "Jog très léger de 20 à 30 minutes. Tu peux arrêter après 20 minutes selon ton état; les 10 dernières minutes sont facultatives.",
+      "notes": [
+        "Le chrono part à 30:00. Le fond devient gris à 10:00 restantes. À zéro, le temps supplémentaire continue jusqu’à Stop."
+      ],
+      "workout": {
+        "type": "jog",
+        "durationSeconds": 1800,
+        "optionalAfterSeconds": 1200
+      }
     },
     {
       "date": "2026-11-13",

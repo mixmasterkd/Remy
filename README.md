@@ -42,6 +42,7 @@ Le plein écran et le maintien de l’écran éveillé restent à vérifier sur 
 | Lun. 9 | 2 blocs de 4 × 3 min, 2 min entre efforts | 24 min d’effort; recommandations 10–15 / 5–10 min; pause interblocs libre |
 | Mar. 10 | 20–30 min en Z1 | Arrêt possible après 20 min; les dix dernières sont facultatives |
 | Mer. 11 | 10 × 2 min, 1 min entre efforts | 20 min d’effort; échauffement et retour libres |
+| Jeu. 12 | 20–30 min de jog très léger | Même chrono que le 10; arrêt possible après 20 min |
 | Ven. 13 | 15 min de jog facile | — |
 | Sam. 14 | 45 min faciles + 6 strides de 20 s | Échauffement libre; guide sous Strides |
 | Dim. 15 | Repos | Inchangé |
@@ -52,7 +53,7 @@ Le plein écran et le maintien de l’écran éveillé restent à vérifier sur 
 | Ven. 20 | 5 min Z1, 5 min Z3, 5 × (20 s Z4–Z5 + 40 s faciles), 5 min Z1 | Activation inchangée de 20 min |
 | Sam. 21 | Oxford Cup, chrono libre | Environ 4,8–5 km; horaire à confirmer |
 
-Le 12 reste ouvert, sans séance inventée. Le 10 commence à **30:00** sur fond bleu ciel; à **10:00 restantes**, le fond devient gris et indique la portion facultative. Il peut s’arrêter selon son état dès 20 minutes. À zéro, le chrono continue vers le haut en gris jusqu’à **Stop · résumé**, comme les autres jogs. La pause et la reprise ne comptent pas le temps de pause.
+Les 10 et 12 commencent à **30:00** sur fond bleu ciel; à **10:00 restantes**, le fond devient gris et indique la portion facultative. Il peut s’arrêter selon son état dès 20 minutes. À zéro, le chrono continue vers le haut en gris jusqu’à **Stop · résumé**, comme les autres jogs. La pause et la reprise ne comptent pas le temps de pause.
 
 Les strides des samedis **7 et 14 durent 20 secondes**. Le jog du 7 dure **40 minutes**, celui du 14 **45 minutes**. Elles sont incluses dans le compte à rebours du jog. L’objectif reste six, avec des déclenchements supplémentaires permis. Aucun stride n’est lancé automatiquement. L’activation confirmée du 20 conserve exactement ses étapes et ses 20 minutes.
 

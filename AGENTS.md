@@ -9,6 +9,7 @@ Projet statique indépendant pour Remy. Lire README.md et docs/seances.md avant 
 - Activation confirmée vendredi 20 novembre 2026; course samedi 21. La clarification du 5 novembre remplace l’ambiguïté antérieure.
 - Dernières décisions du 6 novembre : repos les 6, 15 et 19; le 8, 15 min très faciles ou repos si jambes lourdes; le 13, 15 min faciles; le 17, 15 min très faciles confirmées.
 - Le 10 : jog Z1 20–30 min, chrono 30:00 bleu ciel puis gris après 20 min. Les 10 dernières minutes sont facultatives; aucun arrêt automatique, temps supplémentaire puis résumé au Stop.
+- Le 12 : jog très léger 20–30 min, avec le même compte à rebours et la même portion facultative que le 10. Ne pas reprendre l’ancienne demande 15–20 min.
 - Le 16 : échauffement conseillé 10 min mais libre, 3 × 2 min à effort 5 km, seulement 2 récupérations de 1 min très facile, retour conseillé 5 min mais libre; total indicatif 23 min. Le 18 : facultatif, 20 min très faciles et 4 strides de 10 s, chrono/maintien/compteur existants. Le 20 reste inchangé.
 - Explications sous Strides les 7, 14 et 18, adaptées aux 40/45/20 min et 6×20/6×20/4×10 s : répartition libre, vitesse contrôlée sans sprint, maintien du bouton 1 s, récupération jusqu’à respiration régulière. Le 11 a une fiche plus claire avec échauffement/retour libres; son programme et le contenu du 9 restent inchangés.
 - Jour courant selon America/Toronto, encadré conservé; jours passés légèrement estompés mais toujours consultables.
