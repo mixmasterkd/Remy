@@ -6,7 +6,7 @@ Site statique en français québécois, sans compte, sans service de suivi sport
 
 ## Utilisation
 
-L’écran d’accueil contient uniquement le calendrier : chaque journée est une case cliquable. Les journées sans séance restent visuellement vides; leur fiche explique ce qui est connu. La coche distingue les séances faites.
+L’écran d’accueil contient uniquement le calendrier : chaque journée est une case cliquable. Les journées sans séance restent visuellement vides; leur fiche explique ce qui est connu. La coche distingue les séances faites. Les jours de repos ont un fond pâle distinct. La date courante est mise en évidence selon `America/Toronto`, même si le téléphone utilise un autre fuseau. Les jours passés sont légèrement estompés, mais restent consultables et utilisables. Le repère se met à jour chaque minute et au retour sur la page.
 
 1. Toucher une case du calendrier pour ouvrir sa fiche. La croix ou la touche Échap ramène au calendrier.
 2. Ouvrir le chronomètre et toucher **Démarrer**. Les commandes se verrouillent; maintenir leur bouton **3 secondes** pour les libérer.
@@ -36,15 +36,18 @@ Le plein écran et le maintien de l’écran éveillé restent à vérifier sur 
 | Date | Séance | Ce qui reste à préciser |
 |---|---|---|
 | Jeu. 5 | **30 min de jog** | — |
+| Ven. 6 | Repos | — |
 | Sam. 7 | **40 min de jog**, avec 6 strides de **20 s** | Récupération libre |
+| Dim. 8 | **15 min de jog très facile**, ou repos si jambes lourdes | — |
 | Lun. 9 | 2 blocs de 4 × 3 min; 2 min entre répétitions; **24 min d’effort** | Échauffement recommandé 10–15 min, retour au calme recommandé 5–10 min; pause entre blocs libre |
 | Mer. 11 | 10 × 2 min; 1 min entre répétitions; **20 min d’effort** | Échauffement et retour au calme |
 | Sam. 14 | **45 min faciles**, incluant 6 strides de 20 s; récupération complète | Échauffement libre avant le départ manuel |
 | Dim. 15 | Repos | — |
+| Jeu. 19 | Repos | — |
 | Ven. 20 | 5 min Z1, 5 min Z3, 5 × (20 s Z4–Z5 + 40 s faciles), 5 min Z1 : **20 min** | Date confirmée par Eric après clarification |
 | Sam. 21 | Oxford Cup; chrono libre | Horaire exact; environ 4,8–5 km |
 
-Les autres journées restent ouvertes, sans séance inventée. Une séance le 16, un petit jog avec accélérations le 18 et du repos le 19 ont été évoqués sans confirmation. Les jogs en zone 1 seront ajoutés par Eric.
+Les autres journées restent ouvertes, sans séance inventée. Les 16–18 restent en discussion, sans nouvelle séance confirmée. Le 18 peut devenir repos ou un petit jog avec strides; aucune durée ni répétition n’est fixée. Le 19 est confirmé comme repos. Les jogs en zone 1 seront ajoutés par Eric.
 
 Les strides des samedis **7 et 14 durent 20 secondes**. Le jog du 7 dure **40 minutes**, celui du 14 **45 minutes**. Elles sont incluses dans le compte à rebours du jog. L’objectif reste six, avec des déclenchements supplémentaires permis. Aucun stride n’est lancé automatiquement. L’activation confirmée du 20 conserve exactement ses étapes et ses 20 minutes.
 

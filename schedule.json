@@ -1,5 +1,5 @@
 {
-  "revision": "2026-11-06.1",
+  "revision": "2026-11-06.2",
   "athlete": "Remy",
   "event": {
     "name": "Oxford Cup",
@@ -20,9 +20,10 @@
     },
     {
       "date": "2026-11-06",
-      "status": "pending",
-      "title": "Aucune séance inscrite",
-      "summary": "Cette journée est encore ouverte."
+      "status": "confirmed",
+      "title": "Repos",
+      "summary": "Une journée pour récupérer.",
+      "rest": true
     },
     {
       "date": "2026-11-07",
@@ -42,9 +43,13 @@
     },
     {
       "date": "2026-11-08",
-      "status": "pending",
-      "title": "Aucune séance inscrite",
-      "summary": "Cette journée est encore ouverte."
+      "status": "confirmed",
+      "title": "15 min très faciles",
+      "summary": "15 minutes de jog très facile. Repos si les jambes sont lourdes.",
+      "workout": {
+        "type": "jog",
+        "durationSeconds": 900
+      }
     },
     {
       "date": "2026-11-09",
@@ -147,9 +152,10 @@
     },
     {
       "date": "2026-11-19",
-      "status": "pending",
-      "title": "Aucune séance inscrite",
-      "summary": "Du repos a été envisagé, sans confirmation pour le moment."
+      "status": "confirmed",
+      "title": "Repos",
+      "summary": "Une journée pour récupérer.",
+      "rest": true
     },
     {
       "date": "2026-11-20",

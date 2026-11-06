@@ -6,7 +6,7 @@ Version adaptée après l’essai d’Eric sur Galaxy. Vérifications de cette n
 
 - **29 tests moteur** : calendrier continu du 5 au 21; prescriptions séparées des 5, 7 et 14; 24 minutes d’effort le 9, 20 le 11, activation de 20 minutes inchangée; échauffements ouverts; pause interblocs libre; pause/reprise; retards d’horodatages; arrêt explicite; temps supplémentaire; strides au-delà de six; distinction lancés/complétés/interrompus; reprise de deux chronos sauvegardés; total réel par phase.
 - **25 parcours navigateur** : calendrier et fiches, suivi local, sous-chemin `/Remy/`, six tailles de fenêtre de 320 à 1 440 px, verrouillage et annulations d’appui, clavier, navigation protégée, phases, vue paysage, activation, rechargement hors ligne, refus des API plein écran/écran éveillé, stockage indisponible et reprise après arrière-plan.
-- **13 parcours mobiles avec événements tactiles Chromium** : grandes cases carrées à 412×915, recommandations et graphique du lundi, maintiens de 3 s indépendants du verrouillage, annulation à 2 999 ms/au déplacement/à l’interruption, maintiens de 1 s, double affichage, pause/reprise/rechargement d’un stride, septième stride autorisé, deux variations légères de luminosité, résumé d’un stride interrompu, temps supplémentaire et franchissement de zéro pendant un stride.
+- **16 parcours mobiles avec événements tactiles Chromium** : grandes cases carrées à 412×915, recommandations et graphique du lundi, maintiens de 3 s indépendants du verrouillage, annulation à 2 999 ms/au déplacement/à l’interruption, maintiens de 1 s, double affichage, pause/reprise/rechargement d’un stride, septième stride autorisé, deux variations légères de luminosité, résumé d’un stride interrompu, temps supplémentaire et franchissement de zéro pendant un stride.
 - Données et cache vérifiés avec `npm run check`; export `dist/` vérifié avec `npm run build`. Les durées d’effort/récupération et la séquence de l’activation du 20 ne changent pas.
 
 Captures : [calendrier](apercu-mobile.png), [fiche du 9](apercu-fiche.png), [chrono](apercu-chrono.png), [échauffement](apercu-echauffement.png), [stride](apercu-stride.png), [résumé](apercu-resume.png), [bureau](apercu-bureau.png). Les coches et totaux des captures appartiennent seulement aux profils de test.
@@ -39,6 +39,14 @@ Les strides sont retirés des graphiques du calendrier et des fiches, y compris 
 
 Le contenu des séances et le moteur restent identiques au commit `0f94bdd`; seul l’identifiant de révision du calendrier passe à `2026-11-06.1`. Les essais tactiles comparent les couleurs calculées des graphiques aux fonds du chrono lors des efforts et récupérations. Les migrations incluent la version publiée `0f94bdd` et vérifient les nouvelles barres, les couleurs et la conservation des coches. Les captures mobiles sont des simulations Chromium, pas des essais physiques sur Galaxy.
 
+## Repos et journée courante — 6 novembre 2026
+
+Les 6, 15 et 19 sont confirmés comme repos, avec un fond pâle distinct. Les 16–18 restent ouverts; le 18 est en discussion, sans repos ni séance confirmés. Le 15 garde exactement sa prescription précédente. Le 8 contient 15 minutes de jog très facile, ou repos si les jambes sont lourdes; le chrono démarre à 15:00. Aucune autre séance n’est modifiée.
+
+Le jour courant utilise `America/Toronto` indépendamment du fuseau du téléphone. Il est identifié par un contour, une date en relief et `aria-current="date"`. Les jours passés sont légèrement estompés, sans être désactivés ni cachés. La mise à jour du repère conserve le focus et les coches; elle se fait chaque minute et au retour sur la page.
+
+Les parcours tactiles vérifient les repos et le jog du 8, simulent le passage de minuit à Toronto depuis des navigateurs réglés sur Tokyo et Los Angeles, puis le retour sur la page un autre jour. Ils ouvrent et exécutent une séance passée, sans restriction de navigation. Les migrations incluent le commit publié `d8f2a3d` avec conservation des coches. La révision est `2026-11-06.2`. [Capture du 6 courant selon Toronto](jour-courant-toronto.png), avec une coche fictive du 5 conservée.
+
 ## Référence GBoxeur et revue Astra
 
 Référence lue uniquement pour le comportement du chrono dans `mixmasterkd/gestionboxeur`, commit `cef8a67016bf94d9aa710cac12519613b4d31abf` : `js/timer-session.js`, `js/session-timer.js`, `js/session-timer-engine.js` et `js/timer-interval-controls.js`. Le dépôt de référence était propre et l’est resté.
@@ -65,4 +73,4 @@ Un aperçu local a également été lancé à la demande d’Eric sur `http://12
 - En arrière-plan ou écran verrouillé, l’OS peut suspendre le code et l’audio. Les horodatages permettent de retrouver le temps, mais ne garantissent pas les alertes à l’instant voulu. Les tests simulent les retards et les transitions de visibilité; ils ne reproduisent pas toutes les politiques d’économie d’énergie Android.
 - L’état local n’est pas synchronisé. Un cache supprimé, un stockage effacé, une autre adresse ou un autre navigateur peuvent faire perdre l’accès hors ligne ou le suivi.
 - L’adresse du calendrier est `https://mixmasterkd.github.io/Remy/`. Voir [la configuration Pages](github-pages.md). Le suivi local de l’aperçu ne se transfère pas automatiquement vers cette nouvelle adresse. Aucune installation sur CyberAS.
-- Jogs en Z1, contenu des jours encore ouverts, échauffements/retours au calme manquants, récupération entre blocs du 9, horaire exact de course et ergonomie du bouton d’accélération restent à discuter. L’activation du **vendredi 20 est confirmée**.
+- Jogs en Z1 et contenu des jours encore ouverts, échauffements/retours au calme manquants, récupération entre blocs du 9, horaire exact de course et ergonomie du bouton d’accélération restent à discuter. L’activation du **vendredi 20 est confirmée**.

@@ -3,6 +3,17 @@ const $ = id => document.getElementById(id);
 const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date = key => new Date(`${key}T12:00:00`);
 const dayFormat = new Intl.DateTimeFormat('fr-CA', { weekday:'long',day:'numeric',month:'long' });
+const torontoDate = new Intl.DateTimeFormat('en-CA', {timeZone:'America/Toronto',year:'numeric',month:'2-digit',day:'2-digit'});
+const todayInToronto = () => torontoDate.format(new Date());
+function refreshCalendarDates() {
+  const today=todayInToronto();
+  for(const button of document.querySelectorAll('#days [data-day]')) {
+    const current=button.dataset.day===today;
+    button.classList.toggle('today',current);
+    button.classList.toggle('past',button.dataset.day<today);
+    if(current)button.setAttribute('aria-current','date');else button.removeAttribute('aria-current');
+  }
+}
 const statusNames = {confirmed:'Confirmé',provisional:'Provisoire',pending:''};
 const STORE = 'remy.timer.v1';
 const DONE_STORE = 'remy.completed.v1';
@@ -37,6 +48,7 @@ if('serviceWorker' in navigator){
 }
 window.addEventListener('online',checkForUpdates);
 setInterval(checkForUpdates,60000);
+setInterval(refreshCalendarDates,60000);
 function readSaved(key = selected?.date) { try { return JSON.parse(localStorage.getItem(`${STORE}.${key}`)); } catch { return null; } }
 function save() {
   if (!timer) return;
@@ -76,7 +88,7 @@ function renderDays() {
     const label=type==='race'?'Oxford Cup':day.rest?'Repos':day.effortMinutes?`${day.effortMinutes} min d’effort`:w?.durationSeconds?`${w.durationSeconds/60} min`:total?`${total/60} min`:'';
     html+=`<button type="button" class="day-button ${day.status} ${type==='race'?'race':''} ${w?'has-workout':''} ${day.rest?'rest':''} ${done?'completed':''}" data-day="${day.date}" aria-haspopup="dialog" aria-label="${escape(dayFormat.format(date(day.date))+' : '+day.title+(w?done?', séance faite':', séance à faire':''))}"><span class="day-top"><span class="day-name">${escape(weekday.format(date(day.date)).replace('.',''))}</span><span class="day-number">${String(date(day.date).getDate()).padStart(2,'0')}</span></span>${workoutGraph(day)}<span class="day-short">${escape(label)}</span>${done?'<span class="day-marker" aria-hidden="true">✓</span>':''}${type==='race'?'<span class="race-flag" aria-hidden="true">⚑</span>':''}</button>`;
   }
-  $('days').innerHTML=html;
+  $('days').innerHTML=html;refreshCalendarDates();
   const count=data.days.filter(d=>d.workout&&completed[d.date]).length,total=data.days.filter(d=>d.workout).length;
   $('completion-count').textContent=`${count} / ${total} ✓`;
   $('completion-count').setAttribute('aria-label',`${count} séances faites sur ${total}`);
@@ -272,9 +284,9 @@ $('day-dialog').addEventListener('cancel',e=>{e.preventDefault();returnToCalenda
 $('day-dialog').addEventListener('click',e=>{if(e.target===$('day-dialog')){const r=$('day-dialog').getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)returnToCalendar();}});
 window.addEventListener('hashchange',()=>data&&route());
 window.addEventListener('blur',cancelHold);
-document.addEventListener('visibilitychange',()=>{cancelHold();if(timer){timer.tick();save();renderTimer();}syncWake();if(!document.hidden){checkForUpdates();applyPendingUpdate();}});
+document.addEventListener('visibilitychange',()=>{cancelHold();if(timer){timer.tick();save();renderTimer();}syncWake();if(!document.hidden){refreshCalendarDates();checkForUpdates();applyPendingUpdate();}});
 window.addEventListener('pagehide',()=>{cancelHold();timer?.tick();save();});
-window.addEventListener('pageshow',()=>{timer?.tick();renderTimer();syncWake();checkForUpdates();applyPendingUpdate();});
+window.addEventListener('pageshow',()=>{refreshCalendarDates();timer?.tick();renderTimer();syncWake();checkForUpdates();applyPendingUpdate();});
 document.addEventListener('keydown',e=>{if(screenOpen&&e.key==='Escape'&&(locked||timer?.state.running)){e.preventDefault();message('Déverrouille et mets en pause pour revenir au calendrier.');}});
 setInterval(()=>{renderTimer();paintHold();},100);
 async function offlineSetup(){
@@ -292,6 +304,6 @@ async function offlineSetup(){
 
 try {
   const response=await fetch('./schedule.json');if(!response.ok)throw Error();data=await response.json();
-  const today=new Date(); const todayKey=`${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+  const todayKey=todayInToronto();
   selectDay(data.days.find(d=>d.date>=todayKey)?.date||data.days.at(-1).date);route();offlineSetup();
 } catch { $('days').innerHTML='<p>Le calendrier n’a pas pu être chargé. Recharge la page avec une connexion réseau.</p>'; $('offline-status').textContent='Chargement interrompu'; }

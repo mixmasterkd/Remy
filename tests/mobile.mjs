@@ -45,6 +45,15 @@ try {
  assert.equal(await calendar.locator('#day-detail svg [data-kind="easy"]').first().evaluate(e=>getComputedStyle(e).fill),'rgb(148, 213, 242)');
  await calendar.locator('#close-day').click();
  pass('calendar and sheet graphs omit strides while keeping descriptions; interval phases use timer colors');
+ for(const day of ['06','15','19']) {
+  const cell=calendar.locator(`[data-day="2026-11-${day}"]`);
+  assert.match(await cell.innerText(),/Repos/);
+  assert.equal(await cell.evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(242, 236, 221)');
+  await cell.click();assert.equal(await calendar.locator('#open-timer').count(),0);
+  assert.match(await calendar.locator('#day-detail').innerText(),/Repos/);await calendar.locator('#close-day').click();
+ }
+ assert.doesNotMatch(await calendar.locator('[data-day="2026-11-18"]').getAttribute('class'),/rest/);await calendar.locator('[data-day="2026-11-18"]').click();assert.equal(await calendar.locator('#open-timer').count(),0);await calendar.locator('#close-day').click();
+ pass('6, 15 and 19 are pale rest days; 18 stays open without a prescribed workout; all sheets remain accessible');
  await calendar.locator('[data-day="2026-11-09"]').click();assert.equal(await calendar.locator('#detail-title').innerText(),'2 × (4 × 3 min / 2 min)');assert.match(await calendar.locator('#day-detail').innerText(),/10–15 min/);assert.match(await calendar.locator('#day-detail').innerText(),/5–10 min/);assert.equal(await calendar.locator('#day-detail svg rect[height="24"]').count(),8);pass('Monday sheet: exact title, recommended ranges and two blocks of four efforts');
  const monday=await open('09');await monday.locator('#play-pause').click();await monday.clock.fastForward(1200000);assert.equal(await kind(monday),'warmup');assert.equal(await clock(monday),'20:00');
  await touchHold(monday,'#next-phase',2999);assert.equal(await kind(monday),'warmup');await touchHold(monday,'#next-phase',1000,'cancel');await monday.clock.runFor(2500);assert.equal(await kind(monday),'warmup');
@@ -64,6 +73,27 @@ try {
  assert.match(await strides.locator('#stride-counter').innerText(),/7\/6/);assert.equal(await strides.locator('#stride').isEnabled(),true);assert.equal(await kind(strides),'easy');assert((await strides.locator('#stride-flash').evaluate(e=>e.getAnimations().length))>0);pass('seventh stride is allowed; completion returns to blue with two gentle pulses');
  await touchHold(strides,'#stride',1000);await touchHold(strides,'#lock',3000);await strides.locator('#stop').click();const summary=await strides.locator('#summary-rows').innerText();assert.match(summary,/Strides lancés\s+8 \/ 6/);assert.match(summary,/Strides complétés\s+7/);assert.match(summary,/Strides interrompus\s+1/);await strides.screenshot({path:'test-results/mobile-summary.png'});pass('Stop summary distinguishes eight launched strides, seven completed and one interrupted');
  const boundary=await open('07');await boundary.locator('#play-pause').click();await boundary.clock.fastForward(2395000);await touchHold(boundary,'#stride',1000);await boundary.clock.fastForward(4000);assert.equal(await kind(boundary),'overtime');assert.equal(await clock(boundary),'00:00');assert.equal(await boundary.locator('#stride-time').innerText(),'00:16');await boundary.clock.fastForward(16000);assert.equal(await boundary.locator('#stride-clock').isVisible(),false);assert.equal(await boundary.locator('#stride').isEnabled(),false);pass('jog turns gray at zero even with a stride in flight; that stride finishes independently in overtime');
+ for(const timezoneId of ['Asia/Tokyo','America/Los_Angeles']) {
+  const context=await browser.newContext({viewport:{width:412,height:915},isMobile:true,hasTouch:true,timezoneId});contexts.push(context);
+  const p=await context.newPage();p.on('pageerror',e=>errors.push(e.message));
+  await p.clock.install({time:new Date('2026-11-06T04:59:20Z')});await p.clock.pauseAt(new Date('2026-11-06T04:59:21Z'));
+  await p.goto(base+'/');await p.locator('[aria-current="date"]').waitFor();
+  assert.equal(await p.locator('[aria-current="date"]').getAttribute('data-day'),'2026-11-05');
+  await p.locator('[data-day="2026-11-05"]').click();await p.locator('#mark-done').click();await p.locator('#close-day').click();
+  await p.clock.runFor(60000);
+  assert.equal(await p.locator('[aria-current="date"]').getAttribute('data-day'),'2026-11-06');
+  const past=p.locator('[data-day="2026-11-05"]');assert.match(await past.getAttribute('class'),/past/);assert.match(await past.getAttribute('class'),/completed/);
+  assert.equal(await past.isEnabled(),true);assert.equal(await p.evaluate(()=>document.activeElement?.dataset.day),'2026-11-05');
+  await p.locator('[data-day="2026-11-06"]').focus();assert.equal(await past.evaluate(e=>getComputedStyle(e).opacity),'0.82');
+  await p.screenshot({path:`test-results/calendar-toronto-${timezoneId.split('/')[1]}.png`,fullPage:true});
+  await p.clock.setSystemTime(new Date('2026-11-19T05:00:00Z'));await p.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));
+  assert.equal(await p.locator('[aria-current="date"]').getAttribute('data-day'),'2026-11-19');
+  await p.locator('[data-day="2026-11-08"]').click();assert.match(await p.locator('#day-detail').innerText(),/15 minutes de jog très facile/);assert.match(await p.locator('#day-detail').innerText(),/Repos si les jambes sont lourdes/);
+  await p.locator('#open-timer').click();await p.locator('#timer-screen').waitFor();assert.equal(await clock(p),'15:00');
+  await p.locator('#play-pause').click();await p.clock.fastForward(900000);assert.equal(await kind(p),'overtime');assert.equal(await clock(p),'00:00');
+  await touchHold(p,'#lock',3000);await p.locator('#stop').click();assert.equal(await kind(p),'done');
+  pass(`${timezoneId}: Toronto midnight and visibility refresh preserve marks and focus; past 8 November remains runnable for 15 minutes`);
+ }
  assert.deepEqual(errors,[]);pass('no uncaught errors across the new mobile flows');
  console.log(`\n${count} mobile scenarios passed.`);
 } finally {await Promise.all(contexts.map(c=>c.close()));await browser.close();}

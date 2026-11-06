@@ -37,7 +37,12 @@
   .day-number { font-size:clamp(1.7rem,3vw,2.6rem); font-weight:400; font-variant-numeric:tabular-nums; letter-spacing:-.06em; line-height:1; }
   .day-short { font-size:.75rem; line-height:1.25; color:#626b8f; min-height:1em; }
   .day-button.has-workout { color:#303992; background:#eeeff8; }
-  .day-button.rest { color:#5e6276; }
+  .day-button.rest { color:#706044; background:#f2ecdd; }
+  .day-button.rest .day-short { color:#706044; }
+  .day-button.past { opacity:.82; }
+  .day-button.past:hover,.day-button.past:focus-visible { opacity:1; }
+  .day-button.today { outline:2px solid var(--ink); outline-offset:-2px; z-index:1; }
+  .day-button.today .day-number { background:var(--ink); color:#fff; border-radius:4px; padding:3px 6px; margin:-3px -6px; }
   .day-button.race { color:#fffaf5; background:#ba5837; }
   .day-button.race .day-short { color:#fffaf5; }
   .race-flag { font-size:1.5rem; position:absolute; top:45%; }

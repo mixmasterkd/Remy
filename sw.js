@@ -1,5 +1,5 @@
 // Generated build identity includes this worker and every static resource.
-const VERSION = 'remy-e422b9cb2ace0c05';
+const VERSION = 'remy-4c278d3569325a4d';
 const SCOPE = new URL(self.registration.scope);
 const CACHE = `${VERSION}@${SCOPE.pathname}`;
 const FILES = ['./','./index.html','./mise-a-jour.html','./style.css','./app.js','./engine.js','./schedule.json','./icon.svg','./icon-192.png','./icon-512.png','./manifest.webmanifest'];
