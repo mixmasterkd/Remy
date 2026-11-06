@@ -112,8 +112,8 @@ test('9 November total includes recommended ranges and leaves the block break un
  assert.deepEqual(plannedDuration(day('09')),{minSeconds:51*60,maxSeconds:61*60,unknownKinds:['long-recovery']});
  assert.equal(day('09').workout.betweenBlocksSeconds,null);
 });
-test('11 November totals 29 known minutes plus undefined warmup and cooldown',()=>{
- assert.deepEqual(plannedDuration(day('11')),{minSeconds:29*60,maxSeconds:29*60,unknownKinds:['warmup','cooldown']});
+test('11 November totals 44–54 minutes with the same recommended ranges as 9 November',()=>{
+ assert.deepEqual(plannedDuration(day('11')),{minSeconds:44*60,maxSeconds:54*60,unknownKinds:[]});
 });
 test('16 November totals 23 recommended minutes including exactly two recoveries',()=>{
  assert.deepEqual(plannedDuration(day('16')),{minSeconds:23*60,maxSeconds:23*60,unknownKinds:[]});

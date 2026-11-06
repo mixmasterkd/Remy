@@ -75,7 +75,15 @@ Publication explicitement autorisée après la demande initiale de préparation 
 
 Les plages numériques sont contrôlées contre leurs libellés. Les phases du chrono restent exactement identiques et manuelles là où elles l’étaient; les nouvelles consignes sont hors de la signature du programme pour conserver une séance sauvegardée compatible. Une migration supplémentaire depuis `627ae95` vérifie qu’une récupération du 9 mise en pause reprend au même temps avec « Marche » et sa coche conservée. Révision : `2026-11-06.6`.
 
-Questions encore ouvertes : durée de la pause interblocs du 9; durées ou plages conseillées d’échauffement et de retour au calme du 11. Aucun nombre n’a été inventé pour les remplacer.
+À cette étape, la pause interblocs du 9 et les plages du 11 étaient laissées ouvertes. La vérification de l’appel ci-dessous résout les plages du 11; la pause du 9 reste à confirmer.
+
+## Recommandations du mercredi 11 rétablies
+
+La relecture de l’appel confirme la demande d’Eric de reprendre les descriptions d’échauffement et de retour au calme du lundi 9, sans modifier les intervalles du mercredi. La fiche du 11 reprend donc **10–15 min d’échauffement** et **5–10 min de retour au calme**, conseillées et toujours en chrono libre. Son total prévu devient **44–54 min** : 10–15 + 20 min d’effort + 9 min de marche + 5–10. Les dix efforts de 2 min et les neuf récupérations de 1 min sont inchangés. Révision : `2026-11-06.7`.
+
+Seules ces recommandations du 11 changent dans le programme. Tous les objets `workout` restent identiques à `ba04a7c`, donc les chronos sauvegardés restent compatibles. Le 9 reste à **51–61 min + pause interblocs à confirmer**; aucune durée n’a été attribuée à cette pause.
+
+Vérifications locales : **33 tests du moteur, 25 parcours navigateur, 24 parcours mobiles et 14 migrations réussis**; données, cache, compilation statique et diff contrôlés. La migration depuis `ba04a7c` vérifie le passage du total du 11 de « 29 min + étapes libres » à « 44–54 min prévues », tout en conservant sa coche et sa récupération mise en pause au même temps. Affichage contrôlé dans Chromium, notamment aux formats 360×800 et 412×915, sans prétendre à un essai matériel Galaxy. [Fiche corrigée du 11](fiche-11-plages.png).
 
 ## Référence GBoxeur et revue Astra
 

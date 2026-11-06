@@ -41,7 +41,7 @@ Le plein écran et le maintien de l’écran éveillé restent à vérifier sur 
 | Dim. 8 | 15 min très faciles | Repos si jambes lourdes |
 | Lun. 9 | 2 blocs de 4 × 3 min, 2 min de marche entre efforts | Total : 51–61 min + pause interblocs à confirmer; recommandations 10–15 / 5–10 min |
 | Mar. 10 | 20–30 min en Z1 | Arrêt possible après 20 min; les dix dernières sont facultatives |
-| Mer. 11 | 10 × 2 min, 1 min de marche entre efforts | Total : 29 min + échauffement et retour non définis |
+| Mer. 11 | 10 × 2 min, 1 min de marche entre efforts | Total : 44–54 min, avec 10–15 min d’échauffement et 5–10 min de retour conseillées |
 | Jeu. 12 | 20–30 min de jog très léger | Même chrono que le 10; arrêt possible après 20 min |
 | Ven. 13 | Repos | — |
 | Sam. 14 | 40 min faciles + 6 strides de 20 s | Échauffement libre; guide sous Strides |

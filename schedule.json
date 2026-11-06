@@ -1,5 +1,5 @@
 {
-  "revision": "2026-11-06.6",
+  "revision": "2026-11-06.7",
   "athlete": "Remy",
   "event": {
     "name": "Oxford Cup",
@@ -113,7 +113,17 @@
         "warmupSeconds": null,
         "cooldownSeconds": null
       },
-      "recoveryCue": "Marche"
+      "recoveryCue": "Marche",
+      "warmupRecommendation": "10–15 min",
+      "cooldownRecommendation": "5–10 min",
+      "warmupRangeSeconds": [
+        600,
+        900
+      ],
+      "cooldownRangeSeconds": [
+        300,
+        600
+      ]
     },
     {
       "date": "2026-11-12",

@@ -24,7 +24,7 @@ const clock=p=>p.locator('#time').innerText();
 try {
  const calendar=await open();
  assert.match(await calendar.locator('[data-day="2026-11-09"] .day-short').innerText(),/51–61 min \+ pause/);
- assert.match(await calendar.locator('[data-day="2026-11-11"] .day-short').innerText(),/29 min \+ étapes libres/);
+ assert.match(await calendar.locator('[data-day="2026-11-11"] .day-short').innerText(),/44–54 min prévues/);
  assert.equal(await calendar.locator('[data-day="2026-11-16"] .day-short').innerText(),'23 min prévues');
  const box=await calendar.locator('[data-day="2026-11-09"]').boundingBox();assert(Math.abs(box.width-box.height)<1);assert(box.width>120);
  assert(await calendar.locator('[data-day="2026-11-11"] svg').isVisible());assert.match(await calendar.locator('[data-day="2026-11-05"]').innerText(),/JEU|jeu/);
@@ -63,10 +63,11 @@ try {
  pass('6, 13, 15 and 19 are pale rest days; 18 is visibly optional; all sheets remain accessible');
  await calendar.locator('[data-day="2026-11-09"]').click();assert.equal(await calendar.locator('#detail-title').innerText(),'2 × (4 × 3 min / 2 min)');assert.match(await calendar.locator('#day-detail').innerText(),/10–15 min/);assert.match(await calendar.locator('#day-detail').innerText(),/5–10 min/);assert.equal(await calendar.locator('#day-detail svg rect[height="24"]').count(),8);assert.match(await calendar.locator('#day-detail .planned-total').innerText(),/51–61 min \+ pause entre les blocs, durée à confirmer/);assert.match(await calendar.locator('#day-detail').innerText(),/Marche ou jog très lent/);pass('Monday sheet: exact title, faithful total range, undefined block break and two blocks of four efforts');
  await calendar.locator('#close-day').click();await calendar.locator('[data-day="2026-11-11"]').click();
- const wedSheet=await calendar.locator('#day-detail').innerText();assert.match(wedSheet,/10 efforts de 2 minutes/);assert.match(wedSheet,/1 minute en marchant entre les efforts/);assert.doesNotMatch(wedSheet,/blocs|10–15|5–10/);
- assert.match(await calendar.locator('#day-detail .planned-total').innerText(),/29 min \+ échauffement et retour au calme, durées non définies/);assert.equal(await calendar.locator('#day-detail .recommendation').count(),2);assert.equal(await calendar.locator('#day-detail .recommendation strong').allTextContents().then(a=>a.every(t=>t==='Chrono libre')),true);
+ const wedSheet=await calendar.locator('#day-detail').innerText();assert.match(wedSheet,/10 efforts de 2 minutes/);assert.match(wedSheet,/1 minute en marchant entre les efforts/);assert.doesNotMatch(wedSheet,/blocs/);
+ assert.match(await calendar.locator('#day-detail .planned-total').innerText(),/44–54 min selon les durées conseillées/);assert.equal(await calendar.locator('#day-detail .recommendation').count(),2);assert.deepEqual(await calendar.locator('#day-detail .recommendation strong').allTextContents(),['10–15 min','5–10 min']);
  assert.equal(await calendar.locator('#day-detail svg [data-kind="effort"]').count(),10);assert.equal(await calendar.locator('#day-detail svg [data-kind="recovery"]').count(),9);
- pass('Wednesday sheet explains warmup, ten efforts, nine recoveries and cooldown without inventing durations or blocks');
+ await calendar.screenshot({path:'test-results/mobile-wednesday-ranges.png'});
+ pass('Wednesday shows the recommended warmup and cooldown ranges and 44–54 minute total, with ten efforts and nine recoveries unchanged');
  const monday=await open('09');await monday.locator('#play-pause').click();await monday.clock.fastForward(1200000);assert.equal(await kind(monday),'warmup');assert.equal(await clock(monday),'20:00');
  await touchHold(monday,'#next-phase',2999);assert.equal(await kind(monday),'warmup');await touchHold(monday,'#next-phase',1000,'cancel');await monday.clock.runFor(2500);assert.equal(await kind(monday),'warmup');
  await touchHold(monday,'#next-phase',1000,'outside');assert.equal(await kind(monday),'warmup');
