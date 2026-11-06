@@ -19,7 +19,7 @@ L’écran d’accueil contient uniquement le calendrier : chaque journée est u
 
 Couleurs du chrono : jog et pause entre blocs **bleu ciel**, échauffement/retour au calme/temps supplémentaire **gris**, efforts et strides **vert**, récupérations courtes **rouge**. Deux variations légères de luminosité signalent la fin d’un stride; elles sont désactivées si la réduction des animations est demandée sur l’appareil.
 
-Les graphiques du calendrier et des fiches ne représentent pas les strides; ceux-ci restent dans les descriptions et les chronomètres. Les phases d’intervalles représentées utilisent les couleurs du chrono. Les jogs ont une barre continue.
+Les cases des journées avec strides portent ce libellé. Les graphiques du calendrier et des fiches ne représentent pas les strides; ceux-ci restent dans les descriptions et les chronomètres. Les phases d’intervalles représentées utilisent les couleurs du chrono. Les jogs ont une barre continue.
 
 Le suivi et les chronos sont enregistrés séparément pour chaque date dans `localStorage`. Ils appartiennent au navigateur, au profil et à l’adresse du site utilisés. Pas de synchronisation entre le téléphone d’Eric et celui de Remy, ni entre Chrome et un autre navigateur. Effacer les données peut effacer le suivi. Utiliser une seule fenêtre du chrono à la fois.
 
@@ -43,8 +43,8 @@ Le plein écran et le maintien de l’écran éveillé restent à vérifier sur 
 | Mar. 10 | 20–30 min en Z1 | Arrêt possible après 20 min; les dix dernières sont facultatives |
 | Mer. 11 | 10 × 2 min, 1 min entre efforts | 20 min d’effort; échauffement et retour libres |
 | Jeu. 12 | 20–30 min de jog très léger | Même chrono que le 10; arrêt possible après 20 min |
-| Ven. 13 | 15 min de jog facile | — |
-| Sam. 14 | 45 min faciles + 6 strides de 20 s | Échauffement libre; guide sous Strides |
+| Ven. 13 | Repos | — |
+| Sam. 14 | 40 min faciles + 6 strides de 20 s | Échauffement libre; guide sous Strides |
 | Dim. 15 | Repos | Inchangé |
 | Lun. 16 | 3 × 2 min à effort 5 km, 1 min très facile entre efforts | Deux récupérations; 10 min d’échauffement et 5 min de retour conseillées, libres; 23 min si suivies |
 | Mar. 17 | 15 min très faciles | Confirmé |
@@ -55,7 +55,7 @@ Le plein écran et le maintien de l’écran éveillé restent à vérifier sur 
 
 Les 10 et 12 commencent à **30:00** sur fond bleu ciel; à **10:00 restantes**, le fond devient gris et indique la portion facultative. Il peut s’arrêter selon son état dès 20 minutes. À zéro, le chrono continue vers le haut en gris jusqu’à **Stop · résumé**, comme les autres jogs. La pause et la reprise ne comptent pas le temps de pause.
 
-Les strides des samedis **7 et 14 durent 20 secondes**. Le jog du 7 dure **40 minutes**, celui du 14 **45 minutes**. Elles sont incluses dans le compte à rebours du jog. L’objectif reste six, avec des déclenchements supplémentaires permis. Aucun stride n’est lancé automatiquement. L’activation confirmée du 20 conserve exactement ses étapes et ses 20 minutes.
+Les strides des samedis **7 et 14 durent 20 secondes**. Le jog du 7 dure **40 minutes**, celui du 14 **40 minutes**. Elles sont incluses dans le compte à rebours du jog. L’objectif reste six, avec des déclenchements supplémentaires permis. Aucun stride n’est lancé automatiquement. L’activation confirmée du 20 conserve exactement ses étapes et ses 20 minutes.
 
 ## Lancer et vérifier
 

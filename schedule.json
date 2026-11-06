@@ -1,5 +1,5 @@
 {
-  "revision": "2026-11-06.4",
+  "revision": "2026-11-06.5",
   "athlete": "Remy",
   "event": {
     "name": "Oxford Cup",
@@ -121,30 +121,27 @@
     {
       "date": "2026-11-13",
       "status": "confirmed",
-      "title": "15 min de jog facile",
-      "summary": "15 minutes de jog facile.",
-      "workout": {
-        "type": "jog",
-        "durationSeconds": 900
-      }
+      "title": "Repos",
+      "summary": "Une journée pour récupérer.",
+      "rest": true
     },
     {
       "date": "2026-11-14",
       "status": "confirmed",
       "title": "Facile, avec un peu d’élan",
-      "summary": "45 min faciles, incluant 6 strides de 20 s",
+      "summary": "40 min faciles, incluant 6 strides de 20 s",
       "notes": [
         "Échauffement libre avant le départ des intervalles.",
-        "Les 6 strides de 20 secondes sont incluses dans les 45 minutes. Récupération complète, sans durée imposée."
+        "Les 6 strides de 20 secondes sont incluses dans les 40 minutes. Récupération complète, sans durée imposée."
       ],
       "workout": {
         "type": "easy-strides",
-        "durationSeconds": 2700,
+        "durationSeconds": 2400,
         "strideCount": 6,
         "strideSeconds": 20,
         "warmup": true
       },
-      "strideInstructions": "Pendant tes 45 minutes, répartis librement 6 accélérations de 20 secondes. Accélère progressivement jusqu’à une vitesse élevée mais contrôlée, sans sprinter. Quand tu es prêt, maintiens « Stride · 20 s » pendant 1 seconde. Entre deux accélérations, cours doucement et attends de retrouver une respiration régulière."
+      "strideInstructions": "Pendant tes 40 minutes, répartis librement 6 accélérations de 20 secondes. Accélère progressivement jusqu’à une vitesse élevée mais contrôlée, sans sprinter. Quand tu es prêt, maintiens « Stride · 20 s » pendant 1 seconde. Entre deux accélérations, cours doucement et attends de retrouver une respiration régulière."
     },
     {
       "date": "2026-11-15",

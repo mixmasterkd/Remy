@@ -13,7 +13,7 @@ Captures : [calendrier](apercu-mobile.png), [fiche du 9](apercu-fiche.png), [chr
 
 ## Comportements précisés
 
-Le 5 lance un jog de 30 minutes; le 7 un jog de 40 minutes avec objectif de six strides de 20 secondes. Le 14 conserve 45 minutes et six strides de 20 secondes, précédées de l’échauffement libre demandé. Les séances futures avec répétitions reçoivent aussi un échauffement libre; l’activation du 20 conserve explicitement sa séquence existante.
+Le 5 lance un jog de 30 minutes; le 7 un jog de 40 minutes avec objectif de six strides de 20 secondes. Le 14 conserve désormais 40 minutes et six strides de 20 secondes, précédées de l’échauffement libre demandé. Les séances futures avec répétitions reçoivent aussi un échauffement libre; l’activation du 20 conserve explicitement sa séquence existante.
 
 Le maintien de 3 secondes démarre les intervalles ou le bloc suivant sans déverrouiller les autres commandes. Le maintien de 1 seconde lance un stride même quand les commandes sont verrouillées. Pause et Stop demandent le déverrouillage habituel. Le compteur « strides effectués » compte les déclenchements; le résumé sépare les strides lancés, complétés et interrompus.
 
@@ -23,13 +23,13 @@ Les instantanés d’anciens chronos devenus incompatibles sont écartés avec u
 
 ## Correction des strides et migration du cache
 
-Correction confirmée par Eric : le 7 reste à 40 minutes, le 14 à 45 minutes; les deux ont six strides de 20 secondes. Le moteur et les fiches lisent ces mêmes données; depuis le 6 novembre, les graphiques masquent les strides à la demande d’Eric. Aucune autre prescription n’est modifiée.
+Correction confirmée par Eric : le 7 reste à 40 minutes, le 14 est maintenant à 40 minutes; les deux ont six strides de 20 secondes. Le moteur et les fiches lisent ces mêmes données; depuis le 6 novembre, les graphiques masquent les strides à la demande d’Eric. Aucune autre prescription n’est modifiée.
 
 Le défaut de cache a été reproduit : avec le commit `6ab5284` actif et `8755ed8` en attente, recharger ne suffit pas; l’ancien calendrier de 15 cases reste affiché. Le service worker servait les anciens fichiers en priorité et attendait la fermeture de toutes les fenêtres pour activer la nouvelle version. Références du mécanisme : [activation immédiate contrôlée](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerGlobalScope/skipWaiting), [vérification des mises à jour](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/update).
 
 La nouvelle version télécharge un ensemble complet avec des requêtes propres à sa version, s’active sans attendre la fermeture de toutes les fenêtres, puis actualise le calendrier. Les pages modernes reportent le rechargement pendant un chrono. Les anciennes pages ne répondant pas au nouveau protocole sont actualisées seulement si elles ne montrent pas de chrono. Le lien `mise-a-jour.html` permet aussi de quitter une ancienne installation sans effacer les données locales. La version est indiquée dans les fiches.
 
-**12 scénarios de migration réussis** simulent les deux anciens états, une mise à jour future avec chrono actif, une connexion coupée et un fichier manquant. Les coches et les chronos compatibles mis en pause sont conservés; une mise à jour incomplète laisse la version hors ligne précédente disponible. Les caches d’autres chemins et localStorage ne sont pas supprimés.
+**13 scénarios de migration réussis** simulent les deux anciens états, une mise à jour future avec chrono actif, une connexion coupée et un fichier manquant. Les coches et les chronos compatibles mis en pause sont conservés; une mise à jour incomplète laisse la version hors ligne précédente disponible. Les caches d’autres chemins et localStorage ne sont pas supprimés.
 
 La nouvelle apparence est vérifiée après migration en fenêtres **360×800** et **412×915** : trois colonnes, cases carrées, noms des jours, mini-graphiques des 9 et 11, mois discret. Captures : [avant migration](migration-avant.png), [après, 360 px](migration-360.png), [après, 412 px](migration-412.png). Il s’agit de simulations Chromium, pas d’une observation du Galaxy d’Eric.
 
@@ -41,7 +41,7 @@ Le contenu des séances et le moteur restent identiques au commit `0f94bdd`; seu
 
 ## Calendrier et consignes du 6 novembre 2026
 
-Repos confirmés les 6, 15 et 19. Le 8 propose 15 min très faciles ou repos si jambes lourdes; le 13, 15 min faciles; le 17, 15 min très faciles confirmées. Le 12 a ensuite été confirmé comme jog très léger de 20–30 min.
+Repos confirmés les 6, 13, 15 et 19. Le 8 propose 15 min très faciles ou repos si jambes lourdes; le 17, 15 min très faciles confirmées. Le 12 a ensuite été confirmé comme jog très léger de 20–30 min.
 
 Le 10 propose 20–30 min en Z1 : compte à rebours initial 30:00, bleu ciel jusqu’à 20 min écoulées, puis gris avec 10:00 restantes. Arrêt possible après 20 min; les dix dernières sont facultatives. À zéro, temps supplémentaire ascendant gris jusqu’à Stop. Les tests couvrent le seuil exact, la pause/reprise, le rechargement, l’arrêt anticipé et le résumé.
 
@@ -58,6 +58,12 @@ Les migrations incluent le commit publié `cbb32c4` avec conservation des coches
 La demande corrigée d’Eric est un jog très léger de **20 à 30 minutes**. Seule cette journée change, avec la révision `2026-11-06.4`. Le fonctionnement existant du 10 est réutilisé : départ à 30:00, bleu ciel pendant 20 minutes, gris dès 10:00 restantes pour la portion facultative, puis temps supplémentaire ascendant à zéro. Stop termine et affiche le résumé; pause/reprise et rechargement conservent le temps actif. Aucune zone supplémentaire n’est imposée.
 
 Les parcours tactiles vérifient ces transitions, l’arrêt après 20 minutes et la reprise du 12; les migrations incluent la version publiée `49b6653` et conservent les coches. Les autres journées et le code du chrono restent identiques. [Capture de la fiche du 12](fiche-jog-12.png).
+
+## Repos le vendredi 13 novembre
+
+À la demande d’Eric, le jog du 13 est remplacé par une journée de repos confirmée. Sa case et sa fiche utilisent le même libellé et le même style pâle que les autres repos, sans bouton de chrono. Le 14 passe à 40 minutes avec ses six strides de 20 secondes; ses textes et son chrono sont adaptés. Les cases des 7, 14, 18 et 20 affichent « strides », sans ajout dans les graphiques. Toutes les autres prescriptions restent identiques. Révision : `2026-11-06.5`.
+
+La migration depuis `17b5d7b` vérifie le remplacement du jog, le maintien des coches et l’ouverture d’un ancien lien de chrono du 13 sur la fiche Repos, sans lancer de séance. Un ancien chrono du 14 est reconnu comme incompatible et repart au début avec un avis explicite; sa coche est conservée. Les 13 scénarios de migration couvrent ces deux changements. Les libellés restent lisibles de 320 à 1 440 px sans débordement horizontal ou vertical; les marges sont adaptées entre 601 et 900 px. Captures : [repos du 13](fiche-repos-13.png), [40 minutes du 14](fiche-strides-14.png).
 
 ## Référence GBoxeur et revue Astra
 

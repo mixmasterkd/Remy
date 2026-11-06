@@ -42,11 +42,11 @@ test('end clamps total and does not accumulate more time',()=>{
 test('timed phase cannot be skipped by the manual next action',()=>{
  const t=new Timer(buildPhases(day('20').workout));t.start(0);t.next(10000);assert.equal(t.state.index,0);assert.equal(t.state.phaseMs,10000);
 });
-test('14 keeps 45 minutes and 20-second strides after a manual warmup; seventh stride allowed',()=>{
+test('14 keeps 40 minutes and 20-second strides after a manual warmup; seventh stride allowed',()=>{
  const w=day('14').workout,t=new Timer(buildPhases(w));assert.equal(t.startStride(w,0),false);t.start(0);assert.equal(t.startStride(w,0),false);t.next(0);
  for(let i=0;i<7;i++){assert.equal(t.startStride(w,i*60000),true);assert.equal(t.startStride(w,i*60000+1000),false);t.tick(i*60000+20000);assert.equal(t.state.strideStart,null);}
  assert.equal(t.state.strides,7);assert.equal(t.state.stridesCompleted,7);assert.equal(w.strideCount,6);
- t.tick(2700000);assert.equal(t.current.kind,'overtime');assert.equal(t.state.phaseMs,0);assert.equal(t.state.done,false);
+ t.tick(2400000);assert.equal(t.current.kind,'overtime');assert.equal(t.state.phaseMs,0);assert.equal(t.state.done,false);
 });
 test('stride pauses with main timer; resume preserves both clocks',()=>{
  const w=day('07').workout,t=new Timer(buildPhases(w));t.start(0);t.startStride(w,0);t.pause(4000);t.start(100000);t.tick(115000);assert.equal(t.state.strideStart,0);assert.equal(t.state.phaseMs,19000);t.tick(116000);assert.equal(t.state.strideStart,null);assert.equal(t.state.stridesCompleted,1);

@@ -32,7 +32,7 @@ try {
   assert.equal(await calendar.locator('#day-detail svg rect').count(),1);
   assert.match(await calendar.locator('#day-detail').innerText(),/6 × 20 s/);
   const guide=calendar.locator('#day-detail .stride-instructions');
-  {assert.equal(await guide.count(),1);assert.match(await guide.innerText(),new RegExp((day==='07'?'40':'45')+' minutes'));assert.match(await guide.innerText(),/sans sprinter/);assert.match(await guide.innerText(),/Stride · 20 s/);assert.match(await guide.innerText(),/pendant 1 seconde/);assert.match(await guide.innerText(),/respiration régulière/);assert.match(await guide.locator('..').innerText(),/^Strides/);}
+  {assert.equal(await guide.count(),1);assert.match(await guide.innerText(),/40 minutes/);assert.match(await guide.innerText(),/sans sprinter/);assert.match(await guide.innerText(),/Stride · 20 s/);assert.match(await guide.innerText(),/pendant 1 seconde/);assert.match(await guide.innerText(),/respiration régulière/);assert.match(await guide.locator('..').innerText(),/^Strides/);}
   await calendar.locator('#close-day').click();
  }
  const graphColors=await calendar.locator('[data-day="2026-11-09"] svg rect').evaluateAll(els=>Object.fromEntries(els.map(e=>[e.dataset.kind,getComputedStyle(e).fill])));
@@ -41,13 +41,15 @@ try {
  assert.equal(await calendar.locator('[data-day="2026-11-11"] svg [data-kind="recovery"]').count(),9);
  assert.equal(await calendar.locator('[data-day="2026-11-20"] svg rect').count(),8);
  assert.equal(await calendar.locator('svg [data-kind="stride"]').count(),0);
+ for(const day of ['07','14','18','20'])assert.match(await calendar.locator(`[data-day="2026-11-${day}"] .day-short`).innerText(),/strides/);
+ for(const day of ['05','08','09','10','11','12','16','17'])assert.doesNotMatch(await calendar.locator(`[data-day="2026-11-${day}"] .day-short`).innerText(),/strides/);
  await calendar.locator('[data-day="2026-11-20"]').click();
  assert.equal(await calendar.locator('#day-detail svg rect').count(),8);
  assert.match(await calendar.locator('#day-detail').innerText(),/5 accélérations/);
  assert.equal(await calendar.locator('#day-detail svg [data-kind="easy"]').first().evaluate(e=>getComputedStyle(e).fill),'rgb(148, 213, 242)');
  await calendar.locator('#close-day').click();
  pass('calendar and sheet graphs omit strides while keeping descriptions; interval phases use timer colors');
- for(const day of ['06','15','19']) {
+ for(const day of ['06','13','15','19']) {
   const cell=calendar.locator(`[data-day="2026-11-${day}"]`);
   assert.match(await cell.innerText(),/Repos/);
   assert.equal(await cell.evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(242, 236, 221)');
@@ -55,7 +57,7 @@ try {
   assert.match(await calendar.locator('#day-detail').innerText(),/Repos/);await calendar.locator('#close-day').click();
  }
  assert.doesNotMatch(await calendar.locator('[data-day="2026-11-18"]').getAttribute('class'),/rest/);assert.match(await calendar.locator('[data-day="2026-11-18"]').innerText(),/facultatif/);
- pass('6, 15 and 19 are pale rest days; 18 is visibly optional; all sheets remain accessible');
+ pass('6, 13, 15 and 19 are pale rest days; 18 is visibly optional; all sheets remain accessible');
  await calendar.locator('[data-day="2026-11-09"]').click();assert.equal(await calendar.locator('#detail-title').innerText(),'2 × (4 × 3 min / 2 min)');assert.match(await calendar.locator('#day-detail').innerText(),/10–15 min/);assert.match(await calendar.locator('#day-detail').innerText(),/5–10 min/);assert.equal(await calendar.locator('#day-detail svg rect[height="24"]').count(),8);pass('Monday sheet: exact title, recommended ranges and two blocks of four efforts');
  await calendar.locator('#close-day').click();await calendar.locator('[data-day="2026-11-11"]').click();
  const wedSheet=await calendar.locator('#day-detail').innerText();assert.match(wedSheet,/10 efforts de 2 minutes/);assert.match(wedSheet,/1 minute entre les efforts/);assert.doesNotMatch(wedSheet,/blocs|10–15|5–10/);
@@ -89,7 +91,7 @@ try {
  pass(`${day} November: 30-minute countdown turns gray at 10:00, pause/reload preserve time, zero continues until Stop`);
  const early=await open(day);await early.locator('#play-pause').click();await early.clock.fastForward(1200000);await touchHold(early,'#lock',3000);await early.locator('#stop').click();assert.equal(await kind(early),'done');assert.equal(await clock(early),'20:03');pass(`${day} November can stop after 20 minutes and reports the actual time`);
  }
- for(const day of ['13','17']) {const p=await open(day);assert.equal(await clock(p),'15:00');await p.locator('#play-pause').click();await p.clock.fastForward(900000);assert.equal(await kind(p),'overtime');assert.equal(await clock(p),'00:00');await touchHold(p,'#lock',3000);await p.locator('#stop').click();assert.equal(await kind(p),'done');}pass('13 and 17 November use the existing 15-minute jog and overtime behavior');
+ for(const day of ['17']) {const p=await open(day);assert.equal(await clock(p),'15:00');await p.locator('#play-pause').click();await p.clock.fastForward(900000);assert.equal(await kind(p),'overtime');assert.equal(await clock(p),'00:00');await touchHold(p,'#lock',3000);await p.locator('#stop').click();assert.equal(await kind(p),'done');}pass('17 November retains the existing 15-minute jog and overtime behavior');
  const short=await open();await short.locator('[data-day="2026-11-16"]').click();const shortText=await short.locator('#day-detail').innerText();assert.match(shortText,/23 minutes/);assert.doesNotMatch(shortText,/Pause libre entre les blocs|1 blocs/);await short.locator('#open-timer').click();await short.locator('#timer-screen').waitFor();await short.locator('#play-pause').click();await short.clock.fastForward(600000);assert.equal(await kind(short),'warmup');await touchHold(short,'#next-phase',3000);assert.equal(await kind(short),'effort');assert.equal(await short.locator('#phase-zone').innerText(),'Effort 5 km');await short.clock.fastForward(120000);assert.equal(await kind(short),'recovery');assert.equal(await short.locator('#phase-zone').innerText(),'Très facile');await short.clock.fastForward(360000);assert.equal(await kind(short),'cooldown');pass('16 November has manual warmup, three 5-km efforts, only two easy recoveries and manual cooldown');
  const extra=await open();await extra.locator('[data-day="2026-11-18"]').click();assert.equal(await extra.locator('#day-detail .badge').innerText(),'Facultatif');const guide18=await extra.locator('.stride-instructions').innerText();assert.match(guide18,/20 minutes/);assert.match(guide18,/4 accélérations de 10 secondes/);assert.match(guide18,/Stride · 10 s/);await extra.locator('#open-timer').click();await extra.locator('#timer-screen').waitFor();await extra.locator('#play-pause').click();await touchHold(extra,'#next-phase',3000);assert.equal(await clock(extra),'20:00');
  for(let i=0;i<5;i++){await touchHold(extra,'#stride',1000);assert.equal(await extra.locator('#stride-time').innerText(),'00:10');await extra.clock.runFor(10000);}assert.match(await extra.locator('#stride-counter').innerText(),/5\/4/);assert.equal(await clock(extra),'19:05');assert.equal(await kind(extra),'easy');pass('optional 18 November keeps a 20-minute main clock, 10-second strides and an unlimited counter over four');
