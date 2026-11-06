@@ -70,13 +70,18 @@ function workoutGraph(day,detail=false) {
   let bars=[];
   if(w.type==='repeats') {
     for(let b=0;b<w.blocks;b++) {
-      if(b) bars.push({height:4,width:14,kind:'long-recovery'});
+      if(b) bars.push({height:4,width:w.betweenBlocksSeconds==null?14:w.betweenBlocksSeconds/20,kind:'long-recovery'});
       for(let r=0;r<w.reps;r++) {bars.push({height:24,width:w.effortSeconds/20,kind:'effort'});if(r<w.reps-1)bars.push({height:6,width:w.recoverySeconds/20,kind:'recovery'});}
     }
   } else if(['jog','easy-strides'].includes(w.type)) bars=[{height:10,width:100}];
   else bars=buildPhases(w).filter(p=>p.kind!=='stride').map(p=>({height:p.kind==='effort'?24:7,width:Math.max(3,(p.seconds||0)/20),kind:p.kind}));
   let x=0;const shapes=bars.map(v=>{const rect=`<rect x="${x}" y="${28-v.height}" width="${v.width}" height="${v.height}" rx="1"${v.kind?` data-kind="${escape(v.kind)}"`:''}/>`;x+=v.width+2;return rect;}).join('');
   return `<svg class="workout-graph ${detail?'graph-detail':''}" viewBox="0 0 ${x} 30" preserveAspectRatio="none" aria-hidden="true">${shapes}</svg>`;
+}
+function graphBlockBreak(day) {
+  const w=day.workout;
+  if(w.blocks<=1 || w.betweenBlocksSeconds==null)return '';
+  return `<span class="graph-break">${escape(new Intl.NumberFormat('fr-CA').format(w.betweenBlocksSeconds/60))} min · ${escape(day.betweenBlocksCue||'Récupération')} entre les blocs</span>`;
 }
 function totalLabel(day,compact=false) {
   const {minSeconds,maxSeconds,unknownKinds}=plannedDuration(day);
@@ -85,7 +90,7 @@ function totalLabel(day,compact=false) {
   if(unknownKinds.length===1&&unknownKinds[0]==='long-recovery')return base+(compact?' + pause':' + pause entre les blocs, durée à confirmer');
   if(unknownKinds.includes('warmup')&&unknownKinds.includes('cooldown'))return base+(compact?' + étapes libres':' + échauffement et retour au calme, durées non définies');
   if(unknownKinds.length)return base+' + étapes à confirmer';
-  return base+(compact?' prévues':' selon les durées conseillées');
+  return base+(compact?'':' selon les durées conseillées');
 }
 function totalDetail(day) {
   return `<p class="planned-total"><strong>Total prévu</strong><span>${escape(totalLabel(day))}</span></p>`;
@@ -115,7 +120,7 @@ function renderDays() {
 function outline(day) {
   const w = day.workout;
   if (!w) return '';
-  if(w.type==='repeats' && day.warmupRecommendation) return `<div class="session-plan"><p class="recommendation">Échauffement <strong>${escape(day.warmupRecommendation)}</strong><small>recommandé · chrono libre</small></p><p class="summary">${escape(day.summary)}</p>${workoutGraph(day,true)}<p class="graph-caption">${w.blocks>1?`${w.blocks} blocs · ${w.reps} efforts par bloc`:`${w.reps} efforts`}</p>${totalDetail(day)}${blockBreakDetail(day)}<p class="recommendation">Retour au calme <strong>${escape(day.cooldownRecommendation)}</strong><small>recommandé · chrono libre</small></p></div>`;
+  if(w.type==='repeats' && day.warmupRecommendation) return `<div class="session-plan"><p class="recommendation">Échauffement <strong>${escape(day.warmupRecommendation)}</strong><small>recommandé · chrono libre</small></p><p class="summary">${escape(day.summary)}</p>${workoutGraph(day,true)}<p class="graph-caption">${w.blocks>1?`${w.blocks} blocs · ${w.reps} efforts par bloc`:`${w.reps} efforts`}${graphBlockBreak(day)}</p>${totalDetail(day)}${blockBreakDetail(day)}<p class="recommendation">Retour au calme <strong>${escape(day.cooldownRecommendation)}</strong><small>recommandé · chrono libre</small></p></div>`;
   if(w.type==='repeats' && w.blocks===1) return `<div class="session-plan"><p class="recommendation">Échauffement <strong>Chrono libre</strong><small>Commence doucement. Quand tu es prêt, maintiens « Commencer les intervalles » pendant 3 secondes.</small></p><p class="summary">${escape(day.summary)}</p>${workoutGraph(day,true)}<p class="graph-caption">${w.reps} efforts</p>${totalDetail(day)}<p class="recommendation">Retour au calme <strong>Chrono libre</strong><small>Ralentis doucement. Déverrouille les commandes, puis touche « Stop · résumé » quand tu as terminé.</small></p></div>`;
   let rows;
   if (w.type === 'repeats') rows = [['Échauffement',w.warmupSeconds == null ? 'Manuel' : formatTime(w.warmupSeconds*1000)], [`${w.blocks > 1 ? w.blocks + ' blocs de ' : ''}${w.reps} × ${w.effortSeconds/60} min`,`${day.effortMinutes} min d’effort`], ['Entre les répétitions',`${w.recoverySeconds/60} min`], ...(w.blocks > 1 ? [['Entre les blocs',w.betweenBlocksSeconds == null ? 'Manuel' : formatTime(w.betweenBlocksSeconds*1000)]] : []), ['Retour au calme',w.cooldownSeconds == null ? 'Manuel' : formatTime(w.cooldownSeconds*1000)]];

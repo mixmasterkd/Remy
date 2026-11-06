@@ -22,7 +22,7 @@ export function buildPhases(workout) {
       phases.push(phase('Effort', 'effort', workout.effortSeconds, { detail }));
       if (r < workout.reps) phases.push(phase('Récupération', 'recovery', workout.recoverySeconds, { detail }));
     }
-    if (b < workout.blocks) phases.push(phase('Entre les blocs', 'long-recovery', workout.betweenBlocksSeconds, {action:`Commencer le bloc ${b+1}`}));
+    if (b < workout.blocks) phases.push(phase('Entre les blocs', 'long-recovery', workout.betweenBlocksSeconds, workout.betweenBlocksSeconds==null?{action:`Commencer le bloc ${b+1}`} : {}));
   }
   phases.push(phase('Retour au calme', 'cooldown'));
   return phases;

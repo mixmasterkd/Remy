@@ -11,7 +11,7 @@ L’écran d’accueil contient uniquement le calendrier : chaque journée est u
 1. Toucher une case du calendrier pour ouvrir sa fiche. La croix ou la touche Échap ramène au calendrier.
 2. Ouvrir le chronomètre et toucher **Démarrer**. Les commandes se verrouillent; maintenir leur bouton **3 secondes** pour les libérer.
 3. Pour les séances à intervalles, l’échauffement compte vers le haut. Maintenir **Commencer les intervalles** pendant **3 secondes** quand prêt. Ce bouton est distinct du verrouillage et reste accessible quand les commandes sont verrouillées.
-4. Les efforts et les récupérations courtes comptent vers zéro. La pause inconnue entre les blocs du 9 reste libre : maintenir **Commencer le bloc 2** pendant **3 secondes** pour repartir.
+4. Les efforts et les récupérations courtes comptent vers zéro. Entre les blocs du 9, **4 minutes de marche** sont décomptées en bleu ciel, puis le deuxième bloc commence automatiquement. Aucune récupération de 2 minutes ne s’ajoute à cette pause.
 5. Pour les strides, maintenir le bouton secondaire **1 seconde**. Le chrono principal continue; un second affichage décompte le stride. Le compteur augmente au déclenchement et peut dépasser l’objectif de six.
 6. À zéro, un jog poursuit un chrono ascendant de **temps supplémentaire**. Déverrouiller puis toucher **Stop · résumé** pour terminer. Un stride déjà lancé peut finir pendant ce temps; aucun nouveau stride ne part après le temps prévu du jog.
 7. **Pause** fige les deux chronos; **Reprendre** les relance et verrouille les commandes. Le résumé distingue le temps de chaque phase, les strides lancés, complétés et interrompus.
@@ -39,9 +39,9 @@ Le plein écran et le maintien de l’écran éveillé restent à vérifier sur 
 | Ven. 6 | Repos | — |
 | Sam. 7 | 40 min de jog + 6 strides de 20 s | Déclenchements libres, guide sous Strides |
 | Dim. 8 | 15 min très faciles | Repos si jambes lourdes |
-| Lun. 9 | 2 blocs de 4 × 3 min, 2 min de marche entre efforts | Total : 51–61 min + pause interblocs à confirmer; recommandations 10–15 / 5–10 min |
+| Lun. 9 | 2 blocs de 4 × 3 min, 2 min de marche entre efforts | Total : 58 min, avec une seule marche de 4 min entre blocs; références 10 min / 8 min, en chrono libre |
 | Mar. 10 | 20–30 min en Z1 | Arrêt possible après 20 min; les dix dernières sont facultatives |
-| Mer. 11 | 10 × 2 min, 1 min de marche entre efforts | Total : 44–54 min, avec 10–15 min d’échauffement et 5–10 min de retour conseillées |
+| Mer. 11 | 10 × 2 min, 1 min de marche entre efforts | Total : 47 min, avec 10 min d’échauffement et 8 min de retour conseillées, en chrono libre |
 | Jeu. 12 | 20–30 min de jog très léger | Même chrono que le 10; arrêt possible après 20 min |
 | Ven. 13 | Repos | — |
 | Sam. 14 | 40 min faciles + 6 strides de 20 s | Échauffement libre; guide sous Strides |

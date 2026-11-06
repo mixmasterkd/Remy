@@ -88,6 +88,8 @@
   .planned-total { margin:14px 0; font-size:.82rem; line-height:1.6; color:#30354d; }
   .planned-total strong { display:block; font-size:.72rem; margin-bottom:2px; }
   .graph-caption { font-size:.72rem; color:#626b8f; margin:10px 0; }
+  .graph-break { display:block; margin-top:7px; }
+  .graph-break::before { content:""; display:inline-block; width:18px; height:6px; margin-right:6px; border-radius:2px; background:var(--phase-easy); }
   .recommendation { margin:22px 0; padding:14px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); font-size:.85rem; display:flex; flex-wrap:wrap; gap:7px; justify-content:space-between; }
   .recommendation small { flex-basis:100%; color:#717789; font-size:.7rem; }
   .summary { font-size: .92rem; line-height: 1.6; color: #61677d; }

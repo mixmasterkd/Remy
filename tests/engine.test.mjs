@@ -10,9 +10,9 @@ test('calendar covers every date from Thursday 5 to race Saturday 21',()=>{
  assert.equal(day('20').status,'confirmed');assert.equal(day('15').rest,true);
  for(const d of data.days.filter(d=>d.status==='pending'))assert.equal(d.workout,undefined);
 });
-test('Monday: 24 minutes of effort, six 2-minute recoveries, three open steps',()=>{
+test('Monday: 24 minutes of effort, six 2-minute recoveries, one 4-minute walk and two open steps',()=>{
  const p=buildPhases(day('09').workout);assert.equal(p.filter(p=>p.kind==='effort').reduce((n,p)=>n+p.seconds,0),1440);
- assert.equal(p.filter(p=>p.seconds===120).length,6);assert.equal(p.filter(p=>p.seconds==null).length,3);
+ assert.equal(p.filter(p=>p.seconds===120).length,6);assert.equal(p.filter(p=>p.seconds==null).length,2);assert.equal(p.filter(p=>p.kind==='long-recovery').length,1);assert.equal(p[8].seconds,240);assert.equal(p[8].action,undefined);
  assert.equal(p[8].label,'Entre les blocs');assert.equal(p.at(-1).label,'Retour au calme');
 });
 test('Wednesday: 20 minutes of effort and nine recoveries',()=>{
@@ -27,8 +27,8 @@ test('timestamp drift: a delayed tick crosses several timed phases exactly',()=>
 test('open warmup does not silently start prescribed work after an hour',()=>{
  const t=new Timer(buildPhases(day('09').workout));t.start(0);t.tick(3600000);assert.equal(t.state.index,0);assert.equal(t.state.phaseMs,3600000);t.next(3600000);assert.equal(t.current.label,'Effort');assert.equal(t.remainingMs(),180000);
 });
-test('open inter-block recovery catches extra time without starting block 2',()=>{
- const t=new Timer(buildPhases(day('09').workout));t.start(0);t.next(0);t.tick(1200000);assert.equal(t.current.label,'Entre les blocs');assert.equal(t.state.phaseMs,120000);t.next(1200000);assert.match(t.current.detail,/Bloc 2/);
+test('an undefined future inter-block recovery remains manual',()=>{
+ const t=new Timer(buildPhases({...day('09').workout,betweenBlocksSeconds:null}));t.start(0);t.next(0);t.tick(1200000);assert.equal(t.current.label,'Entre les blocs');assert.equal(t.state.phaseMs,120000);t.next(1200000);assert.match(t.current.detail,/Bloc 2/);
 });
 test('pause captures time and excludes paused duration on resume',()=>{
  const t=new Timer(buildPhases(day('20').workout));t.start(100);t.pause(10100);t.tick(1000000);assert.equal(t.state.totalMs,10000);t.start(2000000);t.tick(2005000);assert.equal(t.state.totalMs,15000);
@@ -90,8 +90,8 @@ test('saved active stride restores both clocks and completes exactly once',()=>{
  const w=day('07').workout,p=buildPhases(w),t=new Timer(p);t.start(0);t.startStride(w,5000);t.tick(10000);const saved=t.snapshot(),r=new Timer(p,saved);r.tick(25000);r.tick(35000);assert.equal(r.state.stridesCompleted,1);assert.equal(saved.stridesCompleted,0);assert.equal(saved.elapsed[0],10000);assert.equal(r.state.elapsed[0],35000);
 });
 test('summary separates warmup, efforts, recoveries, inter-block break and cooldown',()=>{
- const t=new Timer(buildPhases(day('09').workout));t.start(0);t.next(600000);t.tick(1680000);assert.equal(t.current.kind,'long-recovery');t.next(1800000);t.tick(2880000);assert.equal(t.current.kind,'cooldown');t.finish(3180000);
- const sums={};t.phases.forEach((p,i)=>sums[p.kind]=(sums[p.kind]||0)+t.state.elapsed[i]);assert.deepEqual(sums,{warmup:600000,effort:1440000,recovery:720000,'long-recovery':120000,cooldown:300000});assert.equal(t.state.totalMs,3180000);
+ const t=new Timer(buildPhases(day('09').workout));t.start(0);t.next(600000);t.tick(1680000);assert.equal(t.current.kind,'long-recovery');t.tick(3000000);assert.equal(t.current.kind,'cooldown');t.finish(3480000);
+ const sums={};t.phases.forEach((p,i)=>sums[p.kind]=(sums[p.kind]||0)+t.state.elapsed[i]);assert.deepEqual(sums,{warmup:600000,effort:1440000,recovery:720000,'long-recovery':240000,cooldown:480000});assert.equal(t.state.totalMs,3480000);
 });
 test('Stop before start does not fabricate a completed session',()=>{const t=new Timer(buildPhases(day('05').workout));t.finish(1000);assert.equal(t.state.done,false);});
 
@@ -108,13 +108,23 @@ test('16 November keeps exactly three efforts and two recoveries, with open warm
  const t=new Timer(p);t.start(0);t.tick(600000);assert.equal(t.current.kind,'warmup');t.next(600000);t.tick(1080000);assert.equal(t.current.kind,'cooldown');assert.equal(t.state.done,false);
 });
 
-test('9 November total includes recommended ranges and leaves the block break unknown',()=>{
- assert.deepEqual(plannedDuration(day('09')),{minSeconds:51*60,maxSeconds:61*60,unknownKinds:['long-recovery']});
- assert.equal(day('09').workout.betweenBlocksSeconds,null);
+test('9 November totals 58 minutes including 10+8 minute references and one 4-minute block break',()=>{
+ assert.deepEqual(plannedDuration(day('09')),{minSeconds:58*60,maxSeconds:58*60,unknownKinds:[]});
+ assert.equal(day('09').workout.betweenBlocksSeconds,240);
 });
-test('11 November totals 44–54 minutes with the same recommended ranges as 9 November',()=>{
- assert.deepEqual(plannedDuration(day('11')),{minSeconds:44*60,maxSeconds:54*60,unknownKinds:[]});
+test('11 November totals 47 minutes with the same 10+8 minute references as 9 November',()=>{
+ assert.deepEqual(plannedDuration(day('11')),{minSeconds:47*60,maxSeconds:47*60,unknownKinds:[]});
 });
 test('16 November totals 23 recommended minutes including exactly two recoveries',()=>{
  assert.deepEqual(plannedDuration(day('16')),{minSeconds:23*60,maxSeconds:23*60,unknownKinds:[]});
+});
+
+test('4-minute block break counts down, pauses, resumes and transitions directly into block 2',()=>{
+ const p=buildPhases(day('09').workout),t=new Timer(p);t.start(0);t.next(0);t.tick(1080000);
+ assert.equal(t.current.kind,'long-recovery');assert.equal(t.remainingMs(),240000);assert.equal(p[t.state.index-1].kind,'effort');assert.equal(p[t.state.index+1].kind,'effort');
+ t.next(1140000);assert.equal(t.current.kind,'long-recovery');assert.equal(t.remainingMs(),180000);
+ t.pause(1140000);t.tick(2000000);assert.equal(t.remainingMs(),180000);t.start(2000000);
+ const restored=new Timer(p,t.snapshot());restored.tick(2179999);assert.equal(restored.current.kind,'long-recovery');assert.equal(restored.remainingMs(),1);
+ restored.tick(2180000);assert.equal(restored.current.kind,'effort');assert.match(restored.current.detail,/Bloc 2.*répétition 1/);assert.equal(restored.remainingMs(),180000);
+ restored.tick(2189000);assert.equal(restored.remainingMs(),171000);
 });

@@ -1,5 +1,5 @@
 {
-  "revision": "2026-11-06.7",
+  "revision": "2026-11-06.8",
   "athlete": "Remy",
   "event": {
     "name": "Oxford Cup",
@@ -56,7 +56,7 @@
       "date": "2026-11-09",
       "status": "confirmed",
       "title": "2 × (4 × 3 min / 2 min)",
-      "summary": "Deux blocs de 4 efforts de 3 minutes. Récupère 2 minutes en marchant entre les efforts. Entre les blocs, marche ou fais un jog très lent; la durée de cette pause reste à confirmer.",
+      "summary": "Deux blocs de 4 efforts de 3 minutes. Récupère 2 minutes en marchant entre les efforts d’un même bloc. Entre les deux blocs, marche pendant 4 minutes.",
       "effortMinutes": 24,
       "notes": [],
       "workout": {
@@ -65,22 +65,22 @@
         "reps": 4,
         "effortSeconds": 180,
         "recoverySeconds": 120,
-        "betweenBlocksSeconds": null,
+        "betweenBlocksSeconds": 240,
         "warmupSeconds": null,
         "cooldownSeconds": null
       },
-      "warmupRecommendation": "10–15 min",
-      "cooldownRecommendation": "5–10 min",
+      "warmupRecommendation": "10 min",
+      "cooldownRecommendation": "8 min",
       "warmupRangeSeconds": [
         600,
-        900
-      ],
-      "cooldownRangeSeconds": [
-        300,
         600
       ],
+      "cooldownRangeSeconds": [
+        480,
+        480
+      ],
       "recoveryCue": "Marche",
-      "betweenBlocksCue": "Marche ou jog très lent"
+      "betweenBlocksCue": "Marche"
     },
     {
       "date": "2026-11-10",
@@ -114,15 +114,15 @@
         "cooldownSeconds": null
       },
       "recoveryCue": "Marche",
-      "warmupRecommendation": "10–15 min",
-      "cooldownRecommendation": "5–10 min",
+      "warmupRecommendation": "10 min",
+      "cooldownRecommendation": "8 min",
       "warmupRangeSeconds": [
         600,
-        900
+        600
       ],
       "cooldownRangeSeconds": [
-        300,
-        600
+        480,
+        480
       ]
     },
     {

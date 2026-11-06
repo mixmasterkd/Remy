@@ -85,6 +85,19 @@ Seules ces recommandations du 11 changent dans le programme. Tous les objets `wo
 
 Vérifications locales : **33 tests du moteur, 25 parcours navigateur, 24 parcours mobiles et 14 migrations réussis**; données, cache, compilation statique et diff contrôlés. La migration depuis `ba04a7c` vérifie le passage du total du 11 de « 29 min + étapes libres » à « 44–54 min prévues », tout en conservant sa coche et sa récupération mise en pause au même temps. Affichage contrôlé dans Chromium, notamment aux formats 360×800 et 412×915, sans prétendre à un essai matériel Galaxy. [Fiche corrigée du 11](fiche-11-plages.png).
 
+## Marche interblocs et références finales des 9 et 11
+
+Eric confirme **4 minutes de marche entre les blocs du 9**, puis fixe les références des deux séances à **10 min d’échauffement et 8 min de retour au calme**, toujours en chrono libre. Cette décision remplace les plages précédentes et la pause non définie. Les cases affichent simplement **58 min le 9** et **47 min le 11**, sans « + pause ». Révision : `2026-11-06.8`.
+
+- Le 9 : 10 + 24 min d’effort + six récupérations de 2 min + une marche interblocs de 4 min + 8 = **58 min**. Il n’y a aucune récupération de 2 min supplémentaire avant ou après cette marche.
+- Le 11 : 10 + 20 min d’effort + neuf récupérations de 1 min + 8 = **47 min**. Ses phases d’effort et de récupération sont inchangées.
+
+La barre bleu ciel entre les deux blocs est proportionnée aux 4 minutes et accompagnée d’un libellé « 4 min · Marche entre les blocs ». Le chrono affiche « Marche », décompte 04:00 en bleu ciel, puis commence directement le premier effort du deuxième bloc. L’indication de départ manuel, qui ne concerne plus cette pause, n’y apparaît plus. L’échauffement et le retour au calme des deux séances restent ascendants et manuels : leur temps réel peut donc différer des références affichées.
+
+**34 tests du moteur, 25 parcours navigateur, 24 parcours mobiles et 15 migrations réussis.** Les essais vérifient la frontière exacte à zéro, le passage direct d’effort à marche puis effort, pause/reprise, rechargement, récapitulatif 24+12+4, navigation, gestes tactiles, sous-chemin `/Remy/` et mode hors ligne. La migration depuis `04c5fcd` garde les coches et le chrono compatible du 11. L’ancien chrono du 9, incompatible avec sa pause désormais chronométrée, repart du début avec un avis explicite; une page de chrono active n’est pas rechargée pendant la mise à jour. Le nouveau test installe son horloge simulée avant de recharger l’application pour contrôler ses intervalles de rafraîchissement.
+
+Contrôles visuels dans Chromium, sans essai matériel Galaxy : [fiche du 9](fiche-9-marche-4min.png), [marche de 4 min](chrono-9-marche-4min.png), [fiche du 11](fiche-11-reference-47min.png). Les autres prescriptions, notamment l’activation du 20, sont conservées.
+
 ## Référence GBoxeur et revue Astra
 
 Référence lue uniquement pour le comportement du chrono dans `mixmasterkd/gestionboxeur`, commit `cef8a67016bf94d9aa710cac12519613b4d31abf` : `js/timer-session.js`, `js/session-timer.js`, `js/session-timer-engine.js` et `js/timer-interval-controls.js`. Le dépôt de référence était propre et l’est resté.
@@ -111,4 +124,4 @@ Un aperçu local a également été lancé à la demande d’Eric sur `http://12
 - En arrière-plan ou écran verrouillé, l’OS peut suspendre le code et l’audio. Les horodatages permettent de retrouver le temps, mais ne garantissent pas les alertes à l’instant voulu. Les tests simulent les retards et les transitions de visibilité; ils ne reproduisent pas toutes les politiques d’économie d’énergie Android.
 - L’état local n’est pas synchronisé. Un cache supprimé, un stockage effacé, une autre adresse ou un autre navigateur peuvent faire perdre l’accès hors ligne ou le suivi.
 - L’adresse du calendrier est `https://mixmasterkd.github.io/Remy/`. Voir [la configuration Pages](github-pages.md). Le suivi local de l’aperçu ne se transfère pas automatiquement vers cette nouvelle adresse. Aucune installation sur CyberAS.
-- Jogs en Z1 et contenu des jours encore ouverts, échauffements/retours au calme manquants, récupération entre blocs du 9, horaire exact de course et ergonomie du bouton d’accélération restent à discuter. L’activation du **vendredi 20 est confirmée**.
+- Jogs en Z1 et contenu des jours encore ouverts, échauffements/retours au calme manquants, horaire exact de course et ergonomie du bouton d’accélération restent à discuter. L’activation du **vendredi 20 est confirmée**.
