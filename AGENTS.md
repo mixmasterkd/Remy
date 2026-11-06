@@ -3,6 +3,7 @@
 Projet statique indépendant pour Remy. Lire README.md et docs/seances.md avant de modifier le calendrier.
 
 - Source du programme : schedule.json. Ne pas inventer d’entraînement, de durée ou de zone. Les inconnues restent explicites.
+- Logo approuvé : source intacte dans docs/logo-approuve.png; rendus techniques via npm run prepare:icons. Petit portrait dans l’en-tête; icônes Android any et maskable séparées, avec adresses versionnées. Garder id/start_url/scope et l’adresse du manifeste inchangés pour les installations existantes. Les anciennes icônes restent disponibles pour les versions en cache.
 - Accueil : seulement le calendrier interactif, sans accroche, panneau d’aide ou barre du bas. Les détails appartiennent aux fiches ouvertes par les dates.
 - Calendrier : afficher « strides » dans les cases des 7, 14, 18 et 20, sans les dessiner dans les graphiques.
 - Légendes des intervalles : reprendre le petit trait de couleur, la durée et le libellé appréciés par Eric. Décrire chaque effort et récupération représentés dans les fiches des 9, 11, 16 et de l’activation du 20; couleurs identiques au chrono, sans dessiner ni ajouter les strides à la légende du graphique. Les autres séances et les chronos restent inchangés.

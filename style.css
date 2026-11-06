@@ -22,7 +22,8 @@
   .month h1 { font-size:1rem; font-weight:400; letter-spacing:-.025em; color:#6b7082; }
   .year { font-size:.75rem; margin-left:5px; color:#8a8c99; }
   .calendar-person { display:flex; align-items:center; gap:16px; }
-  .owner { font-size:1.25rem; font-weight:700; letter-spacing:-.04em; }
+  .owner { display:flex; align-items:center; gap:6px; font-size:1.25rem; font-weight:700; letter-spacing:-.04em; }
+  .owner img { display:block; flex:none; object-fit:contain; }
   #completion-count { font:.75rem monospace; color:#62677e; }
   .calendar-weekdays,.days { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); }
   .calendar-weekdays { border-top:2px solid #30354d; padding:12px 0; }

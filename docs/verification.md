@@ -108,6 +108,16 @@ Les légendes sont dérivées des phases existantes, sans durées inventées et 
 
 Captures Chromium, sans prétendre à un test matériel Galaxy : [9 novembre](legende-9-360.png), [11 novembre](legende-11-412.png), [16 novembre](legende-16-360.png), [20 novembre](legende-20-412.png).
 
+## Logo approuvé et icônes Android
+
+Le portrait approuvé par Eric est intégré discrètement à l’en-tête et décliné en icônes Android transparentes et adaptatives 192/512 px, ainsi qu’en icônes d’onglet 32/64 px. Le PNG source est conservé à l’identique, vérifié par SHA-256. Les versions adaptatives sont opaques et leur silhouette visible respecte la zone circulaire protégée; les versions ordinaires gardent la transparence. L’identité, les noms, les chemins de lancement et le chemin du manifeste restent inchangés. Les nouvelles adresses d’icône permettent à Chrome de détecter cette évolution.
+
+Publication explicitement autorisée après la première demande de préparation locale seule. Les données de séance, `engine.js` et `app.js` sont identiques au commit `1b05e33`. Le cache est renouvelé avec les sept nouveaux rendus; les anciens fichiers d’icône restent disponibles pour les versions historiques.
+
+**34 tests du moteur, 25 parcours navigateur, 25 parcours mobiles, 16 migrations et 6 contrôles d’icône réussis.** Vérifications des dimensions, transparence/opacité, marge protégée et chemins `/Remy/`; affichage à 320, 360 et 412 px; cache hors ligne des icônes et du logo. Les migrations depuis `1b05e33` conservent les coches et les chronos mis en pause des 9 et 11. Les transitions, appuis longs et séances restent inchangés.
+
+[Calendrier à 412 px](calendrier-logo-412.png), [calendrier à 320 px](calendrier-logo-320.png), [formes d’icône simulées](apercu-icones.png). Ces contrôles ne prouvent pas une mise à jour du lanceur sur un Galaxy physique. Le délai et l’éventuelle validation de l’icône par Chrome sont expliqués dans [le guide du logo](logo.md).
+
 ## Référence GBoxeur et revue Astra
 
 Référence lue uniquement pour le comportement du chrono dans `mixmasterkd/gestionboxeur`, commit `cef8a67016bf94d9aa710cac12519613b4d31abf` : `js/timer-session.js`, `js/session-timer.js`, `js/session-timer-engine.js` et `js/timer-interval-controls.js`. Le dépôt de référence était propre et l’est resté.

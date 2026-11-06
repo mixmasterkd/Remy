@@ -12,7 +12,9 @@
     "prepare:offline": "node scripts/cache.mjs",
     "build": "node scripts/build.mjs",
     "test:mobile": "node tests/mobile.mjs",
-    "test:update": "node tests/update.mjs"
+    "test:update": "node tests/update.mjs",
+    "prepare:icons": "node scripts/icons.mjs",
+    "test:icons": "node tests/icons.mjs"
   },
   "engines": {
     "node": ">=22"

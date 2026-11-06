@@ -1,0 +1,53 @@
+{
+  "sourceSha256": "650e50d770d6855707953164ab674d2572dd5bdaf3a162dd8a92b7f0aa69807e",
+  "source": {
+    "width": 1254,
+    "height": 1254,
+    "bounds": {
+      "left": 200,
+      "top": 101,
+      "right": 1067,
+      "bottom": 1177
+    },
+    "fitAlphaThreshold": 16,
+    "pixelsBelowFitAlpha": 1038641
+  },
+  "maskableContentRadius": 0.38,
+  "files": [
+    {
+      "name": "logo-remy-128.png",
+      "size": 128,
+      "purpose": "any"
+    },
+    {
+      "name": "icon-remy-v1-192.png",
+      "size": 192,
+      "purpose": "any"
+    },
+    {
+      "name": "icon-remy-v1-512.png",
+      "size": 512,
+      "purpose": "any"
+    },
+    {
+      "name": "icon-remy-maskable-v1-192.png",
+      "size": 192,
+      "purpose": "maskable"
+    },
+    {
+      "name": "icon-remy-maskable-v1-512.png",
+      "size": 512,
+      "purpose": "maskable"
+    },
+    {
+      "name": "favicon-remy-v1-32.png",
+      "size": 32,
+      "purpose": "favicon"
+    },
+    {
+      "name": "favicon-remy-v1-64.png",
+      "size": 64,
+      "purpose": "favicon"
+    }
+  ]
+}

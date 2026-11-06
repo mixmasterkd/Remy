@@ -25,7 +25,9 @@ Le suivi et les chronos sont enregistrés séparément pour chaque date dans `lo
 
 ### Android / Chrome
 
-Cible : téléphone Android de Remy, probablement Galaxy S24; Eric fera un essai sur son Galaxy S25. Une fois une adresse HTTPS choisie, ouvrir le site dans Chrome, puis le menu **⋮ → Ajouter à l’écran d’accueil / Installer l’application**, selon le libellé proposé. Une icône et un manifeste sont fournis, avec des icônes PNG 192 et 512 px.
+Cible : téléphone Android de Remy, probablement Galaxy S24; Eric fera un essai sur son Galaxy S25. Ouvrir le site HTTPS dans Chrome, puis le menu **⋮ → Ajouter à l’écran d’accueil / Installer l’application**, selon le libellé proposé. Le portrait approuvé apparaît dans l’en-tête et dans les icônes PNG 192 et 512 px. Le manifeste distingue les versions transparentes (`any`) et les versions adaptatives opaques (`maskable`). Les icônes d’onglet sont fournies en 32 et 64 px.
+
+Sur une application déjà installée, le nouveau logo dans la page et la nouvelle icône du lanceur peuvent arriver à des moments différents. Chrome peut demander de valider un changement d’icône; ne pas promettre une mise à jour immédiate. Les fichiers d’icône utilisent de nouvelles adresses, mais l’identité de l’application, son point d’entrée et l’adresse du manifeste restent identiques. Ne pas effacer les données du navigateur pour forcer une nouvelle icône, car cela peut supprimer les coches. Voir [le guide du logo et des icônes](docs/logo.md).
 
 Ouvrir une fiche et attendre **Prêt hors ligne** avant de partir. Le site utilise un service worker en contexte sécurisé (HTTPS ou localhost). Il fonctionne ensuite sans réseau, y compris après rechargement tant que le navigateur conserve son cache. Un lien HTTP local ouvert depuis un autre appareil ne suffit pas pour vérifier l’installation et le cache sécurisé.
 
