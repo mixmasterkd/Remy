@@ -1,7 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {Timer,buildPhases,formatTime,validSnapshot} from '../engine.js';
+import {Timer,buildPhases,formatTime,validSnapshot,plannedDuration} from '../engine.js';
 const data=JSON.parse(await readFile(new URL('../schedule.json',import.meta.url),'utf8'));
 const day=n=>data.days.find(d=>d.date===`2026-11-${n}`);
 test('calendar covers every date from Thursday 5 to race Saturday 21',()=>{
@@ -106,4 +106,15 @@ test('16 November keeps exactly three efforts and two recoveries, with open warm
  assert.deepEqual(p.map(x=>[x.kind,x.seconds]),[['warmup',null],['effort',120],['recovery',60],['effort',120],['recovery',60],['effort',120],['cooldown',null]]);
  assert.equal(600+p.reduce((n,x)=>n+(x.seconds||0),0)+300,23*60);
  const t=new Timer(p);t.start(0);t.tick(600000);assert.equal(t.current.kind,'warmup');t.next(600000);t.tick(1080000);assert.equal(t.current.kind,'cooldown');assert.equal(t.state.done,false);
+});
+
+test('9 November total includes recommended ranges and leaves the block break unknown',()=>{
+ assert.deepEqual(plannedDuration(day('09')),{minSeconds:51*60,maxSeconds:61*60,unknownKinds:['long-recovery']});
+ assert.equal(day('09').workout.betweenBlocksSeconds,null);
+});
+test('11 November totals 29 known minutes plus undefined warmup and cooldown',()=>{
+ assert.deepEqual(plannedDuration(day('11')),{minSeconds:29*60,maxSeconds:29*60,unknownKinds:['warmup','cooldown']});
+});
+test('16 November totals 23 recommended minutes including exactly two recoveries',()=>{
+ assert.deepEqual(plannedDuration(day('16')),{minSeconds:23*60,maxSeconds:23*60,unknownKinds:[]});
 });

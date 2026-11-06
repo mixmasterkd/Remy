@@ -1,5 +1,5 @@
 {
-  "revision": "2026-11-06.5",
+  "revision": "2026-11-06.6",
   "athlete": "Remy",
   "event": {
     "name": "Oxford Cup",
@@ -56,7 +56,7 @@
       "date": "2026-11-09",
       "status": "confirmed",
       "title": "2 × (4 × 3 min / 2 min)",
-      "summary": "Deux blocs de 4 efforts de 3 minutes. Récupère 2 minutes entre les efforts, puis prends une pause libre entre les deux blocs.",
+      "summary": "Deux blocs de 4 efforts de 3 minutes. Récupère 2 minutes en marchant entre les efforts. Entre les blocs, marche ou fais un jog très lent; la durée de cette pause reste à confirmer.",
       "effortMinutes": 24,
       "notes": [],
       "workout": {
@@ -70,7 +70,17 @@
         "cooldownSeconds": null
       },
       "warmupRecommendation": "10–15 min",
-      "cooldownRecommendation": "5–10 min"
+      "cooldownRecommendation": "5–10 min",
+      "warmupRangeSeconds": [
+        600,
+        900
+      ],
+      "cooldownRangeSeconds": [
+        300,
+        600
+      ],
+      "recoveryCue": "Marche",
+      "betweenBlocksCue": "Marche ou jog très lent"
     },
     {
       "date": "2026-11-10",
@@ -91,7 +101,7 @@
       "date": "2026-11-11",
       "status": "confirmed",
       "title": "Deux minutes à la fois",
-      "summary": "10 efforts de 2 minutes. Récupère 1 minute entre les efforts, puis termine par un retour au calme.",
+      "summary": "10 efforts de 2 minutes. Récupère 1 minute en marchant entre les efforts, puis termine par un retour au calme.",
       "effortMinutes": 20,
       "notes": [],
       "workout": {
@@ -102,7 +112,8 @@
         "recoverySeconds": 60,
         "warmupSeconds": null,
         "cooldownSeconds": null
-      }
+      },
+      "recoveryCue": "Marche"
     },
     {
       "date": "2026-11-12",
@@ -154,7 +165,7 @@
       "date": "2026-11-16",
       "status": "confirmed",
       "title": "3 × (2 min / 1 min)",
-      "summary": "3 efforts de 2 minutes à l’effort 5 km. Récupère 1 minute très facile entre les efforts, puis passe au retour au calme.",
+      "summary": "3 efforts de 2 minutes à l’effort 5 km. Récupère 1 minute en marchant très doucement entre les efforts, puis passe au retour au calme.",
       "effortMinutes": 6,
       "warmupRecommendation": "10 min",
       "cooldownRecommendation": "5 min",
@@ -171,7 +182,16 @@
         "cooldownSeconds": null,
         "effortCue": "Effort 5 km",
         "recoveryCue": "Très facile"
-      }
+      },
+      "warmupRangeSeconds": [
+        600,
+        600
+      ],
+      "cooldownRangeSeconds": [
+        300,
+        300
+      ],
+      "recoveryCue": "Marche très facile"
     },
     {
       "date": "2026-11-17",

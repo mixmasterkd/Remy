@@ -4,7 +4,7 @@ Version adaptée après l’essai d’Eric sur Galaxy. Vérifications de cette n
 
 ## Résultats
 
-- **30 tests moteur** : calendrier continu du 5 au 21; prescriptions séparées des 5, 7 et 14; 24 minutes d’effort le 9, 20 le 11, activation de 20 minutes inchangée; échauffements ouverts; pause interblocs libre; pause/reprise; retards d’horodatages; arrêt explicite; temps supplémentaire; strides au-delà de six; distinction lancés/complétés/interrompus; reprise de deux chronos sauvegardés; total réel par phase.
+- **33 tests moteur** : calendrier continu du 5 au 21; prescriptions séparées des 5, 7 et 14; 24 minutes d’effort le 9, 20 le 11, activation de 20 minutes inchangée; échauffements ouverts; pause interblocs libre; pause/reprise; retards d’horodatages; arrêt explicite; temps supplémentaire; strides au-delà de six; distinction lancés/complétés/interrompus; reprise de deux chronos sauvegardés; total réel par phase.
 - **25 parcours navigateur** : calendrier et fiches, suivi local, sous-chemin `/Remy/`, six tailles de fenêtre de 320 à 1 440 px, verrouillage et annulations d’appui, clavier, navigation protégée, phases, vue paysage, activation, rechargement hors ligne, refus des API plein écran/écran éveillé, stockage indisponible et reprise après arrière-plan.
 - **24 parcours mobiles avec événements tactiles Chromium** : grandes cases carrées à 412×915, recommandations et graphique du lundi, maintiens de 3 s indépendants du verrouillage, annulation à 2 999 ms/au déplacement/à l’interruption, maintiens de 1 s, double affichage, pause/reprise/rechargement d’un stride, septième stride autorisé, deux variations légères de luminosité, résumé d’un stride interrompu, temps supplémentaire et franchissement de zéro pendant un stride.
 - Données et cache vérifiés avec `npm run check`; export `dist/` vérifié avec `npm run build`. Les durées d’effort/récupération et la séquence de l’activation du 20 ne changent pas.
@@ -29,7 +29,7 @@ Le défaut de cache a été reproduit : avec le commit `6ab5284` actif et `8755e
 
 La nouvelle version télécharge un ensemble complet avec des requêtes propres à sa version, s’active sans attendre la fermeture de toutes les fenêtres, puis actualise le calendrier. Les pages modernes reportent le rechargement pendant un chrono. Les anciennes pages ne répondant pas au nouveau protocole sont actualisées seulement si elles ne montrent pas de chrono. Le lien `mise-a-jour.html` permet aussi de quitter une ancienne installation sans effacer les données locales. La version est indiquée dans les fiches.
 
-**13 scénarios de migration réussis** simulent les deux anciens états, une mise à jour future avec chrono actif, une connexion coupée et un fichier manquant. Les coches et les chronos compatibles mis en pause sont conservés; une mise à jour incomplète laisse la version hors ligne précédente disponible. Les caches d’autres chemins et localStorage ne sont pas supprimés.
+**14 scénarios de migration réussis** simulent les deux anciens états, une mise à jour future avec chrono actif, une connexion coupée et un fichier manquant. Les coches et les chronos compatibles mis en pause sont conservés; une mise à jour incomplète laisse la version hors ligne précédente disponible. Les caches d’autres chemins et localStorage ne sont pas supprimés.
 
 La nouvelle apparence est vérifiée après migration en fenêtres **360×800** et **412×915** : trois colonnes, cases carrées, noms des jours, mini-graphiques des 9 et 11, mois discret. Captures : [avant migration](migration-avant.png), [après, 360 px](migration-360.png), [après, 412 px](migration-412.png). Il s’agit de simulations Chromium, pas d’une observation du Galaxy d’Eric.
 
@@ -64,6 +64,18 @@ Les parcours tactiles vérifient ces transitions, l’arrêt après 20 minutes e
 À la demande d’Eric, le jog du 13 est remplacé par une journée de repos confirmée. Sa case et sa fiche utilisent le même libellé et le même style pâle que les autres repos, sans bouton de chrono. Le 14 passe à 40 minutes avec ses six strides de 20 secondes; ses textes et son chrono sont adaptés. Les cases des 7, 14, 18 et 20 affichent « strides », sans ajout dans les graphiques. Toutes les autres prescriptions restent identiques. Révision : `2026-11-06.5`.
 
 La migration depuis `17b5d7b` vérifie le remplacement du jog, le maintien des coches et l’ouverture d’un ancien lien de chrono du 13 sur la fiche Repos, sans lancer de séance. Un ancien chrono du 14 est reconnu comme incompatible et repart au début avec un avis explicite; sa coche est conservée. Les 13 scénarios de migration couvrent ces deux changements. Les libellés restent lisibles de 320 à 1 440 px sans débordement horizontal ou vertical; les marges sont adaptées entre 601 et 900 px. Captures : [repos du 13](fiche-repos-13.png), [40 minutes du 14](fiche-strides-14.png).
+
+## Totaux et récupérations marchées
+
+Publication explicitement autorisée après la demande initiale de préparation seule. Les données publiées ne définissent aucune durée pour la pause interblocs du 9 : elle reste à confirmer, avec la consigne marche ou jog très lent. Les récupérations courtes des 9, 11 et 16 sont indiquées comme marchées dans les fiches et les chronos.
+
+- Le 9 : 24 min d’effort + 12 min de récupération marchée + 10–15 min d’échauffement + 5–10 min de retour = **51–61 min, plus la pause entre blocs non définie**.
+- Le 11 : 20 min d’effort + 9 min de récupération marchée = **29 min, plus échauffement et retour au calme non définis**.
+- Le 16 : 10 min d’échauffement conseillées + 6 min d’effort + 2 min de marche + 5 min de retour conseillées = **23 min conseillées**.
+
+Les plages numériques sont contrôlées contre leurs libellés. Les phases du chrono restent exactement identiques et manuelles là où elles l’étaient; les nouvelles consignes sont hors de la signature du programme pour conserver une séance sauvegardée compatible. Une migration supplémentaire depuis `627ae95` vérifie qu’une récupération du 9 mise en pause reprend au même temps avec « Marche » et sa coche conservée. Révision : `2026-11-06.6`.
+
+Questions encore ouvertes : durée de la pause interblocs du 9; durées ou plages conseillées d’échauffement et de retour au calme du 11. Aucun nombre n’a été inventé pour les remplacer.
 
 ## Référence GBoxeur et revue Astra
 

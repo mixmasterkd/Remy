@@ -1,4 +1,4 @@
-import { Timer, buildPhases, formatTime, validSnapshot } from './engine.js';
+import { Timer, buildPhases, formatTime, validSnapshot, plannedDuration } from './engine.js';
 const $ = id => document.getElementById(id);
 const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date = key => new Date(`${key}T12:00:00`);
@@ -78,6 +78,24 @@ function workoutGraph(day,detail=false) {
   let x=0;const shapes=bars.map(v=>{const rect=`<rect x="${x}" y="${28-v.height}" width="${v.width}" height="${v.height}" rx="1"${v.kind?` data-kind="${escape(v.kind)}"`:''}/>`;x+=v.width+2;return rect;}).join('');
   return `<svg class="workout-graph ${detail?'graph-detail':''}" viewBox="0 0 ${x} 30" preserveAspectRatio="none" aria-hidden="true">${shapes}</svg>`;
 }
+function totalLabel(day,compact=false) {
+  const {minSeconds,maxSeconds,unknownKinds}=plannedDuration(day);
+  const minutes=n=>new Intl.NumberFormat('fr-CA',{maximumFractionDigits:2}).format(n/60);
+  const base=`${minutes(minSeconds)}${maxSeconds!==minSeconds?'–'+minutes(maxSeconds):''} min`;
+  if(unknownKinds.length===1&&unknownKinds[0]==='long-recovery')return base+(compact?' + pause':' + pause entre les blocs, durée à confirmer');
+  if(unknownKinds.includes('warmup')&&unknownKinds.includes('cooldown'))return base+(compact?' + étapes libres':' + échauffement et retour au calme, durées non définies');
+  if(unknownKinds.length)return base+' + étapes à confirmer';
+  return base+(compact?' prévues':' selon les durées conseillées');
+}
+function totalDetail(day) {
+  return `<p class="planned-total"><strong>Total prévu</strong><span>${escape(totalLabel(day))}</span></p>`;
+}
+function blockBreakDetail(day) {
+  if(day.workout.blocks<=1)return '';
+  const seconds=day.workout.betweenBlocksSeconds;
+  const duration=seconds==null?'Durée à confirmer':formatTime(seconds*1000);
+  return `<p class="detail-note">Pause entre les blocs : ${escape(duration)}${day.betweenBlocksCue?' · '+escape(day.betweenBlocksCue):''}.${seconds==null?' Maintiens le bouton 3 s quand tu es prêt à repartir.':''}</p>`;
+}
 function renderDays() {
   const offset=(date(data.days[0].date).getDay()+6)%7;
   let html='<span class="calendar-blank" aria-hidden="true"></span>'.repeat(offset);
@@ -86,8 +104,8 @@ function renderDays() {
     const done=!!completed[day.date],w=day.workout,type=w?.type;
     const hasStrides=type==='easy-strides'||(type==='steps'&&buildPhases(w).some(p=>p.kind==='stride'));
     const total=type==='steps'?buildPhases(w).reduce((n,p)=>n+(p.seconds||0),0):null;
-    const label=type==='race'?'Oxford Cup':day.rest?'Repos':day.effortMinutes?`${day.effortMinutes} min d’effort`:w?.durationSeconds?`${w.optionalAfterSeconds?w.optionalAfterSeconds/60+'–':''}${w.durationSeconds/60} min`:total?`${total/60} min`:'';
-    html+=`<button type="button" class="day-button ${day.status} ${type==='race'?'race':''} ${w?'has-workout':''} ${day.rest?'rest':''} ${done?'completed':''}" data-day="${day.date}" aria-haspopup="dialog" aria-label="${escape(dayFormat.format(date(day.date))+' : '+day.title+(day.optional?', facultatif':'')+(w?done?', séance faite':', séance à faire':''))}"><span class="day-top"><span class="day-name">${escape(weekday.format(date(day.date)).replace('.',''))}</span><span class="day-number">${String(date(day.date).getDate()).padStart(2,'0')}</span></span>${workoutGraph(day)}<span class="day-short">${escape(label+(hasStrides?' · strides':'')+(day.optional?' · facultatif':''))}</span>${done?'<span class="day-marker" aria-hidden="true">✓</span>':''}${type==='race'?'<span class="race-flag" aria-hidden="true">⚑</span>':''}</button>`;
+    const label=type==='race'?'Oxford Cup':day.rest?'Repos':type==='repeats'?totalLabel(day,true):w?.durationSeconds?`${w.optionalAfterSeconds?w.optionalAfterSeconds/60+'–':''}${w.durationSeconds/60} min`:total?`${total/60} min`:'';
+    html+=`<button type="button" class="day-button ${day.status} ${type==='race'?'race':''} ${w?'has-workout':''} ${day.rest?'rest':''} ${done?'completed':''}" data-day="${day.date}" aria-haspopup="dialog" aria-label="${escape(dayFormat.format(date(day.date))+' : '+day.title+(type==='repeats'?', total : '+totalLabel(day):'')+(day.optional?', facultatif':'')+(w?done?', séance faite':', séance à faire':''))}"><span class="day-top"><span class="day-name">${escape(weekday.format(date(day.date)).replace('.',''))}</span><span class="day-number">${String(date(day.date).getDate()).padStart(2,'0')}</span></span>${workoutGraph(day)}<span class="day-short">${escape(label+(hasStrides?' · strides':'')+(day.optional?' · facultatif':''))}</span>${done?'<span class="day-marker" aria-hidden="true">✓</span>':''}${type==='race'?'<span class="race-flag" aria-hidden="true">⚑</span>':''}</button>`;
   }
   $('days').innerHTML=html;refreshCalendarDates();
   const count=data.days.filter(d=>d.workout&&completed[d.date]).length,total=data.days.filter(d=>d.workout).length;
@@ -97,8 +115,8 @@ function renderDays() {
 function outline(day) {
   const w = day.workout;
   if (!w) return '';
-  if(w.type==='repeats' && day.warmupRecommendation) return `<div class="session-plan"><p class="recommendation">Échauffement <strong>${escape(day.warmupRecommendation)}</strong><small>recommandé · chrono libre</small></p><p class="summary">${escape(day.summary)}</p>${workoutGraph(day,true)}<p class="graph-caption">${w.blocks>1?`${w.blocks} blocs · ${w.reps} efforts par bloc`:`${w.reps} efforts`} · ${day.effortMinutes} min d’effort</p>${w.blocks>1?'<p class="detail-note">Pause libre entre les blocs. Maintiens le bouton 3 s quand tu es prêt à repartir.</p>':''}<p class="recommendation">Retour au calme <strong>${escape(day.cooldownRecommendation)}</strong><small>recommandé · chrono libre</small></p></div>`;
-  if(w.type==='repeats' && w.blocks===1) return `<div class="session-plan"><p class="recommendation">Échauffement <strong>Chrono libre</strong><small>Commence doucement. Quand tu es prêt, maintiens « Commencer les intervalles » pendant 3 secondes.</small></p><p class="summary">${escape(day.summary)}</p>${workoutGraph(day,true)}<p class="graph-caption">${w.reps} efforts · ${day.effortMinutes} min d’effort</p><p class="recommendation">Retour au calme <strong>Chrono libre</strong><small>Ralentis doucement. Déverrouille les commandes, puis touche « Stop · résumé » quand tu as terminé.</small></p></div>`;
+  if(w.type==='repeats' && day.warmupRecommendation) return `<div class="session-plan"><p class="recommendation">Échauffement <strong>${escape(day.warmupRecommendation)}</strong><small>recommandé · chrono libre</small></p><p class="summary">${escape(day.summary)}</p>${workoutGraph(day,true)}<p class="graph-caption">${w.blocks>1?`${w.blocks} blocs · ${w.reps} efforts par bloc`:`${w.reps} efforts`}</p>${totalDetail(day)}${blockBreakDetail(day)}<p class="recommendation">Retour au calme <strong>${escape(day.cooldownRecommendation)}</strong><small>recommandé · chrono libre</small></p></div>`;
+  if(w.type==='repeats' && w.blocks===1) return `<div class="session-plan"><p class="recommendation">Échauffement <strong>Chrono libre</strong><small>Commence doucement. Quand tu es prêt, maintiens « Commencer les intervalles » pendant 3 secondes.</small></p><p class="summary">${escape(day.summary)}</p>${workoutGraph(day,true)}<p class="graph-caption">${w.reps} efforts</p>${totalDetail(day)}<p class="recommendation">Retour au calme <strong>Chrono libre</strong><small>Ralentis doucement. Déverrouille les commandes, puis touche « Stop · résumé » quand tu as terminé.</small></p></div>`;
   let rows;
   if (w.type === 'repeats') rows = [['Échauffement',w.warmupSeconds == null ? 'Manuel' : formatTime(w.warmupSeconds*1000)], [`${w.blocks > 1 ? w.blocks + ' blocs de ' : ''}${w.reps} × ${w.effortSeconds/60} min`,`${day.effortMinutes} min d’effort`], ['Entre les répétitions',`${w.recoverySeconds/60} min`], ...(w.blocks > 1 ? [['Entre les blocs',w.betweenBlocksSeconds == null ? 'Manuel' : formatTime(w.betweenBlocksSeconds*1000)]] : []), ['Retour au calme',w.cooldownSeconds == null ? 'Manuel' : formatTime(w.cooldownSeconds*1000)]];
   else if (w.type === 'jog') rows = [[w.zone?`Jog · ${w.zone}`:'Jog',`${w.optionalAfterSeconds?w.optionalAfterSeconds/60+'–':''}${w.durationSeconds/60} min`],...(w.optionalAfterSeconds?[[`Après ${w.optionalAfterSeconds/60} min`,'Tu peux arrêter selon ton état']]:[]),['Après le compte à rebours','Temps supplémentaire libre']];
@@ -221,7 +239,7 @@ function renderTimer() {
   const label=s.done?'Résumé':optional?'Jog · portion facultative':p.label,phaseKey=`${s.index}:${strideActive}:${s.done}:${optional}`;
   if(lastPhase!==phaseKey){if(lastPhase)beep();$('phase-announcer').textContent=label;lastPhase=phaseKey;}
   $('timer-screen').dataset.kind=s.done?'done':p.kind==='overtime'?'overtime':strideActive?'stride':optional?'optional':p.kind;
-  $('phase-label').textContent=label;$('phase-zone').textContent=p.zone||(p.kind==='effort'?activeDay.workout.effortCue:p.kind==='recovery'?activeDay.workout.recoveryCue:activeDay.workout.zone)||'';
+  $('phase-label').textContent=label;$('phase-zone').textContent=p.zone||(p.kind==='effort'?activeDay.workout.effortCue:p.kind==='recovery'?(activeDay.recoveryCue||activeDay.workout.recoveryCue):p.kind==='long-recovery'?activeDay.betweenBlocksCue:activeDay.workout.zone)||'';
   $('phase-detail').textContent=s.done?'Séance arrêtée':optional?`${activeDay.workout.optionalAfterSeconds/60} minutes faites · tu peux arrêter ici.`:p.kind==='warmup'&&activeDay.warmupRecommendation?`${activeDay.warmupRecommendation} recommandées`:p.kind==='cooldown'&&activeDay.cooldownRecommendation?`${activeDay.cooldownRecommendation} recommandées`:p.detail||'';
   $('time').textContent=s.done?formatTime(s.totalMs):formatTime(remaining==null?s.phaseMs:remaining,remaining!=null);
   $('time-caption').textContent=s.done?'Temps actif total':p.kind==='overtime'?'Après le temps prévu · Stop quand tu as terminé':remaining==null?'Temps écoulé · arrêt manuel':optional?'Temps facultatif restant':'Temps restant';

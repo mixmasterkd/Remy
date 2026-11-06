@@ -24,7 +24,7 @@ try{
  await page.setViewportSize({width:390,height:844});
  await page.screenshot({path:'test-results/mobile-calendar.png',fullPage:true});
  await page.locator('[data-day="2026-11-12"]').click();await page.locator('#day-dialog').waitFor();assert.equal(await page.locator('#open-timer').count(),1);assert.match(await page.locator('#day-detail').innerText(),/Jog très léger de 20 à 30 minutes/);assert.match(await page.locator('#day-detail').innerText(),/après 20 minutes/);await page.keyboard.press('Escape');assert.equal(await page.locator('#day-dialog').isVisible(),false);pass('12 November sheet shows a very light 20–30-minute jog; Escape returns to calendar');
- await page.locator('[data-day="2026-11-09"]').click();assert.match(await page.locator('#day-detail').innerText(),/24/);
+ await page.locator('[data-day="2026-11-09"]').click();assert.match(await page.locator('#day-detail .planned-total').innerText(),/51–61 min/);
  await page.locator('#mark-done').click();assert.match(await page.locator('[data-day="2026-11-09"]').getAttribute('class'),/completed/);
  await page.reload();await page.locator('#mark-done').waitFor();assert.equal(await page.locator('#mark-done').getAttribute('aria-pressed'),'true');
  await page.locator('#mark-done').click();assert.equal(await page.locator('#mark-done').getAttribute('aria-pressed'),'false');pass('completion marking, reload persistence and undo');

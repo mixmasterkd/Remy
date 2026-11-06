@@ -28,6 +28,21 @@ export function buildPhases(workout) {
   return phases;
 }
 
+// Planning totals use recommended ranges without changing the manual timer phases.
+// Unknown phases remain explicit; they are never silently counted as zero.
+export function plannedDuration(day) {
+  let minSeconds=0,maxSeconds=0;
+  const unknownKinds=[];
+  for(const p of buildPhases(day?.workout)) {
+    if(p.kind==='overtime')continue;
+    const range=p.kind==='warmup'?day.warmupRangeSeconds:p.kind==='cooldown'?day.cooldownRangeSeconds:null;
+    if(range){minSeconds+=range[0];maxSeconds+=range[1];}
+    else if(p.seconds!=null){minSeconds+=p.seconds;maxSeconds+=p.seconds;}
+    else if(!unknownKinds.includes(p.kind))unknownKinds.push(p.kind);
+  }
+  return {minSeconds,maxSeconds,unknownKinds};
+}
+
 export class Timer {
   constructor(phases, saved) {
     this.phases = phases;
