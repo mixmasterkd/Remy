@@ -58,14 +58,12 @@ function workoutGraph(day,detail=false) {
   let bars=[];
   if(w.type==='repeats') {
     for(let b=0;b<w.blocks;b++) {
-      if(b) bars.push({height:4,width:14,gap:true});
-      for(let r=0;r<w.reps;r++) {bars.push({height:24,width:w.effortSeconds/20});if(r<w.reps-1)bars.push({height:6,width:w.recoverySeconds/20});}
+      if(b) bars.push({height:4,width:14,kind:'long-recovery'});
+      for(let r=0;r<w.reps;r++) {bars.push({height:24,width:w.effortSeconds/20,kind:'effort'});if(r<w.reps-1)bars.push({height:6,width:w.recoverySeconds/20,kind:'recovery'});}
     }
-  } else if(w.type==='easy-strides') {
-    for(let i=0;i<w.strideCount;i++){bars.push({height:7,width:12},{height:23,width:w.strideSeconds/5});}
-  } else if(w.type==='jog') bars=[{height:10,width:100}];
-  else bars=buildPhases(w).map(p=>({height:['effort','stride'].includes(p.kind)?24:7,width:Math.max(3,(p.seconds||0)/20)}));
-  let x=0;const shapes=bars.map(v=>{const rect=`<rect x="${x}" y="${28-v.height}" width="${v.width}" height="${v.height}" rx="1"${v.gap?' class="graph-gap"':''}/>`;x+=v.width+2;return rect;}).join('');
+  } else if(['jog','easy-strides'].includes(w.type)) bars=[{height:10,width:100}];
+  else bars=buildPhases(w).filter(p=>p.kind!=='stride').map(p=>({height:p.kind==='effort'?24:7,width:Math.max(3,(p.seconds||0)/20),kind:p.kind}));
+  let x=0;const shapes=bars.map(v=>{const rect=`<rect x="${x}" y="${28-v.height}" width="${v.width}" height="${v.height}" rx="1"${v.kind?` data-kind="${escape(v.kind)}"`:''}/>`;x+=v.width+2;return rect;}).join('');
   return `<svg class="workout-graph ${detail?'graph-detail':''}" viewBox="0 0 ${x} 30" preserveAspectRatio="none" aria-hidden="true">${shapes}</svg>`;
 }
 function renderDays() {

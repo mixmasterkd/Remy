@@ -1,6 +1,6 @@
 @layer base, calendar, details, timer;
 @layer base {
-  :root { font-family: Arial, Helvetica, sans-serif; color: #252940; background: #f5f4f0; font-synthesis: none; --ink: #303992; --paper: #f7f6f2; --muted: #797b88; --line: #dcdce3; --accent: #d76b42; }
+  :root { font-family: Arial, Helvetica, sans-serif; color: #252940; background: #f5f4f0; font-synthesis: none; --ink: #303992; --paper: #f7f6f2; --muted: #797b88; --line: #dcdce3; --accent: #d76b42; --phase-easy: #94d5f2; --phase-neutral: #d7d9dd; --phase-effort: #197447; --phase-recovery: #b33937; }
   * { box-sizing: border-box; }
   body { margin: 0; }
   button { font: inherit; cursor: pointer; min-height: 48px; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
@@ -42,7 +42,10 @@
   .day-button.race .day-short { color:#fffaf5; }
   .race-flag { font-size:1.5rem; position:absolute; top:45%; }
   .workout-graph { display:block; width:100%; height:30%; max-height:40px; fill:#5d68a8; overflow:visible; }
-  .graph-gap { fill:#b1b4c3; }
+  .workout-graph [data-kind=effort] { fill:var(--phase-effort); }
+  .workout-graph [data-kind=recovery] { fill:var(--phase-recovery); }
+  .workout-graph [data-kind=easy],.workout-graph [data-kind=long-recovery] { fill:var(--phase-easy); }
+  .workout-graph [data-kind=warmup],.workout-graph [data-kind=cooldown],.workout-graph [data-kind=overtime] { fill:var(--phase-neutral); }
   .day-button.completed { box-shadow:inset 0 0 0 2px #303992; }
   .day-marker { position:absolute; right:9px; bottom:9px; background:#303992; color:white; width:20px; height:20px; border-radius:50%; text-align:center; line-height:20px; font-size:.72rem; }
   .day-button.completed .day-short { padding-right:20px; }
@@ -97,10 +100,10 @@
 }
 @layer timer {
   body.timer-open { overflow:hidden; }
-  .timer-screen { position:fixed; inset:0; z-index:20; overflow:auto; background:#94d5f2; color:#18364a; --phase:#254b65; --timer-ink:#18364a; display:flex; flex-direction:column; min-height:100dvh; padding:max(14px,env(safe-area-inset-top)) max(18px,env(safe-area-inset-right)) max(14px,env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-left)); }
-  .timer-screen[data-kind=warmup],.timer-screen[data-kind=cooldown],.timer-screen[data-kind=overtime],.timer-screen[data-kind=done] { background:#d7d9dd; color:#292f38; --phase:#4e5867; --timer-ink:#292f38; }
-  .timer-screen[data-kind=effort],.timer-screen[data-kind=stride] { background:#197447; color:#fff; --phase:#e0f3e7; --timer-ink:#fff; }
-  .timer-screen[data-kind=recovery] { background:#b33937; color:#fff; --phase:#ffe7e1; --timer-ink:#fff; }
+  .timer-screen { position:fixed; inset:0; z-index:20; overflow:auto; background:var(--phase-easy); color:#18364a; --phase:#254b65; --timer-ink:#18364a; display:flex; flex-direction:column; min-height:100dvh; padding:max(14px,env(safe-area-inset-top)) max(18px,env(safe-area-inset-right)) max(14px,env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-left)); }
+  .timer-screen[data-kind=warmup],.timer-screen[data-kind=cooldown],.timer-screen[data-kind=overtime],.timer-screen[data-kind=done] { background:var(--phase-neutral); color:#292f38; --phase:#4e5867; --timer-ink:#292f38; }
+  .timer-screen[data-kind=effort],.timer-screen[data-kind=stride] { background:var(--phase-effort); color:#fff; --phase:#e0f3e7; --timer-ink:#fff; }
+  .timer-screen[data-kind=recovery] { background:var(--phase-recovery); color:#fff; --phase:#ffe7e1; --timer-ink:#fff; }
   .timer-screen[data-kind=race] { background:#302f4c; color:#fff; --phase:#e1def6; --timer-ink:#fff; }
   .timer-header { display:flex; align-items:center; justify-content:space-between; gap:8px; font-size:.75rem; }
   .timer-header .quiet { font-size:.72rem; padding:8px; }

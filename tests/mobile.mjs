@@ -26,13 +26,32 @@ try {
  const box=await calendar.locator('[data-day="2026-11-09"]').boundingBox();assert(Math.abs(box.width-box.height)<1);assert(box.width>120);
  assert(await calendar.locator('[data-day="2026-11-11"] svg').isVisible());assert.match(await calendar.locator('[data-day="2026-11-05"]').innerText(),/JEU|jeu/);
  const bounds=await calendar.locator('#calendar').boundingBox();assert(bounds.height>915*.85);pass('Galaxy viewport: square large cells, day names, graphs and calendar covering most of the screen');
+ for(const day of ['07','14']) {
+  assert.equal(await calendar.locator(`[data-day="2026-11-${day}"] svg rect`).count(),1);
+  await calendar.locator(`[data-day="2026-11-${day}"]`).click();
+  assert.equal(await calendar.locator('#day-detail svg rect').count(),1);
+  assert.match(await calendar.locator('#day-detail').innerText(),/6 × 20 s/);
+  await calendar.locator('#close-day').click();
+ }
+ const graphColors=await calendar.locator('[data-day="2026-11-09"] svg rect').evaluateAll(els=>Object.fromEntries(els.map(e=>[e.dataset.kind,getComputedStyle(e).fill])));
+ assert.deepEqual(graphColors,{'effort':'rgb(25, 116, 71)','recovery':'rgb(179, 57, 55)','long-recovery':'rgb(148, 213, 242)'});
+ assert.equal(await calendar.locator('[data-day="2026-11-11"] svg [data-kind="effort"]').count(),10);
+ assert.equal(await calendar.locator('[data-day="2026-11-11"] svg [data-kind="recovery"]').count(),9);
+ assert.equal(await calendar.locator('[data-day="2026-11-20"] svg rect').count(),8);
+ assert.equal(await calendar.locator('svg [data-kind="stride"]').count(),0);
+ await calendar.locator('[data-day="2026-11-20"]').click();
+ assert.equal(await calendar.locator('#day-detail svg rect').count(),8);
+ assert.match(await calendar.locator('#day-detail').innerText(),/5 accélérations/);
+ assert.equal(await calendar.locator('#day-detail svg [data-kind="easy"]').first().evaluate(e=>getComputedStyle(e).fill),'rgb(148, 213, 242)');
+ await calendar.locator('#close-day').click();
+ pass('calendar and sheet graphs omit strides while keeping descriptions; interval phases use timer colors');
  await calendar.locator('[data-day="2026-11-09"]').click();assert.equal(await calendar.locator('#detail-title').innerText(),'2 × (4 × 3 min / 2 min)');assert.match(await calendar.locator('#day-detail').innerText(),/10–15 min/);assert.match(await calendar.locator('#day-detail').innerText(),/5–10 min/);assert.equal(await calendar.locator('#day-detail svg rect[height="24"]').count(),8);pass('Monday sheet: exact title, recommended ranges and two blocks of four efforts');
  const monday=await open('09');await monday.locator('#play-pause').click();await monday.clock.fastForward(1200000);assert.equal(await kind(monday),'warmup');assert.equal(await clock(monday),'20:00');
  await touchHold(monday,'#next-phase',2999);assert.equal(await kind(monday),'warmup');await touchHold(monday,'#next-phase',1000,'cancel');await monday.clock.runFor(2500);assert.equal(await kind(monday),'warmup');
  await touchHold(monday,'#next-phase',1000,'outside');assert.equal(await kind(monday),'warmup');
  await monday.screenshot({path:'test-results/mobile-warmup.png'});
- await touchHold(monday,'#next-phase',3000);assert.equal(await kind(monday),'effort');assert.equal(await clock(monday),'03:00');assert.equal(await monday.locator('#lock').getAttribute('aria-pressed'),'true');pass('ascending warmup never auto-starts; separate 3-second touch hold works while locked, early and cancelled touches do not');
- await monday.clock.fastForward(180000);assert.equal(await kind(monday),'recovery');assert.equal(await clock(monday),'02:00');await monday.clock.fastForward(900000);assert.equal(await kind(monday),'long-recovery');await monday.clock.fastForward(600000);assert.equal(await kind(monday),'long-recovery');assert.match(await monday.locator('#next-label').innerText(),/bloc 2/);
+ await touchHold(monday,'#next-phase',3000);assert.equal(await kind(monday),'effort');assert.equal(await clock(monday),'03:00');assert.equal(await monday.locator('#timer-screen').evaluate(e=>getComputedStyle(e).backgroundColor),graphColors.effort);assert.equal(await monday.locator('#lock').getAttribute('aria-pressed'),'true');pass('ascending warmup never auto-starts; separate 3-second touch hold works while locked, early and cancelled touches do not');
+ await monday.clock.fastForward(180000);assert.equal(await kind(monday),'recovery');assert.equal(await monday.locator('#timer-screen').evaluate(e=>getComputedStyle(e).backgroundColor),graphColors.recovery);assert.equal(await clock(monday),'02:00');await monday.clock.fastForward(900000);assert.equal(await kind(monday),'long-recovery');await monday.clock.fastForward(600000);assert.equal(await kind(monday),'long-recovery');assert.match(await monday.locator('#next-label').innerText(),/bloc 2/);
  assert.equal(await monday.locator('#timer-screen').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(148, 213, 242)');
  await touchHold(monday,'#next-phase',3000);assert.equal(await kind(monday),'effort');await monday.clock.fastForward(1080000);assert.equal(await kind(monday),'cooldown');await monday.clock.fastForward(300000);assert.equal(await kind(monday),'cooldown');
  await touchHold(monday,'#lock',3000);await monday.locator('#stop').click();assert.match(await monday.locator('#summary-rows').innerText(),/Efforts\s+24:00/);assert.match(await monday.locator('#summary-rows').innerText(),/Récupérations\s+12:00/);pass('green efforts, red recoveries, open sky-blue block break, gray cooldown and exact effort totals in summary');

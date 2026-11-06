@@ -6,7 +6,7 @@ Version adaptée après l’essai d’Eric sur Galaxy. Vérifications de cette n
 
 - **29 tests moteur** : calendrier continu du 5 au 21; prescriptions séparées des 5, 7 et 14; 24 minutes d’effort le 9, 20 le 11, activation de 20 minutes inchangée; échauffements ouverts; pause interblocs libre; pause/reprise; retards d’horodatages; arrêt explicite; temps supplémentaire; strides au-delà de six; distinction lancés/complétés/interrompus; reprise de deux chronos sauvegardés; total réel par phase.
 - **25 parcours navigateur** : calendrier et fiches, suivi local, sous-chemin `/Remy/`, six tailles de fenêtre de 320 à 1 440 px, verrouillage et annulations d’appui, clavier, navigation protégée, phases, vue paysage, activation, rechargement hors ligne, refus des API plein écran/écran éveillé, stockage indisponible et reprise après arrière-plan.
-- **12 parcours mobiles avec événements tactiles Chromium** : grandes cases carrées à 412×915, recommandations et graphique du lundi, maintiens de 3 s indépendants du verrouillage, annulation à 2 999 ms/au déplacement/à l’interruption, maintiens de 1 s, double affichage, pause/reprise/rechargement d’un stride, septième stride autorisé, deux variations légères de luminosité, résumé d’un stride interrompu, temps supplémentaire et franchissement de zéro pendant un stride.
+- **13 parcours mobiles avec événements tactiles Chromium** : grandes cases carrées à 412×915, recommandations et graphique du lundi, maintiens de 3 s indépendants du verrouillage, annulation à 2 999 ms/au déplacement/à l’interruption, maintiens de 1 s, double affichage, pause/reprise/rechargement d’un stride, septième stride autorisé, deux variations légères de luminosité, résumé d’un stride interrompu, temps supplémentaire et franchissement de zéro pendant un stride.
 - Données et cache vérifiés avec `npm run check`; export `dist/` vérifié avec `npm run build`. Les durées d’effort/récupération et la séquence de l’activation du 20 ne changent pas.
 
 Captures : [calendrier](apercu-mobile.png), [fiche du 9](apercu-fiche.png), [chrono](apercu-chrono.png), [échauffement](apercu-echauffement.png), [stride](apercu-stride.png), [résumé](apercu-resume.png), [bureau](apercu-bureau.png). Les coches et totaux des captures appartiennent seulement aux profils de test.
@@ -23,7 +23,7 @@ Les instantanés d’anciens chronos devenus incompatibles sont écartés avec u
 
 ## Correction des strides et migration du cache
 
-Correction confirmée par Eric : le 7 reste à 40 minutes, le 14 à 45 minutes; les deux ont six strides de 20 secondes. Le moteur, les fiches et les graphiques lisent ces mêmes données. Aucune autre prescription n’est modifiée.
+Correction confirmée par Eric : le 7 reste à 40 minutes, le 14 à 45 minutes; les deux ont six strides de 20 secondes. Le moteur et les fiches lisent ces mêmes données; depuis le 6 novembre, les graphiques masquent les strides à la demande d’Eric. Aucune autre prescription n’est modifiée.
 
 Le défaut de cache a été reproduit : avec le commit `6ab5284` actif et `8755ed8` en attente, recharger ne suffit pas; l’ancien calendrier de 15 cases reste affiché. Le service worker servait les anciens fichiers en priorité et attendait la fermeture de toutes les fenêtres pour activer la nouvelle version. Références du mécanisme : [activation immédiate contrôlée](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerGlobalScope/skipWaiting), [vérification des mises à jour](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/update).
 
@@ -32,6 +32,12 @@ La nouvelle version télécharge un ensemble complet avec des requêtes propres 
 **12 scénarios de migration réussis** simulent les deux anciens états, une mise à jour future avec chrono actif, une connexion coupée et un fichier manquant. Les coches et les chronos compatibles mis en pause sont conservés; une mise à jour incomplète laisse la version hors ligne précédente disponible. Les caches d’autres chemins et localStorage ne sont pas supprimés.
 
 La nouvelle apparence est vérifiée après migration en fenêtres **360×800** et **412×915** : trois colonnes, cases carrées, noms des jours, mini-graphiques des 9 et 11, mois discret. Captures : [avant migration](migration-avant.png), [après, 360 px](migration-360.png), [après, 412 px](migration-412.png). Il s’agit de simulations Chromium, pas d’une observation du Galaxy d’Eric.
+
+## Graphiques du 6 novembre 2026
+
+Les strides sont retirés des graphiques du calendrier et des fiches, y compris ceux de l’activation du 20. Les jogs des 7 et 14 gardent une barre continue; leurs six strides de 20 secondes restent dans les descriptions et les chronos. Les graphiques d’intervalles utilisent les mêmes valeurs CSS que les fonds du chrono : effort vert, récupération courte rouge, pause interblocs bleu ciel; les phases faciles sont bleu ciel et les phases neutres, si représentées, grises. Aucune phase ni durée inconnue n’est ajoutée aux graphiques.
+
+Le contenu des séances et le moteur restent identiques au commit `0f94bdd`; seul l’identifiant de révision du calendrier passe à `2026-11-06.1`. Les essais tactiles comparent les couleurs calculées des graphiques aux fonds du chrono lors des efforts et récupérations. Les migrations incluent la version publiée `0f94bdd` et vérifient les nouvelles barres, les couleurs et la conservation des coches. Les captures mobiles sont des simulations Chromium, pas des essais physiques sur Galaxy.
 
 ## Référence GBoxeur et revue Astra
 
