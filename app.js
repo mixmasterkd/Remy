@@ -78,10 +78,31 @@ function workoutGraph(day,detail=false) {
   let x=0;const shapes=bars.map(v=>{const rect=`<rect x="${x}" y="${28-v.height}" width="${v.width}" height="${v.height}" rx="1"${v.kind?` data-kind="${escape(v.kind)}"`:''}/>`;x+=v.width+2;return rect;}).join('');
   return `<svg class="workout-graph ${detail?'graph-detail':''}" viewBox="0 0 ${x} 30" preserveAspectRatio="none" aria-hidden="true">${shapes}</svg>`;
 }
-function graphBlockBreak(day) {
+function legendDuration(seconds) {
+  if(seconds==null)return 'Libre';
+  const minutes=Math.floor(seconds/60),rest=seconds%60;
+  return minutes?`${minutes} min${rest?` ${rest} s`:''}`:`${rest} s`;
+}
+function graphLegend(day) {
   const w=day.workout;
-  if(w.blocks<=1 || w.betweenBlocksSeconds==null)return '';
-  return `<span class="graph-break">${escape(new Intl.NumberFormat('fr-CA').format(w.betweenBlocksSeconds/60))} min · ${escape(day.betweenBlocksCue||'Récupération')} entre les blocs</span>`;
+  if(!['repeats','steps'].includes(w.type))return '';
+  const phases=buildPhases(w).filter(p=>w.type==='repeats'?['effort','recovery','long-recovery'].includes(p.kind):p.kind!=='stride');
+  const rows=new Map();
+  for(const p of phases) {
+    const label=w.type==='repeats'
+      ? p.kind==='effort'?(w.effortCue||'Effort')
+      : p.kind==='recovery'?`${day.recoveryCue||w.recoveryCue||'Récupération'} entre les efforts`
+      : `${day.betweenBlocksCue||'Récupération'} entre les blocs`
+      : `${p.label}${p.zone?' · '+p.zone:''}`;
+    const key=JSON.stringify([p.kind,p.seconds,label]);
+    if(!rows.has(key))rows.set(key,`<li data-kind="${escape(p.kind)}"><span>${escape(legendDuration(p.seconds))} · ${escape(label)}</span></li>`);
+  }
+  return `<ul class="graph-legend" aria-label="Légende des intervalles">${[...rows.values()].join('')}</ul>`;
+}
+function detailGraph(day) {
+  const w=day.workout;
+  const caption=w.type==='repeats'?`<p class="graph-caption">${w.blocks>1?`${w.blocks} blocs · ${w.reps} efforts par bloc`:`${w.reps} efforts`}</p>`:'';
+  return `${workoutGraph(day,true)}${caption}${graphLegend(day)}`;
 }
 function totalLabel(day,compact=false) {
   const {minSeconds,maxSeconds,unknownKinds}=plannedDuration(day);
@@ -120,15 +141,15 @@ function renderDays() {
 function outline(day) {
   const w = day.workout;
   if (!w) return '';
-  if(w.type==='repeats' && day.warmupRecommendation) return `<div class="session-plan"><p class="recommendation">Échauffement <strong>${escape(day.warmupRecommendation)}</strong><small>recommandé · chrono libre</small></p><p class="summary">${escape(day.summary)}</p>${workoutGraph(day,true)}<p class="graph-caption">${w.blocks>1?`${w.blocks} blocs · ${w.reps} efforts par bloc`:`${w.reps} efforts`}${graphBlockBreak(day)}</p>${totalDetail(day)}${blockBreakDetail(day)}<p class="recommendation">Retour au calme <strong>${escape(day.cooldownRecommendation)}</strong><small>recommandé · chrono libre</small></p></div>`;
-  if(w.type==='repeats' && w.blocks===1) return `<div class="session-plan"><p class="recommendation">Échauffement <strong>Chrono libre</strong><small>Commence doucement. Quand tu es prêt, maintiens « Commencer les intervalles » pendant 3 secondes.</small></p><p class="summary">${escape(day.summary)}</p>${workoutGraph(day,true)}<p class="graph-caption">${w.reps} efforts</p>${totalDetail(day)}<p class="recommendation">Retour au calme <strong>Chrono libre</strong><small>Ralentis doucement. Déverrouille les commandes, puis touche « Stop · résumé » quand tu as terminé.</small></p></div>`;
+  if(w.type==='repeats' && day.warmupRecommendation) return `<div class="session-plan"><p class="recommendation">Échauffement <strong>${escape(day.warmupRecommendation)}</strong><small>recommandé · chrono libre</small></p><p class="summary">${escape(day.summary)}</p>${detailGraph(day)}${totalDetail(day)}${blockBreakDetail(day)}<p class="recommendation">Retour au calme <strong>${escape(day.cooldownRecommendation)}</strong><small>recommandé · chrono libre</small></p></div>`;
+  if(w.type==='repeats' && w.blocks===1) return `<div class="session-plan"><p class="recommendation">Échauffement <strong>Chrono libre</strong><small>Commence doucement. Quand tu es prêt, maintiens « Commencer les intervalles » pendant 3 secondes.</small></p><p class="summary">${escape(day.summary)}</p>${detailGraph(day)}${totalDetail(day)}<p class="recommendation">Retour au calme <strong>Chrono libre</strong><small>Ralentis doucement. Déverrouille les commandes, puis touche « Stop · résumé » quand tu as terminé.</small></p></div>`;
   let rows;
   if (w.type === 'repeats') rows = [['Échauffement',w.warmupSeconds == null ? 'Manuel' : formatTime(w.warmupSeconds*1000)], [`${w.blocks > 1 ? w.blocks + ' blocs de ' : ''}${w.reps} × ${w.effortSeconds/60} min`,`${day.effortMinutes} min d’effort`], ['Entre les répétitions',`${w.recoverySeconds/60} min`], ...(w.blocks > 1 ? [['Entre les blocs',w.betweenBlocksSeconds == null ? 'Manuel' : formatTime(w.betweenBlocksSeconds*1000)]] : []), ['Retour au calme',w.cooldownSeconds == null ? 'Manuel' : formatTime(w.cooldownSeconds*1000)]];
   else if (w.type === 'jog') rows = [[w.zone?`Jog · ${w.zone}`:'Jog',`${w.optionalAfterSeconds?w.optionalAfterSeconds/60+'–':''}${w.durationSeconds/60} min`],...(w.optionalAfterSeconds?[[`Après ${w.optionalAfterSeconds/60} min`,'Tu peux arrêter selon ton état']]:[]),['Après le compte à rebours','Temps supplémentaire libre']];
   else if (w.type === 'easy-strides') rows = [...(w.warmup?[['Échauffement','Libre · départ manuel']]:[]),['Jog',`${w.durationSeconds/60} min`],['Strides',`${w.strideCount} × ${w.strideSeconds} s`],['Récupération','Complète, libre']];
   else if (w.type === 'steps') rows = w.steps.map(s=>s.repeat?[`${s.repeat} accélérations`,s.steps.map(p=>p.seconds==null?'Manuel':formatTime(p.seconds*1000)).join(' / ')]:[`${s.label}${s.zone?' · '+s.zone:''}`,s.seconds==null?'Manuel':formatTime(s.seconds*1000)]);
   else rows = [['Distance','4,8 à 5 km'],['Départ','Horaire à confirmer']];
-  return `${workoutGraph(day,true)}<ol class="session-outline">${rows.map(([a,b])=>`<li${a==='Strides'&&day.strideInstructions?' class="has-instructions"':''}><span>${escape(a)}</span><strong>${escape(b)}</strong>${a==='Strides'&&day.strideInstructions?`<p class="stride-instructions">${escape(day.strideInstructions)}</p>`:''}</li>`).join('')}</ol>`;
+  return `${detailGraph(day)}<ol class="session-outline">${rows.map(([a,b])=>`<li${a==='Strides'&&day.strideInstructions?' class="has-instructions"':''}><span>${escape(a)}</span><strong>${escape(b)}</strong>${a==='Strides'&&day.strideInstructions?`<p class="stride-instructions">${escape(day.strideInstructions)}</p>`:''}</li>`).join('')}</ol>`;
 }
 function renderDetail() {
   const d = selected;

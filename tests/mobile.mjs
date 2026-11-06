@@ -61,7 +61,27 @@ try {
  }
  assert.doesNotMatch(await calendar.locator('[data-day="2026-11-18"]').getAttribute('class'),/rest/);assert.match(await calendar.locator('[data-day="2026-11-18"]').innerText(),/facultatif/);
  pass('6, 13, 15 and 19 are pale rest days; 18 is visibly optional; all sheets remain accessible');
- await calendar.locator('[data-day="2026-11-09"]').click();assert.equal(await calendar.locator('#detail-title').innerText(),'2 × (4 × 3 min / 2 min)');assert.match(await calendar.locator('#day-detail').innerText(),/10 min/);assert.match(await calendar.locator('#day-detail').innerText(),/8 min/);assert.equal(await calendar.locator('#day-detail svg rect[height="24"]').count(),8);assert.match(await calendar.locator('#day-detail .planned-total').innerText(),/58 min selon les durées conseillées/);assert.match(await calendar.locator('#day-detail').innerText(),/marche pendant 4 minutes/);assert.match(await calendar.locator('#day-detail .graph-break').innerText(),/4 min · Marche entre les blocs/);assert.equal(await calendar.locator('#day-detail svg [data-kind="long-recovery"]').getAttribute('width'),'12');assert.equal(await calendar.locator('#day-detail svg [data-kind="recovery"]').count(),6);await calendar.screenshot({path:'test-results/mobile-monday-four-minute-walk.png'});pass('Monday sheet: 58-minute total, two blocks, six short recoveries and one labeled four-minute sky-blue walk');
+ const expectedLegends={
+  '09':['3 min · Effort','2 min · Marche entre les efforts','4 min · Marche entre les blocs'],
+  '11':['2 min · Effort','1 min · Marche entre les efforts'],
+  '16':['2 min · Effort 5 km','1 min · Marche très facile entre les efforts'],
+  '20':['5 min · Départ facile · Z1','5 min · Rythme soutenu · Z3','40 s · Récupération facile','5 min · Retour facile · Z1']
+ };
+ for(const width of [360,412]) {
+  await calendar.setViewportSize({width,height:width===360?800:915});
+  for(const [day,labels] of Object.entries(expectedLegends)) {
+   await calendar.locator(`[data-day="2026-11-${day}"]`).click();
+   const rows=calendar.locator('.graph-legend li');assert.deepEqual(await rows.allTextContents(),labels);
+   const swatches=await rows.evaluateAll(els=>els.map(e=>[e.dataset.kind,getComputedStyle(e,'::before').backgroundColor]));
+   for(const [kind,color] of swatches)assert.equal(color,{'effort':'rgb(25, 116, 71)','recovery':'rgb(179, 57, 55)','long-recovery':'rgb(148, 213, 242)','easy':'rgb(148, 213, 242)'}[kind]);
+   assert.equal(await calendar.locator('.graph-legend [data-kind="stride"]').count(),0);
+   assert(await calendar.locator('#day-dialog').evaluate(el=>el.scrollWidth<=el.clientWidth));
+   await calendar.locator('#day-dialog').evaluate(el=>el.scrollTop=0);await calendar.screenshot({path:`test-results/legend-${day}-${width}.png`});
+   await calendar.locator('#close-day').click();
+  }
+ }
+ pass('all interval legends show accurate durations and cues with timer colors, no strides or horizontal overflow at 360 and 412 px');
+ await calendar.locator('[data-day="2026-11-09"]').click();assert.equal(await calendar.locator('#detail-title').innerText(),'2 × (4 × 3 min / 2 min)');assert.match(await calendar.locator('#day-detail').innerText(),/10 min/);assert.match(await calendar.locator('#day-detail').innerText(),/8 min/);assert.equal(await calendar.locator('#day-detail svg rect[height="24"]').count(),8);assert.match(await calendar.locator('#day-detail .planned-total').innerText(),/58 min selon les durées conseillées/);assert.match(await calendar.locator('#day-detail').innerText(),/marche pendant 4 minutes/);assert.match(await calendar.locator('#day-detail .graph-legend [data-kind="long-recovery"]').innerText(),/4 min · Marche entre les blocs/);assert.equal(await calendar.locator('#day-detail svg [data-kind="long-recovery"]').getAttribute('width'),'12');assert.equal(await calendar.locator('#day-detail svg [data-kind="recovery"]').count(),6);await calendar.screenshot({path:'test-results/mobile-monday-four-minute-walk.png'});pass('Monday sheet: 58-minute total, two blocks, six short recoveries and one labeled four-minute sky-blue walk');
  await calendar.locator('#close-day').click();await calendar.locator('[data-day="2026-11-11"]').click();
  const wedSheet=await calendar.locator('#day-detail').innerText();assert.match(wedSheet,/10 efforts de 2 minutes/);assert.match(wedSheet,/1 minute en marchant entre les efforts/);assert.doesNotMatch(wedSheet,/blocs/);
  assert.match(await calendar.locator('#day-detail .planned-total').innerText(),/47 min selon les durées conseillées/);assert.equal(await calendar.locator('#day-detail .recommendation').count(),2);assert.deepEqual(await calendar.locator('#day-detail .recommendation strong').allTextContents(),['10 min','8 min']);

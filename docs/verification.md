@@ -98,6 +98,16 @@ La barre bleu ciel entre les deux blocs est proportionnée aux 4 minutes et acco
 
 Contrôles visuels dans Chromium, sans essai matériel Galaxy : [fiche du 9](fiche-9-marche-4min.png), [marche de 4 min](chrono-9-marche-4min.png), [fiche du 11](fiche-11-reference-47min.png). Les autres prescriptions, notamment l’activation du 20, sont conservées.
 
+## Légendes des efforts et récupérations
+
+À partir de la capture appréciée par Eric, les fiches reprennent le même petit trait coloré, suivi de la durée et d’un libellé court. Le 9 affiche **3 min · Effort**, **2 min · Marche entre les efforts** et **4 min · Marche entre les blocs**. Le 11 affiche **2 min · Effort** et **1 min · Marche entre les efforts**; le 16, **2 min · Effort 5 km** et **1 min · Marche très facile entre les efforts**. L’activation du 20 décrit ses phases effectivement dessinées, dont les récupérations de **40 s**. Les strides restent dans les descriptions et les chronos, sans réapparition dans le graphique ou sa légende.
+
+Les légendes sont dérivées des phases existantes, sans durées inventées et sans répétition inutile d’un libellé identique. Leurs couleurs utilisent les mêmes variables que le chrono : vert pour l’effort, rouge pour la récupération courte, bleu ciel pour la marche interblocs et les étapes faciles. Toutes les prescriptions et le moteur sont identiques au commit `ff6a1f3`; seule la révision des données passe à `2026-11-06.9`.
+
+**34 tests du moteur, 25 parcours navigateur, 25 parcours mobiles et 16 migrations réussis.** Contrôles des quatre légendes à **360×800 et 412×915**, sans débordement horizontal, et comparaison exacte des couleurs et durées. Les migrations depuis la version publiée `ff6a1f3` conservent les coches et les récupérations mises en pause des 9 et 11, sans redémarrage du chrono. Les essais de séquence, pause/reprise, appuis longs, navigation et fonctionnement hors ligne passent également.
+
+Captures Chromium, sans prétendre à un test matériel Galaxy : [9 novembre](legende-9-360.png), [11 novembre](legende-11-412.png), [16 novembre](legende-16-360.png), [20 novembre](legende-20-412.png).
+
 ## Référence GBoxeur et revue Astra
 
 Référence lue uniquement pour le comportement du chrono dans `mixmasterkd/gestionboxeur`, commit `cef8a67016bf94d9aa710cac12519613b4d31abf` : `js/timer-session.js`, `js/session-timer.js`, `js/session-timer-engine.js` et `js/timer-interval-controls.js`. Le dépôt de référence était propre et l’est resté.

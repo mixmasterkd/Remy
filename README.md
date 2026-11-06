@@ -19,7 +19,7 @@ L’écran d’accueil contient uniquement le calendrier : chaque journée est u
 
 Couleurs du chrono : jog et pause entre blocs **bleu ciel**, échauffement/retour au calme/temps supplémentaire **gris**, efforts et strides **vert**, récupérations courtes **rouge**. Deux variations légères de luminosité signalent la fin d’un stride; elles sont désactivées si la réduction des animations est demandée sur l’appareil.
 
-Les cases des journées avec strides portent ce libellé. Les graphiques du calendrier et des fiches ne représentent pas les strides; ceux-ci restent dans les descriptions et les chronomètres. Les phases d’intervalles représentées utilisent les couleurs du chrono. Les jogs ont une barre continue.
+Les cases des journées avec strides portent ce libellé. Les graphiques du calendrier et des fiches ne représentent pas les strides; ceux-ci restent dans les descriptions et les chronomètres. Les phases d’intervalles représentées utilisent les couleurs du chrono. Sous les graphiques des fiches, une légende reprend un petit trait de couleur, la durée de chaque effort ou récupération et sa consigne; la marche entre blocs reste distincte. Les jogs ont une barre continue.
 
 Le suivi et les chronos sont enregistrés séparément pour chaque date dans `localStorage`. Ils appartiennent au navigateur, au profil et à l’adresse du site utilisés. Pas de synchronisation entre le téléphone d’Eric et celui de Remy, ni entre Chrome et un autre navigateur. Effacer les données peut effacer le suivi. Utiliser une seule fenêtre du chrono à la fois.
 

@@ -5,6 +5,7 @@ Projet statique indépendant pour Remy. Lire README.md et docs/seances.md avant 
 - Source du programme : schedule.json. Ne pas inventer d’entraînement, de durée ou de zone. Les inconnues restent explicites.
 - Accueil : seulement le calendrier interactif, sans accroche, panneau d’aide ou barre du bas. Les détails appartiennent aux fiches ouvertes par les dates.
 - Calendrier : afficher « strides » dans les cases des 7, 14, 18 et 20, sans les dessiner dans les graphiques.
+- Légendes des intervalles : reprendre le petit trait de couleur, la durée et le libellé appréciés par Eric. Décrire chaque effort et récupération représentés dans les fiches des 9, 11, 16 et de l’activation du 20; couleurs identiques au chrono, sans dessiner ni ajouter les strides à la légende du graphique. Les autres séances et les chronos restent inchangés.
 - Graphiques : aucun stride représenté, même dans les étapes de l’activation; conserver les descriptions et chronos. Les phases d’intervalles représentées partagent exactement les couleurs du chrono. Cette demande remplace l’interdiction initiale du vert à l’accueil.
 - Français québécois, langage simple : jog facile, récupération, répétitions, accélérations.
 - Activation confirmée vendredi 20 novembre 2026; course samedi 21. La clarification du 5 novembre remplace l’ambiguïté antérieure.
