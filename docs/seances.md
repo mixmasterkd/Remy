@@ -5,6 +5,8 @@ Modifier uniquement l’objet du jour concerné dans `schedule.json`. Conserver 
 - `status: "pending"` : journée ouverte (case sans libellé de séance, explication dans la fiche); ne pas ajouter `workout` tant que la séance n’est pas définie.
 - `status: "confirmed"` : séance ou repos confirmé.
 - `status: "provisional"` : hypothèse affichée comme telle; ne l’utiliser que si Eric demande un programme provisoire.
+- `optional: true` sur la journée : séance explicitement facultative, indiquée dans la case et la fiche; conserver son statut confirmé quand Eric a confirmé ce choix.
+- `strideInstructions` sur la journée : explication affichée sous Strides, à adapter à la durée, au nombre et au libellé exact du bouton.
 - `rest: true` : repos; pas de chrono.
 - `title`, `summary`, `notes` : texte de la fiche. Garder les consignes courtes et précises.
 - Les durées sont en **secondes**. `null` signifie **durée inconnue, étape manuelle**; ce n’est pas zéro.
@@ -13,11 +15,15 @@ Modifier uniquement l’objet du jour concerné dans `schedule.json`. Conserver 
 
 Lorsque la durée est confirmée, utiliser `{"type":"jog","durationSeconds":1800}` pour un jog de 30 minutes, comme celui du 5. Copier uniquement la durée réellement donnée par Eric. Le moteur ajoute une phase de temps supplémentaire sans limite; **Stop** termine la séance.
 
+`optionalAfterSeconds: 1200` sur un jog de `durationSeconds: 1800` signifie 20–30 minutes : le compte à rebours commence à 30:00 et devient gris après 20 minutes actives. Le seuil ne termine jamais la séance; à zéro, le temps supplémentaire reste actif. `zone: "Z1"` affiche la zone du jog. Ne fixer ce seuil que sur instruction d’Eric.
+
 Pour un jog sans durée définie, une étape `steps` avec `seconds: null` compte vers le haut jusqu’à Stop. Ne jamais remplacer une durée inconnue par zéro.
 
 ## Répétitions
 
 `repeats` utilise `blocks`, `reps`, `effortSeconds`, `recoverySeconds` et `betweenBlocksSeconds`. L’échauffement et le retour au calme restent ascendants et manuels. Les anciens champs `warmupSeconds` et `cooldownSeconds` ne déclenchent pas de transition automatique. Les recommandations de durée se placent dans `warmupRecommendation` et `cooldownRecommendation` sur la fiche, sans imposer de compte à rebours. La récupération entre répétitions est ajoutée seulement entre deux efforts d’un même bloc. La récupération entre blocs est une seule étape distincte. Aucune récupération chronométrée n’est ajoutée après le dernier effort, avant le retour au calme.
+
+`effortCue` et `recoveryCue` peuvent préciser le repère affiché pendant les phases, comme « Effort 5 km » et « Très facile » le 16, sans modifier les durées.
 
 Si `effortMinutes` est présent dans la fiche, le contrôle vérifie qu’il correspond au total des efforts calculé. Préciser une durée manquante dans les données **et** corriger la description et les notes correspondantes.
 

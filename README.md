@@ -33,21 +33,26 @@ Le plein écran et le maintien de l’écran éveillé restent à vérifier sur 
 
 ## Séances confirmées
 
-| Date | Séance | Ce qui reste à préciser |
+| Date | Séance | Repères |
 |---|---|---|
-| Jeu. 5 | **30 min de jog** | — |
+| Jeu. 5 | 30 min de jog | — |
 | Ven. 6 | Repos | — |
-| Sam. 7 | **40 min de jog**, avec 6 strides de **20 s** | Récupération libre |
-| Dim. 8 | **15 min de jog très facile**, ou repos si jambes lourdes | — |
-| Lun. 9 | 2 blocs de 4 × 3 min; 2 min entre répétitions; **24 min d’effort** | Échauffement recommandé 10–15 min, retour au calme recommandé 5–10 min; pause entre blocs libre |
-| Mer. 11 | 10 × 2 min; 1 min entre répétitions; **20 min d’effort** | Échauffement et retour au calme |
-| Sam. 14 | **45 min faciles**, incluant 6 strides de 20 s; récupération complète | Échauffement libre avant le départ manuel |
-| Dim. 15 | Repos | — |
+| Sam. 7 | 40 min de jog + 6 strides de 20 s | Déclenchements libres, guide sous Strides |
+| Dim. 8 | 15 min très faciles | Repos si jambes lourdes |
+| Lun. 9 | 2 blocs de 4 × 3 min, 2 min entre efforts | 24 min d’effort; recommandations 10–15 / 5–10 min; pause interblocs libre |
+| Mar. 10 | 20–30 min en Z1 | Arrêt possible après 20 min; les dix dernières sont facultatives |
+| Mer. 11 | 10 × 2 min, 1 min entre efforts | 20 min d’effort; échauffement et retour libres |
+| Ven. 13 | 15 min de jog facile | — |
+| Sam. 14 | 45 min faciles + 6 strides de 20 s | Échauffement libre; guide sous Strides |
+| Dim. 15 | Repos | Inchangé |
+| Lun. 16 | 3 × 2 min à effort 5 km, 1 min très facile entre efforts | Deux récupérations; 10 min d’échauffement et 5 min de retour conseillées, libres; 23 min si suivies |
+| Mar. 17 | 15 min très faciles | Confirmé |
+| Mer. 18 | Facultatif : 20 min très faciles + 4 strides de 10 s | Échauffement libre, maintien 1 s, compteur sans plafond, guide adapté |
 | Jeu. 19 | Repos | — |
-| Ven. 20 | 5 min Z1, 5 min Z3, 5 × (20 s Z4–Z5 + 40 s faciles), 5 min Z1 : **20 min** | Date confirmée par Eric après clarification |
-| Sam. 21 | Oxford Cup; chrono libre | Horaire exact; environ 4,8–5 km |
+| Ven. 20 | 5 min Z1, 5 min Z3, 5 × (20 s Z4–Z5 + 40 s faciles), 5 min Z1 | Activation inchangée de 20 min |
+| Sam. 21 | Oxford Cup, chrono libre | Environ 4,8–5 km; horaire à confirmer |
 
-Les autres journées restent ouvertes, sans séance inventée. Les 16–18 restent en discussion, sans nouvelle séance confirmée. Le 18 peut devenir repos ou un petit jog avec strides; aucune durée ni répétition n’est fixée. Le 19 est confirmé comme repos. Les jogs en zone 1 seront ajoutés par Eric.
+Le 12 reste ouvert, sans séance inventée. Le 10 commence à **30:00** sur fond bleu ciel; à **10:00 restantes**, le fond devient gris et indique la portion facultative. Il peut s’arrêter selon son état dès 20 minutes. À zéro, le chrono continue vers le haut en gris jusqu’à **Stop · résumé**, comme les autres jogs. La pause et la reprise ne comptent pas le temps de pause.
 
 Les strides des samedis **7 et 14 durent 20 secondes**. Le jog du 7 dure **40 minutes**, celui du 14 **45 minutes**. Elles sont incluses dans le compte à rebours du jog. L’objectif reste six, avec des déclenchements supplémentaires permis. Aucun stride n’est lancé automatiquement. L’activation confirmée du 20 conserve exactement ses étapes et ses 20 minutes.
 

@@ -1,5 +1,5 @@
 {
-  "revision": "2026-11-06.2",
+  "revision": "2026-11-06.3",
   "athlete": "Remy",
   "event": {
     "name": "Oxford Cup",
@@ -39,7 +39,8 @@
         "strideCount": 6,
         "strideSeconds": 20,
         "warmup": false
-      }
+      },
+      "strideInstructions": "Pendant tes 40 minutes, répartis librement 6 accélérations de 20 secondes. Accélère progressivement jusqu’à une vitesse élevée mais contrôlée, sans sprinter. Quand tu es prêt, maintiens « Stride · 20 s » pendant 1 seconde. Entre deux accélérations, cours doucement et attends de retrouver une respiration régulière."
     },
     {
       "date": "2026-11-08",
@@ -73,19 +74,26 @@
     },
     {
       "date": "2026-11-10",
-      "status": "pending",
-      "title": "Aucune séance inscrite",
-      "summary": "Les jogs en zone 1 seront ajoutés avec Eric."
+      "status": "confirmed",
+      "title": "20 à 30 min en zone 1",
+      "summary": "Jog en zone 1. Tu peux arrêter après 20 minutes selon ton état; les 10 dernières minutes sont facultatives.",
+      "notes": [
+        "Le chrono part à 30:00. Le fond devient gris à 10:00 restantes. À zéro, le temps supplémentaire continue jusqu’à Stop."
+      ],
+      "workout": {
+        "type": "jog",
+        "durationSeconds": 1800,
+        "optionalAfterSeconds": 1200,
+        "zone": "Z1"
+      }
     },
     {
       "date": "2026-11-11",
       "status": "confirmed",
       "title": "Deux minutes à la fois",
-      "summary": "10 × 2 min · récupération de 1 min entre les répétitions",
+      "summary": "10 efforts de 2 minutes. Récupère 1 minute entre les efforts, puis termine par un retour au calme.",
       "effortMinutes": 20,
-      "notes": [
-        "Durées non définies : échauffement et retour au calme. Ces étapes se terminent manuellement."
-      ],
+      "notes": [],
       "workout": {
         "type": "repeats",
         "blocks": 1,
@@ -104,9 +112,13 @@
     },
     {
       "date": "2026-11-13",
-      "status": "pending",
-      "title": "Aucune séance inscrite",
-      "summary": "Cette journée est encore ouverte."
+      "status": "confirmed",
+      "title": "15 min de jog facile",
+      "summary": "15 minutes de jog facile.",
+      "workout": {
+        "type": "jog",
+        "durationSeconds": 900
+      }
     },
     {
       "date": "2026-11-14",
@@ -123,7 +135,8 @@
         "strideCount": 6,
         "strideSeconds": 20,
         "warmup": true
-      }
+      },
+      "strideInstructions": "Pendant tes 45 minutes, répartis librement 6 accélérations de 20 secondes. Accélère progressivement jusqu’à une vitesse élevée mais contrôlée, sans sprinter. Quand tu es prêt, maintiens « Stride · 20 s » pendant 1 seconde. Entre deux accélérations, cours doucement et attends de retrouver une respiration régulière."
     },
     {
       "date": "2026-11-15",
@@ -134,21 +147,54 @@
     },
     {
       "date": "2026-11-16",
-      "status": "pending",
-      "title": "Aucune séance inscrite",
-      "summary": "Une séance est envisagée lundi. Son contenu et sa durée ne sont pas confirmés."
+      "status": "confirmed",
+      "title": "3 × (2 min / 1 min)",
+      "summary": "3 efforts de 2 minutes à l’effort 5 km. Récupère 1 minute très facile entre les efforts, puis passe au retour au calme.",
+      "effortMinutes": 6,
+      "warmupRecommendation": "10 min",
+      "cooldownRecommendation": "5 min",
+      "notes": [
+        "23 minutes au total si tu respectes les 10 minutes d’échauffement et les 5 minutes de retour au calme conseillées. Il y a deux récupérations entre les trois efforts."
+      ],
+      "workout": {
+        "type": "repeats",
+        "blocks": 1,
+        "reps": 3,
+        "effortSeconds": 120,
+        "recoverySeconds": 60,
+        "warmupSeconds": null,
+        "cooldownSeconds": null,
+        "effortCue": "Effort 5 km",
+        "recoveryCue": "Très facile"
+      }
     },
     {
       "date": "2026-11-17",
-      "status": "pending",
-      "title": "Aucune séance inscrite",
-      "summary": "Cette journée est encore ouverte."
+      "status": "confirmed",
+      "title": "15 min très faciles",
+      "summary": "15 minutes de jog très facile.",
+      "workout": {
+        "type": "jog",
+        "durationSeconds": 900
+      }
     },
     {
       "date": "2026-11-18",
-      "status": "pending",
-      "title": "Aucune séance inscrite",
-      "summary": "Un petit jog avec des accélérations est envisagé, sans confirmation pour le moment."
+      "status": "confirmed",
+      "title": "20 min très faciles + strides",
+      "summary": "Sortie facultative : 20 minutes très faciles, avec 4 strides de 10 secondes.",
+      "optional": true,
+      "notes": [
+        "Les quatre accélérations sont incluses dans les 20 minutes. Récupération complète, à ton rythme."
+      ],
+      "strideInstructions": "Pendant tes 20 minutes, répartis librement 4 accélérations de 10 secondes. Accélère progressivement jusqu’à une vitesse élevée mais contrôlée, sans sprinter. Quand tu es prêt, maintiens « Stride · 10 s » pendant 1 seconde. Entre deux accélérations, cours doucement et attends de retrouver une respiration régulière.",
+      "workout": {
+        "type": "easy-strides",
+        "durationSeconds": 1200,
+        "strideCount": 4,
+        "strideSeconds": 10,
+        "warmup": true
+      }
     },
     {
       "date": "2026-11-19",

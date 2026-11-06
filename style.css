@@ -79,7 +79,7 @@
   .close-day { position: absolute; right: 12px; top: 8px; width: 44px; height: 44px; min-height: 44px; border: 0; background: transparent; color: #5a607b; font-size: 1.75rem; line-height: 1; }
   .detail-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 9px; font-size: .72rem; color: #656b83; }
   .badge { font-size: .61rem; color: #545d9b; border: 1px solid #d4d7e9; border-radius: 3px; padding: 5px 7px; }
-  .badge.provisional { color: #a24e2d; }
+  .badge.provisional,.badge.optional { color: #a24e2d; }
   .day-detail h2 { font-size: 2rem; font-weight: 500; letter-spacing: -.055em; line-height: 1.12; margin: 25px 0 17px; max-width: 360px; }
   .graph-detail { width:100%; height:65px; max-height:none; margin:22px 0 8px; }
   .graph-caption { font-size:.72rem; color:#626b8f; margin:10px 0; }
@@ -88,6 +88,8 @@
   .summary { font-size: .92rem; line-height: 1.6; color: #61677d; }
   .session-outline { list-style: none; padding: 0; margin: 25px 0; border-top: 1px solid var(--line); }
   .session-outline li { display: flex; justify-content: space-between; align-items: start; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: .79rem; line-height: 1.5; }
+  .session-outline li.has-instructions { flex-wrap:wrap; row-gap:8px; }
+  .stride-instructions { flex:0 0 100%; color:#61677d; font-size:.78rem; line-height:1.65; }
   .session-outline strong { font-weight: 500; color: #303992; text-align: right; }
   .detail-note { color: #75798a; font-size: .74rem; line-height: 1.7; margin: 13px 0; }
   .day-detail .primary { width: 100%; margin-top: 15px; display: flex; justify-content: space-between; align-items: center; font-size: .87rem; }
@@ -106,7 +108,7 @@
 @layer timer {
   body.timer-open { overflow:hidden; }
   .timer-screen { position:fixed; inset:0; z-index:20; overflow:auto; background:var(--phase-easy); color:#18364a; --phase:#254b65; --timer-ink:#18364a; display:flex; flex-direction:column; min-height:100dvh; padding:max(14px,env(safe-area-inset-top)) max(18px,env(safe-area-inset-right)) max(14px,env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-left)); }
-  .timer-screen[data-kind=warmup],.timer-screen[data-kind=cooldown],.timer-screen[data-kind=overtime],.timer-screen[data-kind=done] { background:var(--phase-neutral); color:#292f38; --phase:#4e5867; --timer-ink:#292f38; }
+  .timer-screen[data-kind=warmup],.timer-screen[data-kind=cooldown],.timer-screen[data-kind=overtime],.timer-screen[data-kind=optional],.timer-screen[data-kind=done] { background:var(--phase-neutral); color:#292f38; --phase:#4e5867; --timer-ink:#292f38; }
   .timer-screen[data-kind=effort],.timer-screen[data-kind=stride] { background:var(--phase-effort); color:#fff; --phase:#e0f3e7; --timer-ink:#fff; }
   .timer-screen[data-kind=recovery] { background:var(--phase-recovery); color:#fff; --phase:#ffe7e1; --timer-ink:#fff; }
   .timer-screen[data-kind=race] { background:#302f4c; color:#fff; --phase:#e1def6; --timer-ink:#fff; }

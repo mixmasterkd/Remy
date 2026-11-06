@@ -4,9 +4,9 @@ Version adaptée après l’essai d’Eric sur Galaxy. Vérifications de cette n
 
 ## Résultats
 
-- **29 tests moteur** : calendrier continu du 5 au 21; prescriptions séparées des 5, 7 et 14; 24 minutes d’effort le 9, 20 le 11, activation de 20 minutes inchangée; échauffements ouverts; pause interblocs libre; pause/reprise; retards d’horodatages; arrêt explicite; temps supplémentaire; strides au-delà de six; distinction lancés/complétés/interrompus; reprise de deux chronos sauvegardés; total réel par phase.
+- **30 tests moteur** : calendrier continu du 5 au 21; prescriptions séparées des 5, 7 et 14; 24 minutes d’effort le 9, 20 le 11, activation de 20 minutes inchangée; échauffements ouverts; pause interblocs libre; pause/reprise; retards d’horodatages; arrêt explicite; temps supplémentaire; strides au-delà de six; distinction lancés/complétés/interrompus; reprise de deux chronos sauvegardés; total réel par phase.
 - **25 parcours navigateur** : calendrier et fiches, suivi local, sous-chemin `/Remy/`, six tailles de fenêtre de 320 à 1 440 px, verrouillage et annulations d’appui, clavier, navigation protégée, phases, vue paysage, activation, rechargement hors ligne, refus des API plein écran/écran éveillé, stockage indisponible et reprise après arrière-plan.
-- **16 parcours mobiles avec événements tactiles Chromium** : grandes cases carrées à 412×915, recommandations et graphique du lundi, maintiens de 3 s indépendants du verrouillage, annulation à 2 999 ms/au déplacement/à l’interruption, maintiens de 1 s, double affichage, pause/reprise/rechargement d’un stride, septième stride autorisé, deux variations légères de luminosité, résumé d’un stride interrompu, temps supplémentaire et franchissement de zéro pendant un stride.
+- **22 parcours mobiles avec événements tactiles Chromium** : grandes cases carrées à 412×915, recommandations et graphique du lundi, maintiens de 3 s indépendants du verrouillage, annulation à 2 999 ms/au déplacement/à l’interruption, maintiens de 1 s, double affichage, pause/reprise/rechargement d’un stride, septième stride autorisé, deux variations légères de luminosité, résumé d’un stride interrompu, temps supplémentaire et franchissement de zéro pendant un stride.
 - Données et cache vérifiés avec `npm run check`; export `dist/` vérifié avec `npm run build`. Les durées d’effort/récupération et la séquence de l’activation du 20 ne changent pas.
 
 Captures : [calendrier](apercu-mobile.png), [fiche du 9](apercu-fiche.png), [chrono](apercu-chrono.png), [échauffement](apercu-echauffement.png), [stride](apercu-stride.png), [résumé](apercu-resume.png), [bureau](apercu-bureau.png). Les coches et totaux des captures appartiennent seulement aux profils de test.
@@ -39,13 +39,19 @@ Les strides sont retirés des graphiques du calendrier et des fiches, y compris 
 
 Le contenu des séances et le moteur restent identiques au commit `0f94bdd`; seul l’identifiant de révision du calendrier passe à `2026-11-06.1`. Les essais tactiles comparent les couleurs calculées des graphiques aux fonds du chrono lors des efforts et récupérations. Les migrations incluent la version publiée `0f94bdd` et vérifient les nouvelles barres, les couleurs et la conservation des coches. Les captures mobiles sont des simulations Chromium, pas des essais physiques sur Galaxy.
 
-## Repos et journée courante — 6 novembre 2026
+## Calendrier et consignes du 6 novembre 2026
 
-Les 6, 15 et 19 sont confirmés comme repos, avec un fond pâle distinct. Les 16–18 restent ouverts; le 18 est en discussion, sans repos ni séance confirmés. Le 15 garde exactement sa prescription précédente. Le 8 contient 15 minutes de jog très facile, ou repos si les jambes sont lourdes; le chrono démarre à 15:00. Aucune autre séance n’est modifiée.
+Repos confirmés les 6, 15 et 19. Le 8 propose 15 min très faciles ou repos si jambes lourdes; le 13, 15 min faciles; le 17, 15 min très faciles confirmées. Le 12 reste ouvert.
 
-Le jour courant utilise `America/Toronto` indépendamment du fuseau du téléphone. Il est identifié par un contour, une date en relief et `aria-current="date"`. Les jours passés sont légèrement estompés, sans être désactivés ni cachés. La mise à jour du repère conserve le focus et les coches; elle se fait chaque minute et au retour sur la page.
+Le 10 propose 20–30 min en Z1 : compte à rebours initial 30:00, bleu ciel jusqu’à 20 min écoulées, puis gris avec 10:00 restantes. Arrêt possible après 20 min; les dix dernières sont facultatives. À zéro, temps supplémentaire ascendant gris jusqu’à Stop. Les tests couvrent le seuil exact, la pause/reprise, le rechargement, l’arrêt anticipé et le résumé.
 
-Les parcours tactiles vérifient les repos et le jog du 8, simulent le passage de minuit à Toronto depuis des navigateurs réglés sur Tokyo et Los Angeles, puis le retour sur la page un autre jour. Ils ouvrent et exécutent une séance passée, sans restriction de navigation. Les migrations incluent le commit publié `d8f2a3d` avec conservation des coches. La révision est `2026-11-06.2`. [Capture du 6 courant selon Toronto](jour-courant-toronto.png), avec une coche fictive du 5 conservée.
+Le 16 conseille 10 min d’échauffement libre, 3 efforts de 2 min à effort 5 km avec seulement deux récupérations de 1 min très facile, puis 5 min de retour au calme libre. Total indicatif 23 min. Les tests vérifient le départ manuel, les trois efforts, les deux récupérations et le retour manuel.
+
+Les fiches des 7 et 14 expliquent sous Strides la répartition libre, la progression sans sprint, le maintien de « Stride · 20 s » une seconde et la récupération jusqu’à respiration régulière. Le 18, marqué facultatif, reprend le même fonctionnement pour 20 min très faciles et 4 strides de 10 s, avec guide adapté et compteur sans plafond. Les essais atteignent 5/4 sans arrêter le jog. Le 11 présente plus clairement son échauffement/retour libres et ses dix efforts avec neuf récupérations. Le programme du 11, le contenu du 9 et l’activation du 20 sont inchangés.
+
+Le jour courant utilise `America/Toronto`, avec son encadré conservé, une date en relief et `aria-current="date"`. Les jours passés sont légèrement estompés, jamais désactivés. Le repère se met à jour chaque minute et au retour sur la page, sans perdre le focus ni les coches. Les tests simulent minuit à Toronto dans des navigateurs réglés sur Tokyo et Los Angeles et exécutent une séance passée.
+
+Les migrations incluent le commit publié `cbb32c4` avec conservation des coches. Révision finale : `2026-11-06.3`. Les captures et les gestes tactiles proviennent de Chromium, sans essai physique sur Galaxy. [Capture du jour courant](jour-courant-toronto.png), [guide des strides du 7](fiche-strides-7.png), [fiche du 11](fiche-intervalles-11.png), [fiche du 16](fiche-intervalles-16.png), [séance facultative du 18](fiche-facultative-18.png), [dix minutes facultatives du 10](chrono-facultatif-10.png).
 
 ## Référence GBoxeur et revue Astra
 

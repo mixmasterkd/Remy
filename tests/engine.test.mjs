@@ -100,3 +100,10 @@ test('future repeated sessions get manual warmup; the confirmed activation expli
  const steps=buildPhases({type:'steps',steps:[{repeat:2,steps:[{label:'Effort',kind:'effort',seconds:60}]}]});assert.equal(steps[0].kind,'warmup');
  assert.equal(buildPhases(day('20').workout)[0].label,'Départ facile');
 });
+
+test('16 November keeps exactly three efforts and two recoveries, with open warmup and cooldown',()=>{
+ const p=buildPhases(day('16').workout);
+ assert.deepEqual(p.map(x=>[x.kind,x.seconds]),[['warmup',null],['effort',120],['recovery',60],['effort',120],['recovery',60],['effort',120],['cooldown',null]]);
+ assert.equal(600+p.reduce((n,x)=>n+(x.seconds||0),0)+300,23*60);
+ const t=new Timer(p);t.start(0);t.tick(600000);assert.equal(t.current.kind,'warmup');t.next(600000);t.tick(1080000);assert.equal(t.current.kind,'cooldown');assert.equal(t.state.done,false);
+});
