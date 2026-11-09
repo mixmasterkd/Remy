@@ -14,7 +14,8 @@
     "test:mobile": "node tests/mobile.mjs",
     "test:update": "node tests/update.mjs",
     "prepare:icons": "node scripts/icons.mjs",
-    "test:icons": "node tests/icons.mjs"
+    "test:icons": "node tests/icons.mjs",
+    "test:readability": "node tests/readability.mjs"
   },
   "engines": {
     "node": ">=22"

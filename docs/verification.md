@@ -145,3 +145,14 @@ Un aperçu local a également été lancé à la demande d’Eric sur `http://12
 - L’état local n’est pas synchronisé. Un cache supprimé, un stockage effacé, une autre adresse ou un autre navigateur peuvent faire perdre l’accès hors ligne ou le suivi.
 - L’adresse du calendrier est `https://mixmasterkd.github.io/Remy/`. Voir [la configuration Pages](github-pages.md). Le suivi local de l’aperçu ne se transfère pas automatiquement vers cette nouvelle adresse. Aucune installation sur CyberAS.
 - Jogs en Z1 et contenu des jours encore ouverts, échauffements/retours au calme manquants, horaire exact de course et ergonomie du bouton d’accélération restent à discuter. L’activation du **vendredi 20 est confirmée**.
+
+
+## Gros caractères et chiffres en course (8 novembre 2026)
+
+Le chrono principal utilise presque toute la largeur utile, avec chiffres gras et tabulaires; la taille s’adapte aussi aux comptes de trois ou quatre chiffres en minutes. À 360 px de large, la police passe d’environ 83 à 128 px (+54 %), le second chrono des strides de 38 à 81 px (+110 %). Les consignes principales des fiches passent à 16–18 px minimum. Les libellés du calendrier sont aussi agrandis. Les phases, les couleurs, les prescriptions, le moteur et les clés du stockage local restent inchangés.
+
+Les petits écrans gardent les deux chronos et le déverrouillage dans la vue pendant un stride; les informations secondaires restent disponibles au déverrouillage. Les sections ne sont plus comprimées au risque de se chevaucher. Les fiches et les vues qui en ont besoin restent défilables verticalement.
+
+Vérifications sur Chromium avec profils temporaires : 34 tests du moteur, 25 parcours navigateur, 25 parcours tactiles, 17 nouveaux scénarios de lisibilité et 16 migrations. Les nouveaux essais couvrent les 17 fiches à 320×568, 360×640, 412×915 et 800×360, les deux chronos, les caractères gras, les minutes à trois/quatre chiffres, les pauses, les résumés, l’absence de débordement horizontal et l’accès au déverrouillage. La migration depuis la version publiée du logo (`5ba75a7`) conserve les coches et les chronos compatibles mis en pause. Le cache et le build sont régénérés et contrôlés.
+
+Les captures de test sont dans `test-results/readability-*.png` (non versionnées). Ces essais reproduisent des dimensions mobiles et les interactions tactiles; ils ne constituent pas un essai physique pendant une course sur Galaxy. La lisibilité réelle avec les secousses et en plein soleil reste à essayer par Remy.

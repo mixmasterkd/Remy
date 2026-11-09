@@ -268,6 +268,7 @@ function renderTimer() {
   $('phase-label').textContent=label;$('phase-zone').textContent=p.zone||(p.kind==='effort'?activeDay.workout.effortCue:p.kind==='recovery'?(activeDay.recoveryCue||activeDay.workout.recoveryCue):p.kind==='long-recovery'?activeDay.betweenBlocksCue:activeDay.workout.zone)||'';
   $('phase-detail').textContent=s.done?'Séance arrêtée':optional?`${activeDay.workout.optionalAfterSeconds/60} minutes faites · tu peux arrêter ici.`:p.kind==='warmup'&&activeDay.warmupRecommendation?`${activeDay.warmupRecommendation} recommandées`:p.kind==='cooldown'&&activeDay.cooldownRecommendation?`${activeDay.cooldownRecommendation} recommandées`:p.detail||'';
   $('time').textContent=s.done?formatTime(s.totalMs):formatTime(remaining==null?s.phaseMs:remaining,remaining!=null);
+  $('time').style.setProperty('--time-characters', String($('time').textContent.length));
   $('time-caption').textContent=s.done?'Temps actif total':p.kind==='overtime'?'Après le temps prévu · Stop quand tu as terminé':remaining==null?'Temps écoulé · arrêt manuel':optional?'Temps facultatif restant':'Temps restant';
   $('phase-progress').style.width=s.done?'100%':p.seconds==null?'0%':`${Math.min(100,s.phaseMs/(p.seconds*10))}%`;
   const next=timer.phases[s.index+1];

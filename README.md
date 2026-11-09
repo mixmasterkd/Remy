@@ -23,6 +23,12 @@ Les cases des journées avec strides portent ce libellé. Les graphiques du cale
 
 Le suivi et les chronos sont enregistrés séparément pour chaque date dans `localStorage`. Ils appartiennent au navigateur, au profil et à l’adresse du site utilisés. Pas de synchronisation entre le téléphone d’Eric et celui de Remy, ni entre Chrome et un autre navigateur. Effacer les données peut effacer le suivi. Utiliser une seule fenêtre du chrono à la fois.
 
+### Affichage lisible en mouvement
+
+Les chiffres du chrono occupent presque toute la largeur disponible, en gras et à largeur stable. À 360 px de large, le chrono principal passe d’environ 83 à 128 px et le chrono des strides de 38 à 81 px. Les comptes de plus de 99 minutes se réduisent juste assez pour rester entièrement visibles. Les fiches utilisent des caractères de 16 à 18 px pour les consignes et les durées; elles peuvent défiler verticalement.
+
+Sur les petits écrans, pendant un stride et lorsque les commandes sont verrouillées, les deux chronos et le bouton de déverrouillage sont prioritaires. Le rappel de la prochaine étape, le total actif et la note technique réapparaissent au déverrouillage; aucune donnée ou commande n’est supprimée. Les gestes et les séances restent identiques. L’écran peut défiler pour accéder à l’ensemble des détails, notamment en paysage.
+
 ### Android / Chrome
 
 Cible : téléphone Android de Remy, probablement Galaxy S24; Eric fera un essai sur son Galaxy S25. Ouvrir le site HTTPS dans Chrome, puis le menu **⋮ → Ajouter à l’écran d’accueil / Installer l’application**, selon le libellé proposé. Le portrait approuvé apparaît dans l’en-tête et dans les icônes PNG 192 et 512 px. Le manifeste distingue les versions transparentes (`any`) et les versions adaptatives opaques (`maskable`). Les icônes d’onglet sont fournies en 32 et 64 px.
@@ -77,6 +83,7 @@ npm ci
 npx playwright install chromium
 npm run test:browser
 npm run test:mobile
+npm run test:readability
 npm run test:update
 ```
 
